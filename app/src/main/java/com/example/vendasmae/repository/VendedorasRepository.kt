@@ -5,6 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.vendasmae.banco.vendedoras.Vendedora
 import com.example.vendasmae.banco.vendedoras.VendedoraDao
+import com.example.vendasmae.baseClass.MyError
+import com.example.vendasmae.baseClass.Resource
 import com.example.vendasmae.repository.api.VendedoraApi
 import com.example.vendasmae.repository.banco.VendedoraBanco
 import retrofit2.Call
@@ -24,7 +26,7 @@ class VendedorasRepository(vendedoraDao: VendedoraDao, retrofit: Retrofit) {
 
     fun buscarVendedoras() {
 
-        val quandoSucesso: (Resource<List<Vendedora>>) -> Unit = {
+        val quandoSucesso: (Resource<List<Vendedora>?>) -> Unit = {
 
                 vendedoraBanco.insertMultiple(it.dado!!)
 
@@ -36,13 +38,8 @@ class VendedorasRepository(vendedoraDao: VendedoraDao, retrofit: Retrofit) {
         vendedoraApi.getAll(quandoSucesso, quandoFalha)
     }
 
-
-    fun test(vararg t: Vendedora){
-
-    }
-
     fun insere(vendedora: Vendedora){
-        val quandoSucesso: (Resource<Vendedora>) -> Unit = {
+        val quandoSucesso: (Resource<Vendedora?>) -> Unit = {
             vendedoraBanco.insert(it.dado!!)
         }
         val quandoFalha: (Resource<Vendedora?>) -> Unit = {
@@ -61,26 +58,26 @@ class VendedorasRepository(vendedoraDao: VendedoraDao, retrofit: Retrofit) {
 
 }
 
-class Resource<T>(var dado: T?, var erro: String? = null)
 
-class BaseListCallBack<T>(val quandoSucesso: (Resource<T>) -> Unit,val quandoFalha: (Resource<T?>) -> Unit) {
+class BaseListCallBack<T>(val quandoSucesso: (Resource<T?>) -> Unit, val quandoFalha: (Resource<T?>) -> Unit) {
 
-    fun execute(): Callback<T?> {
-        val callback = object : Callback<T?> {
-            override fun onFailure(call: Call<T?>, t: Throwable) {
+    fun execute(): Callback<Resource<T?>> {
+        val callback = object : Callback<Resource<T?>> {
+            override fun onFailure(call: Call<Resource<T?>>, t: Throwable) {
                 Log.d("repo", "failed to get shit", t)
 
-                quandoFalha(Resource(null, "Failed to connect to server"))
+                quandoFalha(Resource(null, false, MyError(null, "No Internet")))
             }
 
             override fun onResponse(
-                call: Call<T?>,
-                response: Response<T?>
+                call: Call<Resource<T?>>,
+                response: Response<Resource<T?>>
             ) {
                 Log.d("repo", "${response.isSuccessful}")
                 if (response.isSuccessful)
                     response.body()?.let {
-                        quandoSucesso(Resource(it))
+                        if(it.dado != null)
+                            quandoSucesso(it)
                     }
             }
         }
