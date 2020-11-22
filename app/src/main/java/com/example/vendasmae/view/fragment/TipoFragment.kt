@@ -8,9 +8,9 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import com.example.vendasmae.MainActivity.Companion.baseURL
 import com.example.vendasmae.banco.MainDataBase
-import com.example.vendasmae.databinding.FragmentProdutosBinding
+import com.example.vendasmae.databinding.FragmentTipoBinding
 import com.example.vendasmae.repository.TipoRepository
-import com.example.vendasmae.view.adapter.ProdutosAdapter
+import com.example.vendasmae.view.adapter.TipoAdapter
 import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -27,12 +27,12 @@ class TipoFragment : Fragment() {
 
     private val adapter by lazy{
         context?.let {
-            ProdutosAdapter(context = it)
+            TipoAdapter(context = it)
         } ?: throw IllegalArgumentException("contexto invalido")
 
     }
 
-    lateinit var mBinding: FragmentProdutosBinding// by lazy { FragmentMainBinding.inflate(layoutInflater)}
+    lateinit var mBinding: FragmentTipoBinding// by lazy { FragmentMainBinding.inflate(layoutInflater)}
 
     val retrofit by lazy{
 
@@ -66,7 +66,7 @@ class TipoFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        mBinding = FragmentProdutosBinding.inflate(inflater, container, false)
+        mBinding = FragmentTipoBinding.inflate(inflater, container, false)
 
 
         setupAdapter()
@@ -82,9 +82,12 @@ class TipoFragment : Fragment() {
         val tipoRepo = TipoRepository(tipoDao, retrofit)
 
 
-        tipoRepo.getAll().observe(this, Observer {
+        tipoRepo.getTipoQuantidadeValor().observe(this, Observer {
             adapter.atualiza(it)
         })
+//        tipoRepo.getAll().observe(this, Observer {
+//            adapter.atualiza(it)
+//        })
 
 
     }

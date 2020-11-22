@@ -11,17 +11,10 @@ interface TipoDao {
     fun getAll(): LiveData<List<Tipo>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertLista(lista: Tipo)
+    fun insertTipo(lista: Tipo)
 
     @Delete
-    fun deleteLista(lista: Tipo)
-
-    @Query("SELECT * FROM Item WHERE id == :id")
-    fun getListaById(id: Long): LiveData<Tipo?>
-
-    @Query("DELETE FROM Item WHERE id == :id")
-    fun deleteListaById(id: Long)
-
+    fun deleteTipo(lista: Tipo)
 
     @Query("DELETE FROM Tipo")
     fun removeAll()
@@ -29,5 +22,6 @@ interface TipoDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertMultiple(items: List<Tipo>)
 
-
+    @Query("SELECT Tipo.*, COUNT(Item.id) as quantidadeEmEstoque, SUM(Item.valor) as somaDeValores  FROM Item, Tipo WHERE Tipo.id = Item.id_tipo group by Tipo.id")
+    fun getTipoQuantidadeValor(): LiveData<List<TipoQuantidadeValor>>
 }

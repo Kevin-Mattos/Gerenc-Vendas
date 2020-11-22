@@ -10,16 +10,11 @@ interface VendaDao {
     fun getAll(): LiveData<List<Venda>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertLista(lista: Venda)
+    fun insertVenda(venda: Venda)
 
     @Delete
-    fun deleteLista(lista: Venda)
+    fun deleteVenda(venda: Venda)
 
-    @Query("SELECT * FROM Venda WHERE id == :id")
-    fun getListaById(id: Long): LiveData<Venda?>
-
-    @Query("DELETE FROM Venda WHERE id == :id")
-    fun deleteListaById(id: Long)
 
     @Query("DELETE FROM Venda")
     fun removeAll()

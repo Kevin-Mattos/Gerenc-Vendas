@@ -22,6 +22,8 @@ class TipoRepository (itemDao: TipoDao, retrofit: Retrofit) {
 
     fun getAll() = liveData
 
+    fun getTipoQuantidadeValor() = itemBanco.getTipoQuantidadeValor()
+
     fun buscarTipos() {
 
         val quandoSucesso: (Resource<List<Tipo>?>) -> Unit = {

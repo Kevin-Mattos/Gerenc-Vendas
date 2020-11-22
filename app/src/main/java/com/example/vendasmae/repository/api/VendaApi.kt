@@ -1,8 +1,8 @@
 package com.example.vendasmae.repository.api
 
 import com.example.vendasmae.banco.vendas.Venda
+import com.example.vendasmae.baseClass.BaseListCallBack
 import com.example.vendasmae.baseClass.Resource
-import com.example.vendasmae.repository.BaseListCallBack
 import com.example.vendasmae.repository.services.VendaService
 import retrofit2.Retrofit
 

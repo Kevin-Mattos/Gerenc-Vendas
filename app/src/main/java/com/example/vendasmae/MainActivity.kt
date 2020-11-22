@@ -12,7 +12,7 @@ import com.example.vendasmae.repository.TipoRepository
 import com.example.vendasmae.repository.VendaRepository
 import com.example.vendasmae.repository.VendedorasRepository
 import com.example.vendasmae.view.fragment.MainFrag
-import com.example.vendasmae.view.activity.transacaoFragment
+import com.example.vendasmae.view.activity.extension.transacaoFragment
 import com.example.vendasmae.view.fragment.TipoFragment
 import com.example.vendasmae.view.fragment.VendaFragment
 import com.example.vendasmae.view.fragment.VendedoraFragment

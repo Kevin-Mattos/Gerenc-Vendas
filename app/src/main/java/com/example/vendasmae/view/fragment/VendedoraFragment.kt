@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import com.example.vendasmae.MainActivity
 import com.example.vendasmae.banco.MainDataBase
-import com.example.vendasmae.databinding.FragmentProdutosBinding
 import com.example.vendasmae.databinding.FragmentVendedoraBinding
 import com.example.vendasmae.repository.VendedorasRepository
 import com.example.vendasmae.view.adapter.VendedorasAdapter
@@ -58,10 +57,7 @@ class VendedoraFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
-
-
     }
-
 
     fun setupAdapter(){
         mBinding.vendedoraRecyclerView.adapter = adapter
@@ -88,9 +84,17 @@ class VendedoraFragment : Fragment() {
         val vendedoraRepo = VendedorasRepository(itemDao, retrofit)
 
 
-        vendedoraRepo.getAll().observe(this, Observer {
-            adapter.atualiza(it)
-        })
+                vendedoraRepo.getVendedoraValorQuantidade().observe(this, Observer { vend ->
+                    adapter.atualiza(vend)
+                })
+
+
+//        vendedoraRepo.getAll().observe(this, Observer {vendedoras ->
+//            vendedoras.forEach()
+//
+//        })
+
+
 
 
     }

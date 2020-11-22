@@ -1,15 +1,16 @@
 package com.example.vendasmae.repository.banco
 
+import androidx.lifecycle.LiveData
 import com.example.vendasmae.banco.tipos.Tipo
 import com.example.vendasmae.banco.tipos.TipoDao
-import com.example.vendasmae.banco.vendas.Venda
+import com.example.vendasmae.banco.tipos.TipoQuantidadeValor
 
 class TipoBanco  (val tipoDao: TipoDao) {
 
     fun getAll() = tipoDao.getAll()
 
     fun insert(vendedora: Tipo){
-        val executa = { tipoDao.insertLista(vendedora)}
+        val executa = { tipoDao.insertTipo(vendedora)}
         BaseAsyncTask(executa).execute()
     }
 
@@ -23,6 +24,7 @@ class TipoBanco  (val tipoDao: TipoDao) {
         BaseAsyncTask(executa).execute()
     }
 
-    //fun getVendaEVendedora() = tipoDao.getVendaAndVendedora()
+    fun getTipoQuantidadeValor(): LiveData<List<TipoQuantidadeValor>> = tipoDao.getTipoQuantidadeValor()
+
 
 }

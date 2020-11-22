@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import com.example.vendasmae.MainActivity
 import com.example.vendasmae.banco.MainDataBase
-import com.example.vendasmae.databinding.FragmentProdutosBinding
 import com.example.vendasmae.databinding.FragmentVendaBinding
 import com.example.vendasmae.repository.VendaRepository
 import com.example.vendasmae.repository.VendedorasRepository

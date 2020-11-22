@@ -1,4 +1,4 @@
-package com.example.vendasmae.view.activity
+package com.example.vendasmae.view.activity.extension
 
 import android.app.Activity
 import android.widget.Toast
