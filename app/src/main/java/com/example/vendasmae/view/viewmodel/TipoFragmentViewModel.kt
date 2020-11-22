@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import com.example.vendasmae.MainActivity
 import com.example.vendasmae.entities.MainDataBase
+import com.example.vendasmae.entities.tipos.Tipo
 import com.example.vendasmae.repository.TipoRepository
 import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
@@ -29,10 +30,14 @@ class TipoFragmentViewModel(application: Application): AndroidViewModel(applicat
     }
 
 
-    fun getTipoQuantidadeValor() = tipoRepo.getTipoQuantidadeValor()
+    val liveData = tipoRepo.getTipoQuantidadeValor()
+    fun getTipoQuantidadeValor() = liveData
+    fun getQuantidade() = liveData.value?.size
 
 
-
+    fun insere(tipo: Tipo) {
+        tipoRepo.insere(tipo)
+    }
 
 
 }

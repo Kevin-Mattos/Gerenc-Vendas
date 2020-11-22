@@ -7,15 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.vendasmae.R
-import com.example.vendasmae.entities.tipos.TipoQuantidadeValor
-import kotlinx.android.synthetic.main.tipo_view.view.*
+import com.example.vendasmae.entities.itens.Item
+import com.example.vendasmae.entities.itens.ItemVendedora
+import kotlinx.android.synthetic.main.produto_view.view.*
 
-class TipoAdapter(private val context: Context,val actions: TipoActions, private val dataSet: MutableList<TipoQuantidadeValor> = mutableListOf()) :
-    RecyclerView.Adapter<TipoAdapter.ViewHolder>() {
-    private val TAG = "baseAdapter"
+class ProdutoAdapter (private val context: Context, val actions: ProdutoActions, private val dataSet: MutableList<ItemVendedora> = mutableListOf()) :
+    RecyclerView.Adapter<ProdutoAdapter.ViewHolder>() {
+    private val TAG = "ProdutoAdapter"
 
 
-    interface TipoActions{
+    interface ProdutoActions{
         fun onTipoClick(id: Long)
     }
 
@@ -25,7 +26,7 @@ class TipoAdapter(private val context: Context,val actions: TipoActions, private
     ): ViewHolder {
         val viewCriada = LayoutInflater.from(context)
             .inflate(
-                R.layout.tipo_view,
+                R.layout.produto_view,
                 parent, false
             )
         return ViewHolder(viewCriada)
@@ -38,7 +39,7 @@ class TipoAdapter(private val context: Context,val actions: TipoActions, private
         holder.vincula(noticia)
     }
 
-    fun atualiza(itens: List<TipoQuantidadeValor>) {
+    fun atualiza(itens: List<ItemVendedora>) {
         notifyItemRangeRemoved(0, this.dataSet.size)
         this.dataSet.clear()
         this.dataSet.addAll(itens)
@@ -50,22 +51,24 @@ class TipoAdapter(private val context: Context,val actions: TipoActions, private
     inner class ViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
 
-        private lateinit var tipo: TipoQuantidadeValor
+        private lateinit var tipo: ItemVendedora
 
         init {
             itemView.setOnClickListener {
                 if (::tipo.isInitialized) {
-                    actions.onTipoClick(tipo.tipo.id)
-                    Log.d(TAG, "${tipo.tipo.nome} clicado")
+                    actions.onTipoClick(tipo.item.id)
+                    Log.d(TAG, "${tipo.item.nome} clicado")
                 }
             }
         }
 
-        fun vincula(tipo: TipoQuantidadeValor) {
-            this.tipo = tipo
-            itemView.tipo_nome.text = tipo.tipo.nome
-            itemView.tipo_quantidade.text = "${tipo.quantidadeEmEstoque}"
-            itemView.tipo_valor.text = "${tipo.somaDeValores?:0}"
+        fun vincula(itemVendedora: ItemVendedora) {
+            this.tipo = itemVendedora
+            itemView.produto_nome.text = itemVendedora.item.nome
+            itemView.produto_vendedora.text = itemVendedora.vendedora?.nome ?: "Ninguém"
+            itemView.produto_valor.text = "${itemVendedora.item.valor}"
+//            itemView.tipo_quantidade.text = "${tipo.quantidadeEmEstoque}"
+//            itemView.tipo_valor.text = "${tipo.somaDeValores?:0}"
 
         }
 

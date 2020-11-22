@@ -1,13 +1,18 @@
 package com.example.vendasmae.view.fragment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.example.vendasmae.MainActivity
+import com.example.vendasmae.baseClass.BaseFragment
 import com.example.vendasmae.databinding.FragmentTipoBinding
+import com.example.vendasmae.entities.tipos.Tipo
 import com.example.vendasmae.view.viewmodel.TipoFragmentViewModel
 import com.example.vendasmae.view.adapter.TipoAdapter
 
@@ -16,14 +21,22 @@ import com.example.vendasmae.view.adapter.TipoAdapter
 //private const val ARG_PARAM1 = "param1"
 //private const val ARG_PARAM2 = "param2"
 
-class TipoFragment : Fragment() {
+class TipoFragment : BaseFragment(), TipoAdapter.TipoActions {
 //    // TODO: Rename and change types of parameters
 //    private var param1: String? = null
 //    private var param2: String? = null
 
+    val TAG = "TipoFragment"
+
+
+    val mMainActivity by lazy {
+        activity as MainActivity
+    }
+
+
     private val adapter by lazy{
         context?.let {
-            TipoAdapter(context = it)
+            TipoAdapter(it, this)
         } ?: throw IllegalArgumentException("contexto invalido")
 
     }
@@ -46,7 +59,6 @@ class TipoFragment : Fragment() {
 
     }
 
-
     fun setupAdapter(){
         mBinding.prodRecyclerView.adapter = adapter
     }
@@ -65,10 +77,6 @@ class TipoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
-
-
         mViewModel.getTipoQuantidadeValor().observe(this, Observer {
             adapter.atualiza(it)
         })
@@ -77,6 +85,16 @@ class TipoFragment : Fragment() {
 //        })
 
 
+    }
+
+    override fun onTipoClick(id: Long) {
+        ///Toast.makeText(context, "eae", Toast.LENGTH_LONG).show()
+        mMainActivity.startProdutoFrag(id)
+    }
+
+    override fun adiciona() {
+        Log.d(TAG, "adicionando")
+        mViewModel.insere(Tipo(0, "TIPO ${mViewModel.getQuantidade()}"))
     }
 
 }

@@ -24,4 +24,6 @@ class ItemBanco(private val itemDao: ItemDao) {
         BaseAsyncTask(executa).execute()
     }
 
+    fun getItemVendedora(id: Long) =  itemDao.getProdutoEComQuemEsta(id)
+
 }

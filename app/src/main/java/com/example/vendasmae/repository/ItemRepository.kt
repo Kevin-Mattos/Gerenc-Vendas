@@ -46,7 +46,7 @@ class ItemRepository(itemDao: ItemDao, retrofit: Retrofit) {
         itemBanco.removeAll()
     }
 
-
+    fun getItemVendedora(id: Long) = itemBanco.getItemVendedora(id)
 
 
 }

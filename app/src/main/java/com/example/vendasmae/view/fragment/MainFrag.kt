@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.vendasmae.MainActivity.Companion.baseURL
+import com.example.vendasmae.baseClass.BaseFragment
 import com.example.vendasmae.entities.MainDataBase
 import com.example.vendasmae.databinding.FragmentMainBinding
 import com.example.vendasmae.repository.ItemRepository
@@ -22,7 +23,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-class MainFrag : Fragment() {
+class MainFrag : BaseFragment() {
     private val TAG = "mainFrag"
 
     // TODO: Rename and change types of parameters
@@ -81,6 +82,8 @@ class MainFrag : Fragment() {
         return mBinding.root
     }
 
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -112,6 +115,10 @@ class MainFrag : Fragment() {
         vendedorasRepo.buscarVendedoras()
 
         Log.d(TAG, "onResume")
+    }
+
+    override fun adiciona() {
+        Log.d("add", "notImplemented")
     }
 
 

@@ -9,13 +9,8 @@ import retrofit2.Retrofit
 
 class VendedorasRepository(vendedoraDao: VendedoraDao, retrofit: Retrofit) {
 
-    val vendedoraApi =
-        VendedoraApi(retrofit)
+    val vendedoraApi = VendedoraApi(retrofit)
     val vendedoraBanco = VendedoraBanco(vendedoraDao)
-
-    private val liveData = vendedoraBanco.getAll()
-
-    fun getAll() = liveData
 
     fun buscarVendedoras() {
 
@@ -47,10 +42,9 @@ class VendedorasRepository(vendedoraDao: VendedoraDao, retrofit: Retrofit) {
         vendedoraBanco.removeAll()
     }
 
+    private val liveData = vendedoraBanco.getVendedoraValorQuantidade()
 
 
-
-    fun getVendedoraValorQuantidade() = vendedoraBanco.getVendedoraValorQuantidade()
-
+    fun getVendedoraValorQuantidade() = liveData
 }
 

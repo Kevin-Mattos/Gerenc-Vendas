@@ -2,6 +2,7 @@ package com.example.vendasmae.entities.itens
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.example.vendasmae.entities.vendas.VendaVendedoraItem
 
 @Dao
 interface ItemDao {
@@ -28,4 +29,7 @@ interface ItemDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertMultiple(items: List<Item>)
 
+    @Transaction
+    @Query("SELECT * FROM Item WHERE Item.id_tipo == :id")
+    fun getProdutoEComQuemEsta(id: Long): LiveData<List<ItemVendedora>>
 }

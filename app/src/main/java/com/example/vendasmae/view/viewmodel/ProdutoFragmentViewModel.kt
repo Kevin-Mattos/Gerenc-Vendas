@@ -4,13 +4,14 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import com.example.vendasmae.MainActivity
 import com.example.vendasmae.entities.MainDataBase
-import com.example.vendasmae.entities.vendas.Venda
-import com.example.vendasmae.repository.VendaRepository
+import com.example.vendasmae.entities.itens.Item
+import com.example.vendasmae.repository.ItemRepository
+import com.example.vendasmae.repository.TipoRepository
 import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class VendaFragmentViewModel(application: Application): AndroidViewModel(application) {
+class ProdutoFragmentViewModel(application: Application): AndroidViewModel(application) {
 
     private val retrofit by lazy{
         val gson = GsonBuilder()
@@ -23,20 +24,18 @@ class VendaFragmentViewModel(application: Application): AndroidViewModel(applica
             .build()
     }
 
-    private val vendaRepo by lazy {
-        val itemDao = MainDataBase.getInstance(application).vendaDao()
-        VendaRepository(itemDao, retrofit)
+    private val produtoRepo by lazy {
+        val tipoDao = MainDataBase.getInstance(application).itemDao()
+        ItemRepository(tipoDao, retrofit)
     }
 
-    val liveData = vendaRepo.getVendasEVendedoras()
+    val liveData = produtoRepo.getAll()
 
-    fun getVendasEVendedoras() = liveData
+    fun get() = liveData
 
-    fun getQuantidade() = liveData.value?.size
-
-    fun insere(venda: Venda) {
-        vendaRepo.insere(venda)
+    fun getItemVendedora(id: Long) = produtoRepo.getItemVendedora(id)
+    fun insere(item: Item) {
+        produtoRepo.insere(item)
     }
-
 
 }

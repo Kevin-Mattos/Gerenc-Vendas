@@ -33,15 +33,15 @@ class TipoRepository (itemDao: TipoDao, retrofit: Retrofit) {
         itemApi.getAll(quandoSucesso, quandoFalha)
     }
 
-    fun insere(vendedora: Tipo){
+    fun insere(tipo: Tipo){
         val quandoSucesso: (Resource<Tipo?>) -> Unit = {
             itemBanco.insert(it.dado!!)
         }
         val quandoFalha: (Resource<Tipo?>) -> Unit = {
-//            liveData.value?.erro = "Falha ao se comunicar"
+//            liveData.value = "Falha ao se comunicar"
         }
 
-        itemApi.insere(vendedora, quandoSucesso, quandoFalha)
+        itemApi.insere(tipo, quandoSucesso, quandoFalha)
 
     }
 

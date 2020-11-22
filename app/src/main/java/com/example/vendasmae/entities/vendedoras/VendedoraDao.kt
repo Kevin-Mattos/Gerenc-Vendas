@@ -23,7 +23,7 @@ interface VendedoraDao {
     fun insertMultiple(vendedoras: List<Vendedora>)
 
 
-    @Query("SELECT vendedora.*, COUNT(Venda.id) as quantidadeVentido, SUM(Venda.valor) as valorVendido  FROM Venda, Vendedora WHERE vendedora.id = venda.id_vendedora group by vendedora.id")
+    @Query("SELECT vendedora.*, COUNT(Venda.id) as quantidadeVentido, SUM(Venda.valor) as valorVendido  FROM Vendedora LEFT JOIN Venda ON vendedora.id = venda.id_vendedora group by Vendedora.id;")
     fun getVendedoraValorQuantidade(): LiveData<List<VendedoraQuantidadeValor>>
 
 
