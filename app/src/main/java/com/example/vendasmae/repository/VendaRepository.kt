@@ -2,6 +2,7 @@ package com.example.vendasmae.repository
 
 import com.example.vendasmae.banco.vendas.Venda
 import com.example.vendasmae.banco.vendas.VendaDao
+import com.example.vendasmae.baseClass.Resource
 import com.example.vendasmae.repository.api.VendaApi
 import com.example.vendasmae.repository.banco.VendaBanco
 import retrofit2.Retrofit
@@ -12,13 +13,17 @@ class VendaRepository(private val vendaDao: VendaDao, retrofit: Retrofit) {
         VendaApi(retrofit)
     val vendaBanco = VendaBanco(vendaDao)
 
-    private val liveData = vendaBanco.getAll()
+    private val vendas = vendaBanco.getAll()
 
-    fun getAll() = liveData
+    private val vendaEVendedeora = vendaBanco.getVendaEVendedora()
+
+    fun getAllVendas() = vendas
+
+    fun getVendasEVendedoras() = vendaEVendedeora
 
     fun buscarVendas() {
 
-        val quandoSucesso: (Resource<List<Venda>>) -> Unit = {
+        val quandoSucesso: (Resource<List<Venda>?>) -> Unit = {
                 vendaBanco.insertMultlple(it.dado!!)
         }
         val quandoFalha: (Resource<List<Venda>?>) -> Unit = {
@@ -29,7 +34,7 @@ class VendaRepository(private val vendaDao: VendaDao, retrofit: Retrofit) {
     }
 
     fun insere(vendedora: Venda){
-        val quandoSucesso: (Resource<Venda>) -> Unit = {
+        val quandoSucesso: (Resource<Venda?>) -> Unit = {
             vendaBanco.insert(it.dado!!)
         }
         val quandoFalha: (Resource<Venda?>) -> Unit = {

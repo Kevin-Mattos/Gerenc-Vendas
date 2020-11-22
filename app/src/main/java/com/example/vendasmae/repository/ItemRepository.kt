@@ -3,6 +3,7 @@ package com.example.vendasmae.repository
 import com.example.vendasmae.banco.itens.Item
 import com.example.vendasmae.banco.itens.ItemDao
 import com.example.vendasmae.banco.vendedoras.Vendedora
+import com.example.vendasmae.baseClass.Resource
 import com.example.vendasmae.repository.api.ItemApi
 import com.example.vendasmae.repository.api.VendedoraApi
 import com.example.vendasmae.repository.banco.ItemBanco
@@ -21,7 +22,7 @@ class ItemRepository(itemDao: ItemDao, retrofit: Retrofit) {
 
     fun buscarItem() {
 
-        val quandoSucesso: (Resource<List<Item>>) -> Unit = {
+        val quandoSucesso: (Resource<List<Item>?>) -> Unit = {
 
                 itemBanco.insertMultlple(it.dado!!)
         }
@@ -33,7 +34,7 @@ class ItemRepository(itemDao: ItemDao, retrofit: Retrofit) {
     }
 
     fun insere(vendedora: Item){
-        val quandoSucesso: (Resource<Item>) -> Unit = {
+        val quandoSucesso: (Resource<Item?>) -> Unit = {
             itemBanco.insert(it.dado!!)
         }
         val quandoFalha: (Resource<Item?>) -> Unit = {

@@ -1,0 +1,22 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_main"
+        android:enabled="true"
+        android:icon="@drawable/main"
+        android:title="Main" />
+    <item
+        android:id="@+id/nav_venda"
+        android:enabled="true"
+        android:icon="@drawable/venda"
+        android:title="Vendas" />
+    <item
+        android:id="@+id/nav_vendedores"
+        android:enabled="true"
+        android:icon="@drawable/vendedores"
+        android:title="Vendedoras" />
+    <item
+        android:id="@+id/nav_produtos"
+        android:enabled="true"
+        android:icon="@drawable/joia"
+        android:title="Produtos" />
+</menu>

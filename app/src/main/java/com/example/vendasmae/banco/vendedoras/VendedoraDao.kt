@@ -10,16 +10,10 @@ interface VendedoraDao {
     fun getAll(): LiveData<List<Vendedora>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertLista(lista: Vendedora)
+    fun insertVendedora(vendedoras: Vendedora)
 
     @Delete
-    fun deleteLista(lista: Vendedora)
-
-    @Query("SELECT * FROM Vendedora WHERE id == :id")
-    fun getListaById(id: Long): LiveData<Vendedora?>
-
-    @Query("DELETE FROM Vendedora WHERE id == :id")
-    fun deleteListaById(id: Long)
+    fun deleteVendedora(vendedoras: Vendedora)
 
     @Query("DELETE FROM Vendedora")
     fun removeAll()
@@ -27,6 +21,11 @@ interface VendedoraDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertMultiple(vendedoras: List<Vendedora>)
+
+
+    @Query("SELECT vendedora.*, COUNT(Venda.id) as quantidadeVentido, SUM(Venda.valor) as valorVendido  FROM Venda, Vendedora WHERE vendedora.id = venda.id_vendedora group by vendedora.id")
+    fun getVendedoraValorQuantidade(): LiveData<List<VendedoraQuantidadeValor>>
+
 
 
 }

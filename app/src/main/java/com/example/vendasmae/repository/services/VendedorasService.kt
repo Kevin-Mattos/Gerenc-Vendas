@@ -1,7 +1,7 @@
 package com.example.vendasmae.repository.services
 
 import com.example.vendasmae.banco.vendedoras.Vendedora
-import com.example.vendasmae.repository.Resource
+import com.example.vendasmae.baseClass.Resource
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -13,10 +13,10 @@ interface VendedorasService{
 
 
     @GET("vendedora")
-    fun buscarVendedoras(): Call<List<Vendedora>?>
+    fun buscarVendedoras(): Call<Resource<List<Vendedora>?>>
 
     @POST("vendedora")
-    fun insereVendedora(@Body vendedora: Vendedora): Call<Vendedora?>
+    fun insereVendedora(@Body vendedora: Vendedora): Call<Resource<Vendedora?>>
 
 
 }

@@ -9,7 +9,7 @@ class VendedoraBanco(val vendedoraDao: VendedoraDao) {
     fun getAll() = vendedoraDao.getAll()
 
     fun insert(vendedora: Vendedora){
-        val executa = { vendedoraDao.insertLista(vendedora)}
+        val executa = { vendedoraDao.insertVendedora(vendedora)}
         BaseAsyncTask(executa).execute()
     }
 
@@ -22,6 +22,11 @@ class VendedoraBanco(val vendedoraDao: VendedoraDao) {
         val executa = { vendedoraDao.insertMultiple(vendedoras)}
         BaseAsyncTask(executa).execute()
     }
+
+
+
+    fun getVendedoraValorQuantidade() = vendedoraDao.getVendedoraValorQuantidade()
+
 
 }
 
