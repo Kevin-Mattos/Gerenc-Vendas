@@ -5,16 +5,16 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
-import com.example.vendasmae.banco.itens.ItemDatabase
-import com.example.vendasmae.banco.vendas.VendaDatabase
-import com.example.vendasmae.banco.vendedoras.VendedoraDatabase
+import com.example.vendasmae.banco.MainDataBase
 import com.example.vendasmae.databinding.ActivityMainBinding
 import com.example.vendasmae.repository.ItemRepository
+import com.example.vendasmae.repository.TipoRepository
 import com.example.vendasmae.repository.VendaRepository
 import com.example.vendasmae.repository.VendedorasRepository
 import com.example.vendasmae.view.fragment.MainFrag
 import com.example.vendasmae.view.activity.transacaoFragment
-import com.example.vendasmae.view.fragment.ProdutosFragment
+import com.example.vendasmae.view.fragment.TipoFragment
+import com.example.vendasmae.view.fragment.VendaFragment
 import com.example.vendasmae.view.fragment.VendedoraFragment
 import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
@@ -50,13 +50,15 @@ class MainActivity : AppCompatActivity() {
         mBinding.navigation.visibility = View.VISIBLE
 
         //
-        val vendedoraDao = VendedoraDatabase.getInstance(applicationContext).vendedoraDao()
-        val itemDao = ItemDatabase.getInstance(applicationContext).itemDao()
-        val vendaDao = VendaDatabase.getInstance(applicationContext).vendaDao()
+        val vendedoraDao = MainDataBase.getInstance(applicationContext).vendedoraDao()
+        val itemDao = MainDataBase.getInstance(applicationContext).itemDao()
+        val vendaDao = MainDataBase.getInstance(applicationContext).vendaDao()
+        val tipoDao = MainDataBase.getInstance(applicationContext).tipoDao()
 
         val vendedorasRepo = VendedorasRepository(vendedoraDao, retrofit)
         val itemRepo = ItemRepository(itemDao, retrofit)
         val vendaRepo = VendaRepository(vendaDao, retrofit)
+        val tipoRepo = TipoRepository(tipoDao, retrofit)
         //
         vendaRepo.removeAll()
         itemRepo.removeAll()
@@ -71,7 +73,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        vendaRepo.getAll().observe(this, Observer {
+        vendaRepo.getAllVendas().observe(this, Observer {
             it.forEach{venda ->
                 Log.d("venda", " ${venda.data}")
             }
@@ -86,6 +88,7 @@ class MainActivity : AppCompatActivity() {
         vendedorasRepo.buscarVendedoras()
         itemRepo.buscarItem()
         vendaRepo.buscarVendas()
+        tipoRepo.buscarTipos()
 
 
 
@@ -96,19 +99,22 @@ class MainActivity : AppCompatActivity() {
 
     fun startMainFrag(){
         val mainFrag = MainFrag()
+        title = "Principal"
         transacaoFragment {
             replace(R.id.frag_container, mainFrag)
         }
 
     }
     fun startVendasFrag(){
-        val mainFrag = MainFrag()
+        title = "Vendas"
+        val frag = VendaFragment()
         transacaoFragment {
-            replace(R.id.frag_container, mainFrag)
+            replace(R.id.frag_container, frag)
         }
 
     }
     fun startVendedorasFrag(){
+        title = "Vendedoras"
         val mainFrag = VendedoraFragment()
         transacaoFragment {
             replace(R.id.frag_container, mainFrag)
@@ -116,7 +122,8 @@ class MainActivity : AppCompatActivity() {
 
     }
     fun startProdutosFrag(){
-        val frag = ProdutosFragment()
+        title = "Produtos"
+        val frag = TipoFragment()
         transacaoFragment {
             replace(R.id.frag_container, frag)
         }
@@ -132,6 +139,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_venda -> {
+                    startVendasFrag()
                     Log.d("selected", "nav_venda")
                     // Respond to navigation item 2 click
                     true

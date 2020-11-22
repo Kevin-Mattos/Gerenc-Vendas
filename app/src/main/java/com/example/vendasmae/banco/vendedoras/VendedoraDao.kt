@@ -29,4 +29,5 @@ interface VendedoraDao {
     fun insertMultiple(vendedoras: List<Vendedora>)
 
 
+
 }

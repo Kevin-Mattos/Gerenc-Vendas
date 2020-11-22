@@ -7,9 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.vendasmae.MainActivity.Companion.baseURL
-import com.example.vendasmae.banco.itens.ItemDatabase
-import com.example.vendasmae.banco.vendas.VendaDatabase
-import com.example.vendasmae.banco.vendedoras.VendedoraDatabase
+import com.example.vendasmae.banco.MainDataBase
 import com.example.vendasmae.databinding.FragmentMainBinding
 import com.example.vendasmae.repository.ItemRepository
 import com.example.vendasmae.repository.VendaRepository
@@ -55,15 +53,15 @@ class MainFrag : Fragment() {
     }
 
     val vendedorasRepo by lazy{
-        val vendedoraDao = VendedoraDatabase.getInstance(activity!!.applicationContext).vendedoraDao()
+        val vendedoraDao = MainDataBase.getInstance(activity!!.applicationContext).vendedoraDao()
         VendedorasRepository(vendedoraDao, retrofit)
     }
     val itemRepo by lazy{
-        val itemDao = ItemDatabase.getInstance(activity!!.applicationContext).itemDao()
+        val itemDao = MainDataBase.getInstance(activity!!.applicationContext).itemDao()
         ItemRepository(itemDao, retrofit)
     }
     val vendaRepo by lazy{
-        val vendaDao = VendaDatabase.getInstance(activity!!.applicationContext).vendaDao()
+        val vendaDao = MainDataBase.getInstance(activity!!.applicationContext).vendaDao()
         VendaRepository(vendaDao, retrofit)
     }
 
@@ -79,9 +77,6 @@ class MainFrag : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
-
 
         mBinding.item.setOnClickListener {
             itemRepo.buscarItem()

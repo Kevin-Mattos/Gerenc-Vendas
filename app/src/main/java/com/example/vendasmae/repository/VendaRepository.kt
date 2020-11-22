@@ -13,9 +13,13 @@ class VendaRepository(private val vendaDao: VendaDao, retrofit: Retrofit) {
         VendaApi(retrofit)
     val vendaBanco = VendaBanco(vendaDao)
 
-    private val liveData = vendaBanco.getAll()
+    private val vendas = vendaBanco.getAll()
 
-    fun getAll() = liveData
+    private val vendaEVendedeora = vendaBanco.getVendaEVendedora()
+
+    fun getAllVendas() = vendas
+
+    fun getVendasEVendedoras() = vendaEVendedeora
 
     fun buscarVendas() {
 

@@ -9,10 +9,12 @@ import androidx.lifecycle.Observer
 import com.example.vendasmae.MainActivity
 import com.example.vendasmae.banco.MainDataBase
 import com.example.vendasmae.databinding.FragmentProdutosBinding
-import com.example.vendasmae.databinding.FragmentVendedoraBinding
+import com.example.vendasmae.databinding.FragmentVendaBinding
+import com.example.vendasmae.repository.VendaRepository
 import com.example.vendasmae.repository.VendedorasRepository
-import com.example.vendasmae.view.adapter.VendedorasAdapter
+import com.example.vendasmae.view.adapter.VendaAdapter
 import com.google.gson.GsonBuilder
+import kotlinx.android.synthetic.main.fragment_venda.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -23,22 +25,21 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [VendedoraFragment.newInstance] factory method to
+ * Use the [VendaFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class VendedoraFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+class VendaFragment : Fragment() {
+
+
 
     private val adapter by lazy{
         context?.let {
-            VendedorasAdapter(context = it)
-        } ?: throw IllegalArgumentException("contexto invalido")
+        VendaAdapter(context = it)
+    } ?: throw IllegalArgumentException("contexto invalido")
 
-    }
+}
 
-    lateinit var mBinding: FragmentVendedoraBinding
+    lateinit var mBinding: FragmentVendaBinding// by lazy { FragmentMainBinding.inflate(layoutInflater)}
 
     val retrofit by lazy{
 
@@ -55,8 +56,7 @@ class VendedoraFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+
         }
 
 
@@ -64,7 +64,7 @@ class VendedoraFragment : Fragment() {
 
 
     fun setupAdapter(){
-        mBinding.vendedoraRecyclerView.adapter = adapter
+        mBinding.vendaRecyclerView.adapter = adapter
     }
 
     override fun onCreateView(
@@ -72,7 +72,7 @@ class VendedoraFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        mBinding = FragmentVendedoraBinding.inflate(inflater, container, false)
+        mBinding = FragmentVendaBinding.inflate(inflater, container, false)
 
 
         setupAdapter()
@@ -82,14 +82,18 @@ class VendedoraFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val itemDao = MainDataBase.getInstance(activity!!.applicationContext).vendedoraDao()
+        val itemDao = MainDataBase.getInstance(activity!!.applicationContext).vendaDao()
 
 
-        val vendedoraRepo = VendedorasRepository(itemDao, retrofit)
+        val vendaRepo = VendaRepository(itemDao, retrofit)
 
 
-        vendedoraRepo.getAll().observe(this, Observer {
-            adapter.atualiza(it)
+        vendaRepo.getVendasEVendedoras().observe(this, Observer { lista ->
+
+            lista?.let {
+                adapter.atualiza(it)
+            }
+
         })
 
 

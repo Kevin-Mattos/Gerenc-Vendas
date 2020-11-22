@@ -7,12 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.vendasmae.R
-import com.example.vendasmae.banco.itens.Item
-import com.example.vendasmae.banco.tipos.Tipo
-import kotlinx.android.synthetic.main.produto_view.view.*
+import com.example.vendasmae.banco.vendas.VendaVendedoraItem
+import kotlinx.android.synthetic.main.venda_view.view.*
 
-class ProdutosAdapter(private val context: Context, private val dataSet: MutableList<Tipo> = mutableListOf()) :
-    RecyclerView.Adapter<ProdutosAdapter.ViewHolder>() {
+
+class VendaAdapter(private val context: Context, private val dataSet: MutableList<VendaVendedoraItem> = mutableListOf()) :
+    RecyclerView.Adapter<VendaAdapter.ViewHolder>() {
     private val TAG = "baseAdapter"
 
 
@@ -22,7 +22,7 @@ class ProdutosAdapter(private val context: Context, private val dataSet: Mutable
     ): ViewHolder {
         val viewCriada = LayoutInflater.from(context)
             .inflate(
-                R.layout.produto_view,
+                R.layout.venda_view,
                 parent, false
             )
         return ViewHolder(viewCriada)
@@ -35,7 +35,7 @@ class ProdutosAdapter(private val context: Context, private val dataSet: Mutable
         holder.vincula(noticia)
     }
 
-    fun atualiza(itens: List<Tipo>) {
+    fun atualiza(itens: List<VendaVendedoraItem>) {
         notifyItemRangeRemoved(0, this.dataSet.size)
         this.dataSet.clear()
         this.dataSet.addAll(itens)
@@ -47,21 +47,23 @@ class ProdutosAdapter(private val context: Context, private val dataSet: Mutable
     inner class ViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
 
-        private lateinit var noticia: Tipo
+        private lateinit var noticia: VendaVendedoraItem
 
         init {
             itemView.setOnClickListener {
                 if (::noticia.isInitialized) {
 //                    quandoItemClicado(noticia)
-                    Log.d(TAG, "${noticia.nome} clicado")
+                    Log.d(TAG, "${noticia.vendedora.nome} clicado")
                 }
             }
         }
 
-        fun vincula(noticia: Tipo) {
+        fun vincula(noticia: VendaVendedoraItem) {
             this.noticia = noticia
-            itemView.item_nome.text = noticia.nome
-
+            itemView.venda_vendedora.text = noticia.vendedora.nome
+            itemView.venda_valor.text = "R$ ${noticia.venda.valor}"
+            itemView.venda_item_nome.text = noticia.item.nome
+            itemView.venda_data.text = noticia.venda.data
         }
 
     }

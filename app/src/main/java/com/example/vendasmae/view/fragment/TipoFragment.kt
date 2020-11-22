@@ -7,9 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import com.example.vendasmae.MainActivity.Companion.baseURL
-import com.example.vendasmae.banco.itens.ItemDatabase
+import com.example.vendasmae.banco.MainDataBase
 import com.example.vendasmae.databinding.FragmentProdutosBinding
-import com.example.vendasmae.repository.ItemRepository
+import com.example.vendasmae.repository.TipoRepository
 import com.example.vendasmae.view.adapter.ProdutosAdapter
 import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
@@ -20,7 +20,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-class ProdutosFragment : Fragment() {
+class TipoFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -76,16 +76,16 @@ class ProdutosFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val itemDao = ItemDatabase.getInstance(activity!!.applicationContext).itemDao()
+        val tipoDao = MainDataBase.getInstance(activity!!.applicationContext).tipoDao()
 
 
-        val itemRepo = ItemRepository(itemDao, retrofit)
+        val tipoRepo = TipoRepository(tipoDao, retrofit)
 
 
-        itemRepo.getAll().observe(this, Observer {
+        tipoRepo.getAll().observe(this, Observer {
             adapter.atualiza(it)
         })
-        itemRepo.buscarItem()
+
 
     }
 

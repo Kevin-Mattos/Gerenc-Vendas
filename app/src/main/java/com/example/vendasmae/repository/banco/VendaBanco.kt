@@ -22,4 +22,6 @@ class VendaBanco (val vendaDao: VendaDao) {
         BaseAsyncTask(executa).execute()
     }
 
+    fun getVendaEVendedora() = vendaDao.getVendaAndVendedora()
+
 }

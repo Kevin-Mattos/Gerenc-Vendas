@@ -2,7 +2,6 @@ package com.example.vendasmae.banco.vendas
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.example.vendasmae.banco.vendedoras.Vendedora
 
 @Dao
 interface VendaDao {
@@ -27,5 +26,11 @@ interface VendaDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertMultiple(vendas: List<Venda>)
+
+    @Transaction
+    @Query("SELECT * FROM Venda")
+    fun getVendaAndVendedora(): LiveData<List<VendaVendedoraItem>>
+
+
 
 }
