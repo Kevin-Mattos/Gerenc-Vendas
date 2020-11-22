@@ -6,7 +6,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class BaseListCallBack<T>(val quandoSucesso: (Resource<T?>) -> Unit, val quandoFalha: (Resource<T?>) -> Unit) {
+class BaseRequestCallBack<T>(val quandoSucesso: (Resource<T?>) -> Unit, val quandoFalha: (Resource<T?>) -> Unit) {
 
     fun execute(): Callback<Resource<T?>> {
         val callback = object : Callback<Resource<T?>> {

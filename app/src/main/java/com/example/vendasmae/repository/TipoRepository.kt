@@ -1,15 +1,12 @@
 package com.example.vendasmae.repository
 
 import android.util.Log
-import com.example.vendasmae.banco.itens.Item
-import com.example.vendasmae.banco.itens.ItemDao
 import com.example.vendasmae.banco.tipos.Tipo
 import com.example.vendasmae.banco.tipos.TipoDao
 import com.example.vendasmae.baseClass.Resource
-import com.example.vendasmae.repository.api.ItemApi
 import com.example.vendasmae.repository.api.TipoApi
-import com.example.vendasmae.repository.banco.ItemBanco
 import com.example.vendasmae.repository.banco.TipoBanco
+import com.example.vendasmae.repository.services.ItemService
 import retrofit2.Retrofit
 
 class TipoRepository (itemDao: TipoDao, retrofit: Retrofit) {

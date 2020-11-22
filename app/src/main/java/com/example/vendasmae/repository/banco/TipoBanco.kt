@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import com.example.vendasmae.banco.tipos.Tipo
 import com.example.vendasmae.banco.tipos.TipoDao
 import com.example.vendasmae.banco.tipos.TipoQuantidadeValor
+import com.example.vendasmae.baseClass.BaseAsyncTask
 
 class TipoBanco  (val tipoDao: TipoDao) {
 

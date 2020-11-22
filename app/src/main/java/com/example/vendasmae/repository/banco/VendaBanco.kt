@@ -2,6 +2,7 @@ package com.example.vendasmae.repository.banco
 
 import com.example.vendasmae.banco.vendas.Venda
 import com.example.vendasmae.banco.vendas.VendaDao
+import com.example.vendasmae.baseClass.BaseAsyncTask
 
 class VendaBanco (val vendaDao: VendaDao) {
 

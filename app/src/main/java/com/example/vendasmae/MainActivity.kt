@@ -85,6 +85,13 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+        tipoRepo.getAll().observe(this, Observer {
+            it.forEach{item ->
+                Log.d("item", " ${item.nome}")
+            }
+        })
+
+
         vendedorasRepo.buscarVendedoras()
         itemRepo.buscarItem()
         vendaRepo.buscarVendas()
