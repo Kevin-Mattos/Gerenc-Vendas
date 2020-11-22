@@ -1,7 +1,6 @@
 package com.example.vendasmae.repository.services
 
-import com.example.vendasmae.banco.tipos.Tipo
-import com.example.vendasmae.banco.vendas.Venda
+import com.example.vendasmae.entities.tipos.Tipo
 import com.example.vendasmae.baseClass.Resource
 import retrofit2.Call
 import retrofit2.http.Body

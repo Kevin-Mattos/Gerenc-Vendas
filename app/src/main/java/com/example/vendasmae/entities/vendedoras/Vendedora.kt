@@ -1,4 +1,4 @@
-package com.example.vendasmae.banco.vendedoras
+package com.example.vendasmae.entities.vendedoras
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

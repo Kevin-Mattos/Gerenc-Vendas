@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.vendasmae.MainActivity.Companion.baseURL
-import com.example.vendasmae.banco.MainDataBase
+import com.example.vendasmae.entities.MainDataBase
 import com.example.vendasmae.databinding.FragmentMainBinding
 import com.example.vendasmae.repository.ItemRepository
 import com.example.vendasmae.repository.TipoRepository

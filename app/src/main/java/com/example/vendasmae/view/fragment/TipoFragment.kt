@@ -6,24 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import com.example.vendasmae.MainActivity.Companion.baseURL
-import com.example.vendasmae.banco.MainDataBase
+import androidx.lifecycle.ViewModelProvider
 import com.example.vendasmae.databinding.FragmentTipoBinding
-import com.example.vendasmae.repository.TipoRepository
+import com.example.vendasmae.view.viewmodel.TipoFragmentViewModel
 import com.example.vendasmae.view.adapter.TipoAdapter
-import com.google.gson.GsonBuilder
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+//private const val ARG_PARAM1 = "param1"
+//private const val ARG_PARAM2 = "param2"
 
 class TipoFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+//    // TODO: Rename and change types of parameters
+//    private var param1: String? = null
+//    private var param2: String? = null
 
     private val adapter by lazy{
         context?.let {
@@ -32,26 +28,20 @@ class TipoFragment : Fragment() {
 
     }
 
-    lateinit var mBinding: FragmentTipoBinding// by lazy { FragmentMainBinding.inflate(layoutInflater)}
-
-    val retrofit by lazy{
-
-        val gson = GsonBuilder()
-            .setLenient()
-            .create()
-
-        Retrofit.Builder()
-            .baseUrl(baseURL)
-            .addConverterFactory(GsonConverterFactory.create(gson))
-            .build()
+    private val mViewModel by lazy{
+        ViewModelProvider.AndroidViewModelFactory(activity!!.application).create(
+            TipoFragmentViewModel::class.java)
     }
+
+    lateinit var mBinding: FragmentTipoBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+//        arguments?.let {
+//            param1 = it.getString(ARG_PARAM1)
+//            param2 = it.getString(ARG_PARAM2)
+//        }
 
 
     }
@@ -76,13 +66,10 @@ class TipoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val tipoDao = MainDataBase.getInstance(activity!!.applicationContext).tipoDao()
 
 
-        val tipoRepo = TipoRepository(tipoDao, retrofit)
 
-
-        tipoRepo.getTipoQuantidadeValor().observe(this, Observer {
+        mViewModel.getTipoQuantidadeValor().observe(this, Observer {
             adapter.atualiza(it)
         })
 //        tipoRepo.getAll().observe(this, Observer {

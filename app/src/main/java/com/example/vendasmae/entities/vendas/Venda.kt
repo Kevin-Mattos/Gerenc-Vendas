@@ -1,10 +1,10 @@
-package com.example.vendasmae.banco.vendas
+package com.example.vendasmae.entities.vendas
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.ForeignKey.CASCADE
 import androidx.room.PrimaryKey
-import com.example.vendasmae.banco.itens.Item
+import com.example.vendasmae.entities.itens.Item
 import org.jetbrains.annotations.NotNull
 
 

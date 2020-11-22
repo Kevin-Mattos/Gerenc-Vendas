@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.vendasmae.R
-import com.example.vendasmae.banco.vendas.VendaVendedoraItem
+import com.example.vendasmae.entities.vendas.VendaVendedoraItem
 import kotlinx.android.synthetic.main.venda_view.view.*
 
 

@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
-import com.example.vendasmae.banco.MainDataBase
+import com.example.vendasmae.entities.MainDataBase
 import com.example.vendasmae.databinding.ActivityMainBinding
 import com.example.vendasmae.repository.ItemRepository
 import com.example.vendasmae.repository.TipoRepository
@@ -24,8 +24,8 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         val baseURL = "http://192.168.0.104:3000"
-
     }
+
     val retrofit by lazy{
 
         val gson = GsonBuilder()
@@ -59,10 +59,12 @@ class MainActivity : AppCompatActivity() {
         val itemRepo = ItemRepository(itemDao, retrofit)
         val vendaRepo = VendaRepository(vendaDao, retrofit)
         val tipoRepo = TipoRepository(tipoDao, retrofit)
-        //
+
+        //TODO SINCRONIZAR EM VEZ DE REMOVER
         vendaRepo.removeAll()
         itemRepo.removeAll()
         vendedorasRepo.removeAll()
+        tipoRepo.removeAll()
 
 
 

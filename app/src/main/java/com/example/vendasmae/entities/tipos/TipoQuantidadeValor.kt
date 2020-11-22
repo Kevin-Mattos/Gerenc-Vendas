@@ -1,4 +1,4 @@
-package com.example.vendasmae.banco.tipos
+package com.example.vendasmae.entities.tipos
 
 import androidx.room.Embedded
 

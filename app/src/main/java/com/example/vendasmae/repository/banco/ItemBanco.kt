@@ -1,8 +1,7 @@
 package com.example.vendasmae.repository.banco
 
-import com.example.vendasmae.banco.itens.Item
-import com.example.vendasmae.banco.itens.ItemDao
-import com.example.vendasmae.banco.vendedoras.Vendedora
+import com.example.vendasmae.entities.itens.Item
+import com.example.vendasmae.entities.itens.ItemDao
 import com.example.vendasmae.baseClass.BaseAsyncTask
 
 class ItemBanco(private val itemDao: ItemDao) {

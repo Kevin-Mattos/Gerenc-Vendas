@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.vendasmae.R
-import com.example.vendasmae.banco.vendedoras.VendedoraQuantidadeValor
+import com.example.vendasmae.entities.vendedoras.VendedoraQuantidadeValor
 import kotlinx.android.synthetic.main.vendedora_view.view.*
 
 class VendedorasAdapter (private val context: Context, private val dataSet: MutableList<VendedoraQuantidadeValor> = mutableListOf()) :

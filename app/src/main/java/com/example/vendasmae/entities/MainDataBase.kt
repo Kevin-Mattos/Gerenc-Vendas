@@ -1,17 +1,17 @@
-package com.example.vendasmae.banco
+package com.example.vendasmae.entities
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.vendasmae.banco.itens.Item
-import com.example.vendasmae.banco.itens.ItemDao
-import com.example.vendasmae.banco.tipos.Tipo
-import com.example.vendasmae.banco.tipos.TipoDao
-import com.example.vendasmae.banco.vendas.Venda
-import com.example.vendasmae.banco.vendas.VendaDao
-import com.example.vendasmae.banco.vendedoras.Vendedora
-import com.example.vendasmae.banco.vendedoras.VendedoraDao
+import com.example.vendasmae.entities.itens.Item
+import com.example.vendasmae.entities.itens.ItemDao
+import com.example.vendasmae.entities.tipos.Tipo
+import com.example.vendasmae.entities.tipos.TipoDao
+import com.example.vendasmae.entities.vendas.Venda
+import com.example.vendasmae.entities.vendas.VendaDao
+import com.example.vendasmae.entities.vendedoras.Vendedora
+import com.example.vendasmae.entities.vendedoras.VendedoraDao
 
 @Database(entities = [Vendedora::class, Item::class, Venda::class, Tipo::class], version = 1, exportSchema = false)
 abstract class MainDataBase: RoomDatabase() {

@@ -1,6 +1,6 @@
 package com.example.vendasmae.repository.api
 
-import com.example.vendasmae.banco.tipos.Tipo
+import com.example.vendasmae.entities.tipos.Tipo
 import com.example.vendasmae.baseClass.BaseRequestCallBack
 import com.example.vendasmae.baseClass.Resource
 import com.example.vendasmae.repository.services.TipoService

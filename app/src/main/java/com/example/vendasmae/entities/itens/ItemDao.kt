@@ -1,8 +1,7 @@
-package com.example.vendasmae.banco.itens
+package com.example.vendasmae.entities.itens
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.example.vendasmae.banco.vendedoras.Vendedora
 
 @Dao
 interface ItemDao {

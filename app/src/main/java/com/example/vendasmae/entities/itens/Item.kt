@@ -1,9 +1,9 @@
-package com.example.vendasmae.banco.itens
+package com.example.vendasmae.entities.itens
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
-import com.example.vendasmae.banco.tipos.Tipo
+import com.example.vendasmae.entities.tipos.Tipo
 import org.jetbrains.annotations.NotNull
 
 @Entity

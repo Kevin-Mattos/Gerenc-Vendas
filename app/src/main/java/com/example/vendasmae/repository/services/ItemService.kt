@@ -1,6 +1,6 @@
 package com.example.vendasmae.repository.services
 
-import com.example.vendasmae.banco.itens.Item
+import com.example.vendasmae.entities.itens.Item
 import com.example.vendasmae.baseClass.Resource
 import retrofit2.Call
 import retrofit2.http.Body

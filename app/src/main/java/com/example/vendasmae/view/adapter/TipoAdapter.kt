@@ -7,13 +7,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.vendasmae.R
-import com.example.vendasmae.banco.tipos.TipoQuantidadeValor
+import com.example.vendasmae.entities.tipos.TipoQuantidadeValor
 import kotlinx.android.synthetic.main.tipo_view.view.*
 
 class TipoAdapter(private val context: Context, private val dataSet: MutableList<TipoQuantidadeValor> = mutableListOf()) :
     RecyclerView.Adapter<TipoAdapter.ViewHolder>() {
     private val TAG = "baseAdapter"
 
+
+    interface TipoActions{
+        fun onClick()
+    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,

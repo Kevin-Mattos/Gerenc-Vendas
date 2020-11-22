@@ -1,4 +1,4 @@
-package com.example.vendasmae.banco.vendas
+package com.example.vendasmae.entities.vendas
 
 import androidx.lifecycle.LiveData
 import androidx.room.*

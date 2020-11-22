@@ -1,8 +1,7 @@
-package com.example.vendasmae.banco.tipos
+package com.example.vendasmae.entities.tipos
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.example.vendasmae.banco.itens.Item
 
 @Dao
 interface TipoDao {

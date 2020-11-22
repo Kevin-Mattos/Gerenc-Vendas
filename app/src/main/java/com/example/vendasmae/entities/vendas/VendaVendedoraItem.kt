@@ -1,9 +1,9 @@
-package com.example.vendasmae.banco.vendas
+package com.example.vendasmae.entities.vendas
 
 import androidx.room.Embedded
 import androidx.room.Relation
-import com.example.vendasmae.banco.itens.Item
-import com.example.vendasmae.banco.vendedoras.Vendedora
+import com.example.vendasmae.entities.itens.Item
+import com.example.vendasmae.entities.vendedoras.Vendedora
 
 data class VendaVendedoraItem (
     @Embedded val venda: Venda,
