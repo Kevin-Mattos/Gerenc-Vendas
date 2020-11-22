@@ -27,7 +27,6 @@ class TipoRepository (itemDao: TipoDao, retrofit: Retrofit) {
     fun buscarTipos() {
 
         val quandoSucesso: (Resource<List<Tipo>?>) -> Unit = {
-
             itemBanco.insertMultlple(it.dado!!)
         }
         val quandoFalha: (Resource<List<Tipo>?>) -> Unit = {

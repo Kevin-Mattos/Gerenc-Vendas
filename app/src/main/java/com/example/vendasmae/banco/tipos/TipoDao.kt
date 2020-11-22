@@ -22,6 +22,6 @@ interface TipoDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertMultiple(items: List<Tipo>)
 
-    @Query("SELECT Tipo.*, COUNT(Item.id) as quantidadeEmEstoque, SUM(Item.valor) as somaDeValores  FROM Item, Tipo WHERE Tipo.id = Item.id_tipo group by Tipo.id")
+    @Query("SELECT Tipo.*, COUNT(Item.id) as quantidadeEmEstoque, SUM(Item.valor) as somaDeValores  FROM Tipo LEFT JOIN Item ON Tipo.id = Item.id_tipo group by Tipo.id;")
     fun getTipoQuantidadeValor(): LiveData<List<TipoQuantidadeValor>>
 }

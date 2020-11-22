@@ -6,5 +6,5 @@ data class TipoQuantidadeValor(
     @Embedded
     val tipo: Tipo,
     val quantidadeEmEstoque: Long,
-    val somaDeValores: Float
+    val somaDeValores: Float?
 )

@@ -10,6 +10,7 @@ import com.example.vendasmae.MainActivity.Companion.baseURL
 import com.example.vendasmae.banco.MainDataBase
 import com.example.vendasmae.databinding.FragmentMainBinding
 import com.example.vendasmae.repository.ItemRepository
+import com.example.vendasmae.repository.TipoRepository
 import com.example.vendasmae.repository.VendaRepository
 import com.example.vendasmae.repository.VendedorasRepository
 import com.google.gson.GsonBuilder
@@ -65,6 +66,11 @@ class MainFrag : Fragment() {
         VendaRepository(vendaDao, retrofit)
     }
 
+    val tipoRepo by lazy{
+        val tipoDao = MainDataBase.getInstance(activity!!.applicationContext).tipoDao()
+        TipoRepository(tipoDao, retrofit)
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -78,20 +84,25 @@ class MainFrag : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mBinding.item.setOnClickListener {
+        mBinding.getItem.setOnClickListener {
             itemRepo.buscarItem()
         }
 
-        mBinding.vendas.setOnClickListener {
+        mBinding.getVendas.setOnClickListener {
             vendaRepo.buscarVendas()
         }
 
         Log.d(TAG, "setando clisks")
 
-        mBinding.vendedora.setOnClickListener {
+        mBinding.getVendedora.setOnClickListener {
             vendedorasRepo.buscarVendedoras()
 
         }
+        mBinding.getTipo.setOnClickListener {
+            tipoRepo.buscarTipos()
+
+        }
+
     }
 
     override fun onResume() {

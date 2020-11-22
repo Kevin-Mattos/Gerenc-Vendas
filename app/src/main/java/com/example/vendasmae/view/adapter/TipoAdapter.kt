@@ -61,7 +61,7 @@ class TipoAdapter(private val context: Context, private val dataSet: MutableList
             this.tipo = tipo
             itemView.tipo_nome.text = tipo.tipo.nome
             itemView.tipo_quantidade.text = "${tipo.quantidadeEmEstoque}"
-            itemView.tipo_valor.text = "${tipo.somaDeValores}"
+            itemView.tipo_valor.text = "${tipo.somaDeValores?:0}"
 
         }
 
