@@ -25,7 +25,7 @@ class TipoBanco  (val tipoDao: TipoDao) {
         BaseAsyncTask(executa).execute()
     }
 
-    fun getTipoQuantidadeValor(): LiveData<List<TipoQuantidadeValor>> = tipoDao.getTipoQuantidadeValor()
+    fun getTipoQuantidadeValor() = tipoDao.getTipoQuantidadeValor()
 
 
 }

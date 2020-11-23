@@ -78,7 +78,9 @@ class TipoFragment : BaseFragment(), TipoAdapter.TipoActions {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mViewModel.getTipoQuantidadeValor().observe(this, Observer {
-            adapter.atualiza(it)
+            it?.let {
+                adapter.atualiza(it)
+            }
         })
 //        tipoRepo.getAll().observe(this, Observer {
 //            adapter.atualiza(it)

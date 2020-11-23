@@ -2,11 +2,16 @@ package com.example.vendasmae.view.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import com.example.vendasmae.MainActivity
 import com.example.vendasmae.entities.MainDataBase
 import com.example.vendasmae.entities.itens.Item
+import com.example.vendasmae.entities.tipos.Tipo
+import com.example.vendasmae.entities.vendedoras.Vendedora
 import com.example.vendasmae.repository.ItemRepository
 import com.example.vendasmae.repository.TipoRepository
+import com.example.vendasmae.repository.VendedorasRepository
 import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -24,18 +29,48 @@ class ProdutoFragmentViewModel(application: Application): AndroidViewModel(appli
             .build()
     }
 
+    lateinit var tipos: List<Tipo>
+    lateinit var vendedoras: List<Vendedora>
+
+     var selectedtipo: Tipo? = null
+     var selectedVendedora: Vendedora? = null
+
+
+
     private val produtoRepo by lazy {
-        val tipoDao = MainDataBase.getInstance(application).itemDao()
-        ItemRepository(tipoDao, retrofit)
+        val itemDao = MainDataBase.getInstance(application).itemDao()
+        ItemRepository(itemDao, retrofit)
     }
 
-    val liveData = produtoRepo.getAll()
+    private val tipoRepo by lazy {
+        val tipoDao = MainDataBase.getInstance(application).tipoDao()
+        TipoRepository(tipoDao, retrofit)
+    }
+
+    private val vendedoraRepo by lazy {
+        val tipoDao = MainDataBase.getInstance(application).vendedoraDao()
+        VendedorasRepository(tipoDao, retrofit)
+    }
+
+    private val liveData = produtoRepo.getAll()
 
     fun get() = liveData
 
     fun getItemVendedora(id: Long) = produtoRepo.getItemVendedora(id)
+
     fun insere(item: Item) {
         produtoRepo.insere(item)
     }
+
+    fun getTipos() = tipoRepo.getAll()
+
+    fun getVendedoras() = vendedoraRepo.getAll()
+
+    fun getSelectedVendedoraPos() =
+        vendedoras.indexOf(selectedVendedora)
+
+    fun getSelectedTipoPos() =
+        tipos.indexOf(selectedtipo)
+
 
 }

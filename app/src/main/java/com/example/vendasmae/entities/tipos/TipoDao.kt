@@ -7,7 +7,7 @@ import androidx.room.*
 interface TipoDao {
 
     @Query("SELECT * FROM Tipo")
-    fun getAll(): LiveData<List<Tipo>>
+    fun getAll(): LiveData<List<Tipo>?>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertTipo(lista: Tipo)
@@ -22,5 +22,5 @@ interface TipoDao {
     fun insertMultiple(items: List<Tipo>)
 
     @Query("SELECT Tipo.*, COUNT(Item.id) as quantidadeEmEstoque, SUM(Item.valor) as somaDeValores  FROM Tipo LEFT JOIN Item ON Tipo.id = Item.id_tipo group by Tipo.id;")
-    fun getTipoQuantidadeValor(): LiveData<List<TipoQuantidadeValor>>
+    fun getTipoQuantidadeValor(): LiveData<List<TipoQuantidadeValor>?>
 }

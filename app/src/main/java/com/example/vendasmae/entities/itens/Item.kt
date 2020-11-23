@@ -20,6 +20,8 @@ class Item(
     @ForeignKey(entity = Item::class,
         parentColumns = ["id"],
         childColumns = ["id_vendedora"],
-        onDelete = ForeignKey.CASCADE
-    ) val id_vendedora: Long
-)
+        onDelete = ForeignKey.SET_NULL
+    ) val id_vendedora: Long?
+){
+    override fun toString() = nome
+}

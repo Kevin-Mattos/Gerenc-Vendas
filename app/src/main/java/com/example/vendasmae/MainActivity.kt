@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity() {
         })
 
         tipoRepo.getAll().observe(this, Observer {
-            it.forEach{item ->
+            it?.forEach{item ->
                 Log.d("TIPO: ", " ${item.nome}")
             }
         })

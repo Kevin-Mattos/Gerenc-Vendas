@@ -46,5 +46,7 @@ class VendedorasRepository(vendedoraDao: VendedoraDao, retrofit: Retrofit) {
 
 
     fun getVendedoraValorQuantidade() = liveData
+
+    fun getAll() = vendedoraBanco.getAll()
 }
 
