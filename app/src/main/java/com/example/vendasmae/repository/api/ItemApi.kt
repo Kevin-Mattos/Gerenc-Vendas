@@ -30,4 +30,16 @@ class ItemApi(retrofit: Retrofit) {
         call.enqueue(callback.execute())
     }
 
+    fun atualiza(item: Item, quandoSucesso: (Resource<Item?>) -> Unit, quandoFalha: (Resource<Item?>) -> Unit) {
+
+        val call = ItemService.atualiza(item, item.id.toInt())
+        val callback = BaseRequestCallBack(
+            quandoSucesso,
+            quandoFalha
+        )
+
+        call.enqueue(callback.execute())
+
+    }
+
 }

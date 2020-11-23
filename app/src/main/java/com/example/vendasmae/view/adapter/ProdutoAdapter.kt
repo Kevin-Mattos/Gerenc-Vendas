@@ -17,7 +17,8 @@ class ProdutoAdapter (private val context: Context, val actions: ProdutoActions,
 
 
     interface ProdutoActions{
-        fun onTipoClick(id: Long)
+        fun onItemClick(item: Item)
+        fun updateItem(item: Item)
     }
 
     override fun onCreateViewHolder(
@@ -56,7 +57,7 @@ class ProdutoAdapter (private val context: Context, val actions: ProdutoActions,
         init {
             itemView.setOnClickListener {
                 if (::tipo.isInitialized) {
-                    actions.onTipoClick(tipo.item.id)
+                    actions.onItemClick(tipo.item)
                     Log.d(TAG, "${tipo.item.nome} clicado")
                 }
             }
@@ -67,6 +68,13 @@ class ProdutoAdapter (private val context: Context, val actions: ProdutoActions,
             itemView.produto_nome.text = itemVendedora.item.nome
             itemView.produto_vendedora.text = itemVendedora.vendedora?.nome ?: "Ninguém"
             itemView.produto_valor.text = "${itemVendedora.item.valor}"
+            itemView.produto_vendido_check_box.isChecked = itemVendedora.item.foiVendido()
+            itemView.produto_vendido_check_box.setOnClickListener {
+                itemVendedora.item.setVendido(itemView.produto_vendido_check_box.isChecked)
+                actions.updateItem(itemVendedora.item)
+            }
+
+
 //            itemView.tipo_quantidade.text = "${tipo.quantidadeEmEstoque}"
 //            itemView.tipo_valor.text = "${tipo.somaDeValores?:0}"
 

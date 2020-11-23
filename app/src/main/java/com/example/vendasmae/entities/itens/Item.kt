@@ -1,5 +1,6 @@
 package com.example.vendasmae.entities.itens
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
@@ -10,18 +11,27 @@ import org.jetbrains.annotations.NotNull
 class Item(
     @PrimaryKey val id: Long,
     @NotNull var nome: String,
-    val valor: Float,
-    val modelo: String?,
+    var valor: Float,
+    var modelo: String?,
+    var vendido: Int = 0,
     @NotNull @ForeignKey(entity = Tipo::class,
     parentColumns = ["id"],
     childColumns = ["id_tipo"],
     onDelete = ForeignKey.CASCADE
-    ) val id_tipo: Long,
+    ) var id_tipo: Long,
     @ForeignKey(entity = Item::class,
         parentColumns = ["id"],
         childColumns = ["id_vendedora"],
         onDelete = ForeignKey.SET_NULL
-    ) val id_vendedora: Long?
+    ) var id_vendedora: Long?
 ){
+
+    fun foiVendido() = vendido == 1
+
+    fun setVendido(value: Boolean){
+        vendido = if(value) 1 else 0
+    }
+
+
     override fun toString() = nome
 }

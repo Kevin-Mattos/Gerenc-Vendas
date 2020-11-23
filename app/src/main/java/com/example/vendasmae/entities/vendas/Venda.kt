@@ -18,4 +18,4 @@ class Venda (@PrimaryKey val id: Long, @NotNull val valor: Float,
                     onDelete = CASCADE) val id_item: Long,
              @NotNull @ForeignKey(entity = Item::class,
                     parentColumns = ["id"],
-                    childColumns = ["id_vendedora"]) val id_vendedora: Long)
+                    childColumns = ["id_vendedora"]) val id_vendedora: Long?)

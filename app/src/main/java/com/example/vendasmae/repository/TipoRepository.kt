@@ -12,18 +12,18 @@ class TipoRepository (itemDao: TipoDao, retrofit: Retrofit) {
 
     val itemApi =
         TipoApi(retrofit)
-    val itemBanco = TipoBanco(itemDao)
+    val tipoBanco = TipoBanco(itemDao)
 
-    private val liveData = itemBanco.getAll()
+    private val liveData = tipoBanco.getAll()
 
     fun getAll() = liveData
 
-    fun getTipoQuantidadeValor() = itemBanco.getTipoQuantidadeValor()
+    fun getTipoQuantidadeValor() = tipoBanco.getTipoQuantidadeValor()
 
     fun buscarTipos() {
 
         val quandoSucesso: (Resource<List<Tipo>?>) -> Unit = {
-            itemBanco.insertMultlple(it.dado!!)
+            tipoBanco.insertMultlple(it.dado!!)
         }
         val quandoFalha: (Resource<List<Tipo>?>) -> Unit = {
             Log.d("item", "falha na chamda")
@@ -35,7 +35,7 @@ class TipoRepository (itemDao: TipoDao, retrofit: Retrofit) {
 
     fun insere(tipo: Tipo){
         val quandoSucesso: (Resource<Tipo?>) -> Unit = {
-            itemBanco.insert(it.dado!!)
+            tipoBanco.insert(it.dado!!)
         }
         val quandoFalha: (Resource<Tipo?>) -> Unit = {
 //            liveData.value = "Falha ao se comunicar"
@@ -46,7 +46,7 @@ class TipoRepository (itemDao: TipoDao, retrofit: Retrofit) {
     }
 
     fun removeAll(){
-        itemBanco.removeAll()
+        tipoBanco.removeAll()
     }
 
 

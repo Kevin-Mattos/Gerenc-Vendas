@@ -1,18 +1,24 @@
 package com.example.vendasmae.view.fragment
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.vendasmae.MainActivity
+import com.example.vendasmae.R
 import com.example.vendasmae.baseClass.BaseFragment
 import com.example.vendasmae.databinding.FragmentTipoBinding
 import com.example.vendasmae.entities.tipos.Tipo
+import com.example.vendasmae.entities.vendedoras.Vendedora
 import com.example.vendasmae.view.viewmodel.TipoFragmentViewModel
 import com.example.vendasmae.view.adapter.TipoAdapter
 
@@ -96,7 +102,44 @@ class TipoFragment : BaseFragment(), TipoAdapter.TipoActions {
 
     override fun adiciona() {
         Log.d(TAG, "adicionando")
-        mViewModel.insere(Tipo(0, "TIPO ${mViewModel.getQuantidade()}"))
+       // mViewModel.insere(Tipo(0, "TIPO ${mViewModel.getQuantidade()}"))
+        showDialog()
+    }
+
+
+    private fun showDialog() {
+
+        val builder = AlertDialog.Builder(this.context)
+        // Get the layout inflater
+        val inflater = requireActivity().layoutInflater;
+
+        // Inflate and set the layout for the dialog
+        // Pass null as the parent view because its going in the dialog layout
+        builder.setView(inflater.inflate(R.layout.custom_dialog_adiciona_tipo, null))
+        builder.setPositiveButton("Criar"){ dialog, widht ->
+
+
+        }
+
+        builder.setNegativeButton("sair"){ dialog, widht ->
+
+            dialog.dismiss()
+        }
+
+
+        val dialog = builder.create()
+        dialog.show()
+
+        val theButton: Button = dialog.getButton(DialogInterface.BUTTON_POSITIVE)
+        theButton.setOnClickListener {
+            val nome = dialog.findViewById<EditText>(R.id.dialog_tipo_nome).text.toString()
+
+            mViewModel.insere(Tipo(0, if(nome.isNotBlank()) nome else "Escreva um nome${mViewModel.getQuantidade()}"))
+            dialog.dismiss()
+        }
+
+
+
     }
 
 }

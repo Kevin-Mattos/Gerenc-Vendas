@@ -72,5 +72,9 @@ class ProdutoFragmentViewModel(application: Application): AndroidViewModel(appli
     fun getSelectedTipoPos() =
         tipos.indexOf(selectedtipo)
 
+    fun update(item: Item) {
+        produtoRepo.update(item)
+    }
+
 
 }

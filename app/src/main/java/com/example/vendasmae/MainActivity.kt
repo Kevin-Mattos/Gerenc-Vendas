@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity() {
 
         vendaRepo.getAllVendas().observe(this, Observer {
             it.forEach{venda ->
-                Log.d("VENDA: ", " ${venda.data}")
+                Log.d("VENDAnj: ", " ${venda.data}")
             }
         })
 
@@ -94,10 +94,10 @@ class MainActivity : AppCompatActivity() {
         })
 
 
-        vendedorasRepo.buscarVendedoras()
-        itemRepo.buscarItem()
-        vendaRepo.buscarVendas()
-        tipoRepo.buscarTipos()
+//        vendedorasRepo.buscarVendedoras()
+//        itemRepo.buscarItem()
+//        vendaRepo.buscarVendas()
+//        tipoRepo.buscarTipos()
 
 
         setNav()
@@ -142,18 +142,21 @@ class MainActivity : AppCompatActivity() {
         title = "Produtos"
         currentFrag = TipoFragment()
         transacaoFragment {
-            replace(R.id.frag_container, currentFrag)
+            replace(R.id.frag_container, currentFrag, tipoTag)
+            //this.addToBackStack(tipoTag)
         }
         setFAB()
     }
 
+    val prodTag = "produtoTag"
+    val tipoTag = "tipoTag"
     fun startProdutoFrag(id: Long) {
         title = "Produtos"
         currentFrag = ProdutoFragment()
         currentFrag.arguments = Bundle()
         currentFrag.arguments?.putLong(ProdutoFragment.idTipoProduto, id)
         transacaoFragment {
-            replace(R.id.frag_container, currentFrag)
+            replace(R.id.frag_container, currentFrag, prodTag)
             this.addToBackStack(null)
         }
         setFAB()
@@ -162,7 +165,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        supportFragmentManager.popBackStackImmediate()
+        val actualFrag = supportFragmentManager.findFragmentByTag(tipoTag) as BaseFragment?
+        supportFragmentManager.popBackStack()
+        if(actualFrag != null && actualFrag is TipoFragment)
+            currentFrag = actualFrag
 
     }
 

@@ -113,6 +113,7 @@ class MainFrag : BaseFragment() {
         itemRepo.buscarItem()
         vendaRepo.buscarVendas()
         vendedorasRepo.buscarVendedoras()
+        tipoRepo.buscarTipos()
 
         Log.d(TAG, "onResume")
     }

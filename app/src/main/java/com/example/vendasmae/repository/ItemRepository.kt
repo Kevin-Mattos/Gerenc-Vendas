@@ -49,4 +49,16 @@ class ItemRepository(itemDao: ItemDao, retrofit: Retrofit) {
     fun getItemVendedora(id: Long) = itemBanco.getItemVendedora(id)
 
 
+    fun update(item: Item) {
+        val quandoSucesso: (Resource<Item?>) -> Unit = {
+            itemBanco.insert(it.dado!!)
+        }
+        val quandoFalha: (Resource<Item?>) -> Unit = {
+//            liveData.value?.erro = "Falha ao se comunicar"
+        }
+
+        itemApi.atualiza(item, quandoSucesso, quandoFalha)
+    }
+
+
 }

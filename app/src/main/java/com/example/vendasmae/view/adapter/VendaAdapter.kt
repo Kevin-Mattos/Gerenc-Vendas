@@ -53,14 +53,14 @@ class VendaAdapter(private val context: Context, private val dataSet: MutableLis
             itemView.setOnClickListener {
                 if (::noticia.isInitialized) {
 //                    quandoItemClicado(noticia)
-                    Log.d(TAG, "${noticia.vendedora.nome} clicado")
+                    Log.d(TAG, "${noticia.vendedora?.nome?:"sem vendedora"} clicado")
                 }
             }
         }
 
         fun vincula(noticia: VendaVendedoraItem) {
             this.noticia = noticia
-            itemView.venda_vendedora.text = noticia.vendedora.nome
+            itemView.venda_vendedora.text = noticia.vendedora?.nome?:"Sem vendedora"
             itemView.venda_valor.text = "R$ ${noticia.venda.valor}"
             itemView.venda_item_nome.text = noticia.item.nome
             itemView.venda_data.text = noticia.venda.data

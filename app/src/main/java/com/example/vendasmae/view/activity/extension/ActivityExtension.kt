@@ -15,7 +15,9 @@ fun Activity.mostraErro(mensagem: String) {
 
 fun AppCompatActivity.transacaoFragment(executa: FragmentTransaction.() -> Unit){
     val transacao = supportFragmentManager.beginTransaction()
+
     executa(transacao)
+    transacao.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
     transacao.commit()
 
 }
