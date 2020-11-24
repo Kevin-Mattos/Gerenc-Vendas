@@ -49,4 +49,15 @@ class VendaRepository(private val vendaDao: VendaDao, retrofit: Retrofit) {
         vendaBanco.removeAll()
     }
 
+    fun atualiza(venda: Venda) {
+        val quandoSucesso: (Resource<Venda?>) -> Unit = {
+            vendaBanco.insert(it.dado!!)
+        }
+        val quandoFalha: (Resource<Venda?>) -> Unit = {
+//            liveData.value?.erro = "Falha ao se comunicar"
+        }
+
+        vendaApi.atualiza(venda, quandoSucesso, quandoFalha)
+    }
+
 }

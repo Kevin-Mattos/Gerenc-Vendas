@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import com.example.vendasmae.MainActivity
 import com.example.vendasmae.entities.MainDataBase
 import com.example.vendasmae.entities.itens.Item
+import com.example.vendasmae.entities.itens.ItensVendedora
 import com.example.vendasmae.entities.tipos.Tipo
 import com.example.vendasmae.entities.vendas.Venda
 import com.example.vendasmae.entities.vendedoras.Vendedora
@@ -16,6 +17,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class VendaFragmentViewModel(application: Application): AndroidViewModel(application) {
+
+    var itensVendedora: List<ItensVendedora>? = null
 
     var selectedVendedora: Vendedora? = null
 
@@ -74,6 +77,11 @@ class VendaFragmentViewModel(application: Application): AndroidViewModel(applica
     fun getAllVendedoras() = vendedoraRepo.getAll()
 
     fun getAllItens() = itemRepo.getAll()
+    fun atualiza(venda: Venda) {
+        vendaRepo.atualiza(venda)
+    }
+
+    fun getItemVendedor() = itemRepo.getProdutoEComQuemEsta()
 
 
 }

@@ -149,8 +149,8 @@ class ProdutoFragment : BaseFragment(), ProdutoAdapter.ProdutoActions, AdapterVi
              dialog.findViewById<EditText>(R.id.dialog_prod_modelo).setText(item.modelo)
              dialog.findViewById<EditText>(R.id.dialog_prod_valor).setText(item.valor.toString())
 
-            mViewModel.selectedVendedora = vendedoras.first { it.id == item.id_vendedora }
-            mViewModel.selectedtipo = tipos.first { it.id == item.id_tipo }
+            mViewModel.selectedVendedora = vendedoras.firstOrNull { it.id == item.id_vendedora }
+            mViewModel.selectedtipo = tipos.firstOrNull { it.id == item.id_tipo }
         }
 
 
@@ -171,7 +171,7 @@ class ProdutoFragment : BaseFragment(), ProdutoAdapter.ProdutoActions, AdapterVi
                 mViewModel.update(item)
             }
             else
-                mViewModel.insere(Item(1, if(nome.isNotBlank()) nome else "Sem Nome", valor.toFloatOrNull()?:46.6f, if(modelo.isNotBlank()) modelo else null, 0,mViewModel.selectedtipo?.id?:0, mViewModel.selectedVendedora?.id?:0))
+                mViewModel.insere(Item(1, if(nome.isNotBlank()) nome else "Sem Nome", valor.toFloatOrNull()?:46.6f, if(modelo.isNotBlank()) modelo else null, 0,mViewModel.selectedtipo?.id?:0, if(mViewModel.selectedVendedora!!.id == -1.toLong()) null else mViewModel.selectedVendedora!!.id))
             dialog.dismiss()
         }
 

@@ -21,7 +21,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class MainActivity : AppCompatActivity() {
 
     companion object {
-        val baseURL = "http://192.168.0.104:3000" //192.168.0.114
+        val baseURL = "http://192.168.0.114:3000" //192.168.0.114 104
     }
 
     val retrofit by lazy{

@@ -31,4 +31,14 @@ class VendaApi (retrofit: Retrofit) {
         call.enqueue(callback.execute())
     }
 
+    fun atualiza(venda: Venda, quandoSucesso: (Resource<Venda?>) -> Unit, quandoFalha: (Resource<Venda?>) -> Unit) {
+        val call = vendaService.atualizaVenda(venda, venda.id)
+        val callback = BaseRequestCallBack(
+            quandoSucesso,
+            quandoFalha
+        )
+
+        call.enqueue(callback.execute())
+    }
+
 }

@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,8 +14,8 @@ import com.example.vendasmae.R
 import com.example.vendasmae.baseClass.BaseFragment
 import com.example.vendasmae.databinding.FragmentVendaBinding
 import com.example.vendasmae.entities.itens.Item
-import com.example.vendasmae.entities.tipos.Tipo
 import com.example.vendasmae.entities.vendas.Venda
+import com.example.vendasmae.entities.vendas.VendaVendedoraItem
 import com.example.vendasmae.entities.vendedoras.Vendedora
 import com.example.vendasmae.view.adapter.VendaAdapter
 import com.example.vendasmae.view.viewmodel.VendaFragmentViewModel
@@ -26,7 +25,7 @@ import com.example.vendasmae.view.viewmodel.VendaFragmentViewModel
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-class VendaFragment : BaseFragment(), AdapterView.OnItemSelectedListener {
+class VendaFragment : BaseFragment(), AdapterView.OnItemSelectedListener, VendaAdapter.VendaAction {
 
 
     private lateinit var vendedoraAdapter: ArrayAdapter<Vendedora>
@@ -35,7 +34,7 @@ class VendaFragment : BaseFragment(), AdapterView.OnItemSelectedListener {
 
     private val adapter by lazy{
         context?.let {
-        VendaAdapter(context = it)
+        VendaAdapter(it, this)
     } ?: throw IllegalArgumentException("contexto invalido")
 
 }
@@ -83,12 +82,18 @@ class VendaFragment : BaseFragment(), AdapterView.OnItemSelectedListener {
 
         })
 
-        mViewModel.getAllItens().observe(this, Observer {
-            mViewModel.itens = it.filter { item -> !item.foiVendido() }
+
+
+        mViewModel.getItemVendedor().observe(this, Observer{
+            it?.let{ itensVendedora ->
+                mViewModel.itensVendedora = itensVendedora
+            }
         })
-         mViewModel.getAllVendedoras().observe(this, Observer {
-             mViewModel.vendedoras = it
-         })
+//        mViewModel.getAllItens().observe(this, Observer{
+//            it?.let{ itensVendedora ->
+//               mViewModel.itensVendedora = itensVendedora
+//            }
+//        })
 
 
 
@@ -99,10 +104,10 @@ class VendaFragment : BaseFragment(), AdapterView.OnItemSelectedListener {
         Log.d(TAG, "Adicionando venda")
         val qtd = mViewModel.getQuantidade()?: 2
         //mViewModel.insere(Venda(0, qtd*23.6.toFloat() ,0f,"data", 3, 4))
-        showDialog(null, mViewModel.itens, mViewModel.vendedoras)
+        showDialog()
     }
 
-    private fun showDialog(item: Item?, tipos: List<Item>, vendedoras: List<Vendedora>) {
+    private fun showDialog() {
 
 
 
@@ -123,29 +128,25 @@ class VendaFragment : BaseFragment(), AdapterView.OnItemSelectedListener {
             dialog.dismiss()
         }
 
-
+        builder.setOnDismissListener {
+            mViewModel.selectedItem = null
+            mViewModel.selectedVendedora = null
+        }
 
         prodAdapter = ArrayAdapter<Item>(this.context!!, R.layout.support_simple_spinner_dropdown_item)
         prodAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
-        prodAdapter.addAll(tipos)
+        //val itens = mViewModel.itensVendedora!!.flatMap { it.itens }
+        //prodAdapter.addAll(itens)
 
         vendedoraAdapter = ArrayAdapter<Vendedora>(this.context!!, R.layout.support_simple_spinner_dropdown_item)
         vendedoraAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
-        vendedoraAdapter.addAll(vendedoras)
-
-
-
+        val vend = mViewModel.itensVendedora!!.map { it.vendedora }
+        vendedoraAdapter.addAll(vend)
 
         val dialog = builder.create()
-        dialog.show()
-        item?.let { item ->
-            dialog.findViewById<EditText>(R.id.dialog_prod_nome).setText(item.nome)
-            dialog.findViewById<EditText>(R.id.dialog_prod_modelo).setText(item.modelo)
-            dialog.findViewById<EditText>(R.id.dialog_prod_valor).setText(item.valor.toString())
 
-            mViewModel.selectedVendedora = vendedoras.first { it.id == item.id_vendedora }
-            mViewModel.selectedItem = tipos.first { it.id == item.id_tipo }
-        }
+        dialog.show()
+
 
 
 
@@ -153,19 +154,12 @@ class VendaFragment : BaseFragment(), AdapterView.OnItemSelectedListener {
         theButton.setOnClickListener {
             val valor = dialog.findViewById<EditText>(R.id.dialog_venda_valor).text.toString()
             val desconto = dialog.findViewById<EditText>(R.id.dialog_venda_desconto).text.toString()
+            val venda = Venda(1,valor.toFloatOrNull()?:mViewModel.selectedItem?.valor?:0f,
+                desconto.toFloatOrNull()?:mViewModel.selectedItem?.valor?:0f,
+                "",mViewModel.selectedItem?.id?:0, mViewModel.selectedVendedora?.id)
 
-            //val nome = dialog.findViewById<EditText>(R.id.dialog_prod_nome).text.toString()
-            //val nome = dialog.findViewById<EditText>(R.id.dialog_prod_nome).text.toString()
-//            if(item != null){
-//                item.nome = nome
-//                item.modelo = modelo
-//                item.valor = valor.toFloatOrNull()?:0f
-//                item.id_vendedora = mViewModel.selectedVendedora!!.id
-//                item.id_tipo = mViewModel.selectedItem!!.id
-//                mViewModel.update(item)
-//            }
-//            else
-                mViewModel.insere(Venda(1,valor.toFloatOrNull()?:46.6f,  desconto.toFloatOrNull()?:mViewModel.selectedItem?.valor?:0f,"",mViewModel.selectedItem?.id?:0, mViewModel.selectedVendedora?.id?:0))
+
+            mViewModel.insere(venda)
             dialog.dismiss()
         }
 
@@ -179,7 +173,6 @@ class VendaFragment : BaseFragment(), AdapterView.OnItemSelectedListener {
 
         mViewModel.selectedItem?.let {
             prodSpinner.setSelection(mViewModel.getSelectedItemPos())
-
         }
 
         mViewModel.selectedVendedora?.let {
@@ -199,10 +192,8 @@ class VendaFragment : BaseFragment(), AdapterView.OnItemSelectedListener {
         when(p0?.selectedItem){
             is Vendedora ->{
                 mViewModel.selectedVendedora = p0.selectedItem as Vendedora
-
-
                 prodAdapter.clear()
-                val t = mViewModel.itens.filter { (mViewModel.selectedVendedora as Vendedora).id == it.id_vendedora }
+                val t = mViewModel.itensVendedora!!.flatMap { it.itens!! }.filter { (it!!.id_vendedora == mViewModel.selectedVendedora!!.id || it!!.id_vendedora == null) && it.vendido == 0}//mViewModel.itens.filter { (mViewModel.selectedVendedora as Vendedora).id == it.id_vendedora }
                 prodAdapter.addAll(t)
                 if(t.isNotEmpty())
                     mViewModel.selectedItem = t[0]
@@ -213,6 +204,10 @@ class VendaFragment : BaseFragment(), AdapterView.OnItemSelectedListener {
             }
         }
 
+    }
+
+    override fun onClick(vendaVendedoraItem: VendaVendedoraItem) {
+        //showDialog(vendaVendedoraItem, mViewModel.itens, mViewModel.vendedoras)
     }
 
 }

@@ -68,15 +68,11 @@ class ProdutoAdapter (private val context: Context, val actions: ProdutoActions,
             itemView.produto_nome.text = itemVendedora.item.nome
             itemView.produto_vendedora.text = itemVendedora.vendedora?.nome ?: "Ninguém"
             itemView.produto_valor.text = "${itemVendedora.item.valor}"
-            itemView.produto_vendido_check_box.isChecked = itemVendedora.item.foiVendido()
-            itemView.produto_vendido_check_box.setOnClickListener {
-                itemVendedora.item.setVendido(itemView.produto_vendido_check_box.isChecked)
-                actions.updateItem(itemVendedora.item)
-            }
+//            if(itemVendedora.item.foiVendido())
+//                itemView.produto_nome.setTextColor(itemView.resources.getColor(R.color.colorPrimaryDark, null))
+//            else
+//                itemView.produto_nome.setTextColor(itemView.resources.getColor(R.color.colorAccent, null))
 
-
-//            itemView.tipo_quantidade.text = "${tipo.quantidadeEmEstoque}"
-//            itemView.tipo_valor.text = "${tipo.somaDeValores?:0}"
 
         }
 

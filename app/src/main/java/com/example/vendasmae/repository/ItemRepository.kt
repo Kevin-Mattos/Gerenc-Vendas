@@ -60,5 +60,7 @@ class ItemRepository(itemDao: ItemDao, retrofit: Retrofit) {
         itemApi.atualiza(item, quandoSucesso, quandoFalha)
     }
 
+    fun getProdutoEComQuemEsta() = itemBanco.getItemVendedora()
+
 
 }

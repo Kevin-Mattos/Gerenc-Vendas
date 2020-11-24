@@ -26,4 +26,6 @@ class ItemBanco(private val itemDao: ItemDao) {
 
     fun getItemVendedora(id: Long) =  itemDao.getProdutoEComQuemEsta(id)
 
+    fun getItemVendedora() =  itemDao.getProdutoEComQuemEsta()
+
 }
