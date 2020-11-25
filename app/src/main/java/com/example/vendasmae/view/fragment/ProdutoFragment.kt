@@ -16,6 +16,7 @@ import com.example.vendasmae.R
 import com.example.vendasmae.baseClass.BaseFragment
 import com.example.vendasmae.databinding.FragmentProdutoBinding
 import com.example.vendasmae.entities.itens.Item
+import com.example.vendasmae.entities.maleta.Maleta
 import com.example.vendasmae.entities.tipos.Tipo
 import com.example.vendasmae.entities.vendedoras.Vendedora
 import com.example.vendasmae.view.adapter.ProdutoAdapter
@@ -96,6 +97,13 @@ class ProdutoFragment : BaseFragment(), ProdutoAdapter.ProdutoActions, AdapterVi
             }
         })
 
+        mViewModel.getMaletas().observe(this, Observer {
+            it?.let{
+                mViewModel.maletas = it
+
+            }
+        })
+
 
         return mBinding.root
     }
@@ -104,11 +112,11 @@ class ProdutoFragment : BaseFragment(), ProdutoAdapter.ProdutoActions, AdapterVi
     override fun adiciona() {
         Log.d(TAG, "adicionando")
         //mViewModel.insere(Item(1, "carrinho", 236f, null, 0,idTipo!!, 3))
-        showDialog(null, mViewModel.tipos, mViewModel.vendedoras)
+        showDialog(null, mViewModel.tipos, mViewModel.vendedoras, mViewModel.maletas)
 
     }
 
-    private fun showDialog(item: Item?, tipos: List<Tipo>, vendedoras: List<Vendedora>) {
+    private fun showDialog(item: Item?, tipos: List<Tipo>, vendedoras: List<Vendedora>, maletas: List<Maleta>) {
 
 
 
@@ -139,6 +147,11 @@ class ProdutoFragment : BaseFragment(), ProdutoAdapter.ProdutoActions, AdapterVi
         vendedoraAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
         vendedoraAdapter.addAll(vendedoras)
 
+        val maletaAdapter = ArrayAdapter<Maleta>(this.context!!, R.layout.support_simple_spinner_dropdown_item)
+        maletaAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
+        maletaAdapter.add(Maleta(-1, "Nenhuma"))
+        maletaAdapter.addAll(maletas)
+
 
 
 
@@ -151,6 +164,8 @@ class ProdutoFragment : BaseFragment(), ProdutoAdapter.ProdutoActions, AdapterVi
 
             mViewModel.selectedVendedora = vendedoras.firstOrNull { it.id == item.id_vendedora }
             mViewModel.selectedtipo = tipos.firstOrNull { it.id == item.id_tipo }
+            mViewModel.selectedMaleta = maletas.firstOrNull { it.id == item.id_maleta }
+            print("")
         }
 
 
@@ -168,10 +183,17 @@ class ProdutoFragment : BaseFragment(), ProdutoAdapter.ProdutoActions, AdapterVi
                 item.valor = valor.toFloatOrNull()?:0f
                 item.id_vendedora = mViewModel.selectedVendedora!!.id
                 item.id_tipo = mViewModel.selectedtipo!!.id
+                item.setIdMaleta(mViewModel.selectedMaleta!!.id)
                 mViewModel.update(item)
             }
-            else
-                mViewModel.insere(Item(1, if(nome.isNotBlank()) nome else "Sem Nome", valor.toFloatOrNull()?:46.6f, if(modelo.isNotBlank()) modelo else null, 0,mViewModel.selectedtipo?.id?:0, if(mViewModel.selectedVendedora!!.id == -1.toLong()) null else mViewModel.selectedVendedora!!.id))
+            else {
+                val itemToInsert = Item(1, if(nome.isNotBlank()) nome else "Sem Nome", valor.toFloatOrNull()?:46.6f,
+                    if(modelo.isNotBlank()) modelo else null, 0,mViewModel.selectedtipo?.id?:0,
+                    if(mViewModel.selectedVendedora!!.id == -1.toLong()) null else mViewModel.selectedVendedora!!.id)
+                itemToInsert.setIdMaleta(mViewModel.selectedMaleta!!.id)
+
+                mViewModel.insere(itemToInsert)
+            }
             dialog.dismiss()
         }
 
@@ -183,6 +205,10 @@ class ProdutoFragment : BaseFragment(), ProdutoAdapter.ProdutoActions, AdapterVi
         vendSpinner.adapter = vendedoraAdapter
         vendSpinner.onItemSelectedListener = this
 
+        val maletaSpinner = dialog.findViewById<Spinner>(R.id.dialog_maleta_spinner)//.adapter = ada
+        maletaSpinner.adapter = maletaAdapter
+        maletaSpinner.onItemSelectedListener = this
+
         mViewModel.selectedtipo?.let {
             prodSpinner.setSelection(mViewModel.getSelectedTipoPos())
 
@@ -191,13 +217,16 @@ class ProdutoFragment : BaseFragment(), ProdutoAdapter.ProdutoActions, AdapterVi
         mViewModel.selectedVendedora?.let {
             vendSpinner.setSelection(mViewModel.getSelectedVendedoraPos())
         }
+        mViewModel.selectedMaleta?.let {
+            maletaSpinner.setSelection(mViewModel.getSelectedMaletaPos() + 1)
+        }
 
 
     }
 
     override fun onItemClick(item: Item) {
         Log.d(TAG, "produto clicado")
-        showDialog(item, mViewModel.tipos, mViewModel.vendedoras)
+        showDialog(item, mViewModel.tipos, mViewModel.vendedoras, mViewModel.maletas)
     }
 
     override fun updateItem(item: Item) {
@@ -216,6 +245,9 @@ class ProdutoFragment : BaseFragment(), ProdutoAdapter.ProdutoActions, AdapterVi
             }
             is Tipo ->{
                 mViewModel.selectedtipo = p0.selectedItem as Tipo
+            }
+            is Maleta -> {
+                mViewModel.selectedMaleta = p0.selectedItem as Maleta
             }
         }
 

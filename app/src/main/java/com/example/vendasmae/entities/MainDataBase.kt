@@ -6,6 +6,8 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.vendasmae.entities.itens.Item
 import com.example.vendasmae.entities.itens.ItemDao
+import com.example.vendasmae.entities.maleta.Maleta
+import com.example.vendasmae.entities.maleta.MaletaDao
 import com.example.vendasmae.entities.tipos.Tipo
 import com.example.vendasmae.entities.tipos.TipoDao
 import com.example.vendasmae.entities.vendas.Venda
@@ -13,12 +15,13 @@ import com.example.vendasmae.entities.vendas.VendaDao
 import com.example.vendasmae.entities.vendedoras.Vendedora
 import com.example.vendasmae.entities.vendedoras.VendedoraDao
 
-@Database(entities = [Vendedora::class, Item::class, Venda::class, Tipo::class], version = 1, exportSchema = false)
+@Database(entities = [Vendedora::class, Item::class, Venda::class, Tipo::class, Maleta::class], version = 1, exportSchema = false)
 abstract class MainDataBase: RoomDatabase() {
     abstract fun itemDao(): ItemDao
     abstract fun vendaDao(): VendaDao
     abstract fun vendedoraDao(): VendedoraDao
     abstract fun tipoDao(): TipoDao
+    abstract fun maletaDao(): MaletaDao
 
     companion object {
 

@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import com.example.vendasmae.entities.maleta.Maleta
 import com.example.vendasmae.entities.tipos.Tipo
 import com.example.vendasmae.entities.vendedoras.Vendedora
 import org.jetbrains.annotations.NotNull
@@ -25,7 +26,21 @@ class Item(
         childColumns = ["id_vendedora"],
         onDelete = ForeignKey.SET_NULL
     )
-    var id_vendedora: Long? = -1
+    var id_vendedora: Long? = -1,
+    @ForeignKey(entity = Maleta::class,
+        parentColumns = ["id"],
+        childColumns = ["id_maleta"],
+        onDelete = ForeignKey.SET_NULL
+    )var id_maleta: Long? = null
 ){
     override fun toString() = nome
+
+    fun setIdMaleta(id: Long){
+        id_maleta = if(id == -1.toLong())
+             null
+        else
+            id
+
+    }
+
 }

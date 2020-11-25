@@ -2,7 +2,6 @@ package com.example.vendasmae.view.fragment
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,10 +9,7 @@ import com.example.vendasmae.MainActivity.Companion.baseURL
 import com.example.vendasmae.baseClass.BaseFragment
 import com.example.vendasmae.entities.MainDataBase
 import com.example.vendasmae.databinding.FragmentMainBinding
-import com.example.vendasmae.repository.ItemRepository
-import com.example.vendasmae.repository.TipoRepository
-import com.example.vendasmae.repository.VendaRepository
-import com.example.vendasmae.repository.VendedorasRepository
+import com.example.vendasmae.repository.*
 import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -72,6 +68,10 @@ class MainFrag : BaseFragment() {
         TipoRepository(tipoDao, retrofit)
     }
 
+    val maletaRepo by lazy{
+        val maletaDao = MainDataBase.getInstance(activity!!.applicationContext).maletaDao()
+        MaletaRepository(maletaDao, retrofit)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -114,6 +114,7 @@ class MainFrag : BaseFragment() {
         vendaRepo.buscarVendas()
         vendedorasRepo.buscarVendedoras()
         tipoRepo.buscarTipos()
+        maletaRepo.buscarMaletas()
 
         Log.d(TAG, "onResume")
     }

@@ -8,10 +8,7 @@ import androidx.lifecycle.Observer
 import com.example.vendasmae.baseClass.BaseFragment
 import com.example.vendasmae.entities.MainDataBase
 import com.example.vendasmae.databinding.ActivityMainBinding
-import com.example.vendasmae.repository.ItemRepository
-import com.example.vendasmae.repository.TipoRepository
-import com.example.vendasmae.repository.VendaRepository
-import com.example.vendasmae.repository.VendedorasRepository
+import com.example.vendasmae.repository.*
 import com.example.vendasmae.view.activity.extension.transacaoFragment
 import com.example.vendasmae.view.fragment.*
 import com.google.gson.GsonBuilder
@@ -21,7 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class MainActivity : AppCompatActivity() {
 
     companion object {
-        val baseURL = "http://192.168.0.114:3000" //192.168.0.114 104
+        val baseURL = "http://192.168.0.104:3000" //192.168.0.114 104
     }
 
     val retrofit by lazy{
@@ -54,17 +51,21 @@ class MainActivity : AppCompatActivity() {
         val itemDao = MainDataBase.getInstance(applicationContext).itemDao()
         val vendaDao = MainDataBase.getInstance(applicationContext).vendaDao()
         val tipoDao = MainDataBase.getInstance(applicationContext).tipoDao()
+        val maletaDao = MainDataBase.getInstance(applicationContext).maletaDao()
+
 
         val vendedorasRepo = VendedorasRepository(vendedoraDao, retrofit)
         val itemRepo = ItemRepository(itemDao, retrofit)
         val vendaRepo = VendaRepository(vendaDao, retrofit)
         val tipoRepo = TipoRepository(tipoDao, retrofit)
+        val maletaRepo = MaletaRepository(maletaDao, retrofit)
 
         //TODO SINCRONIZAR EM VEZ DE REMOVER
         vendaRepo.removeAll()
         itemRepo.removeAll()
         vendedorasRepo.removeAll()
         tipoRepo.removeAll()
+        maletaRepo.removeAll()
 
 
 
@@ -93,6 +94,12 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+        maletaRepo.getAll().observe(this, Observer {
+            it?.forEach{item ->
+                Log.d("TIPO: ", " ${item.nome}")
+            }
+        })
+
 
 //        vendedorasRepo.buscarVendedoras()
 //        itemRepo.buscarItem()
@@ -102,6 +109,7 @@ class MainActivity : AppCompatActivity() {
 
         setNav()
         startMainFrag()
+        mBinding.navigation.selectedItemId = R.id.nav_main
 
 
     }
@@ -148,8 +156,19 @@ class MainActivity : AppCompatActivity() {
         setFAB()
     }
 
+    fun startMaletaFrag(){
+        title = "Maleta"
+        currentFrag = MaletaFragment()
+        transacaoFragment {
+            replace(R.id.frag_container, currentFrag, maletaTag)
+            //this.addToBackStack(tipoTag)
+        }
+        setFAB()
+    }
+
     val prodTag = "produtoTag"
     val tipoTag = "tipoTag"
+    val maletaTag = "maletaTag"
     fun startProdutoFrag(id: Long) {
         title = "Produtos"
         currentFrag = ProdutoFragment()
@@ -182,7 +201,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_produtos -> {
                     startTipoFrag()
                     // Respond to navigation item 1 click
-                    Log.d("selected", "produtos")
+                    Log.d("selected", "tipo")
                     true
                 }
                 R.id.nav_venda -> {
@@ -199,7 +218,13 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_main -> {
                     startMainFrag()
 
-                    Log.d("selected", "produtos")
+                    Log.d("selected", "main")
+                    true
+                }
+                R.id.nav_maleltas -> {
+                    startMaletaFrag()
+
+                    Log.d("selected", "maleta")
                     true
                 }
                 else -> false

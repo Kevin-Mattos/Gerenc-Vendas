@@ -7,9 +7,11 @@ import androidx.lifecycle.Observer
 import com.example.vendasmae.MainActivity
 import com.example.vendasmae.entities.MainDataBase
 import com.example.vendasmae.entities.itens.Item
+import com.example.vendasmae.entities.maleta.Maleta
 import com.example.vendasmae.entities.tipos.Tipo
 import com.example.vendasmae.entities.vendedoras.Vendedora
 import com.example.vendasmae.repository.ItemRepository
+import com.example.vendasmae.repository.MaletaRepository
 import com.example.vendasmae.repository.TipoRepository
 import com.example.vendasmae.repository.VendedorasRepository
 import com.google.gson.GsonBuilder
@@ -31,9 +33,11 @@ class ProdutoFragmentViewModel(application: Application): AndroidViewModel(appli
 
     lateinit var tipos: List<Tipo>
     lateinit var vendedoras: List<Vendedora>
+    lateinit var maletas: List<Maleta>
 
      var selectedtipo: Tipo? = null
      var selectedVendedora: Vendedora? = null
+    var selectedMaleta: Maleta? = null
 
 
 
@@ -52,6 +56,13 @@ class ProdutoFragmentViewModel(application: Application): AndroidViewModel(appli
         VendedorasRepository(tipoDao, retrofit)
     }
 
+
+    private val maletaRepo by lazy {
+        val tipoDao = MainDataBase.getInstance(application).maletaDao()
+        MaletaRepository(tipoDao, retrofit)
+    }
+
+
     private val liveData = produtoRepo.getAll()
 
     fun get() = liveData
@@ -66,6 +77,8 @@ class ProdutoFragmentViewModel(application: Application): AndroidViewModel(appli
 
     fun getVendedoras() = vendedoraRepo.getAll()
 
+    fun getMaletas() = maletaRepo.getAll()
+
     fun getSelectedVendedoraPos() =
         vendedoras.indexOf(selectedVendedora)
 
@@ -76,5 +89,6 @@ class ProdutoFragmentViewModel(application: Application): AndroidViewModel(appli
         produtoRepo.update(item)
     }
 
+    fun getSelectedMaletaPos() = maletas.indexOf(selectedMaleta)
 
 }
