@@ -1,7 +1,7 @@
 package com.example.vendasmae.repository
 
 import com.example.vendasmae.baseClass.Resource
-import com.example.vendasmae.entities.itens.Item
+import com.example.vendasmae.entities.itens.Produto
 import com.example.vendasmae.entities.maleta.Maleta
 import com.example.vendasmae.entities.maleta.MaletaDao
 import com.example.vendasmae.repository.api.MaletaApi
@@ -50,7 +50,7 @@ class MaletaRepository(itemDao: MaletaDao, retrofit: Retrofit) {
         val quandoSucesso: (Resource<Maleta?>) -> Unit = {
             maletaBanco.insert(it.dado!!)
         }
-        val quandoFalha: (Resource<Item?>) -> Unit = {
+        val quandoFalha: (Resource<Produto?>) -> Unit = {
 //            liveData.value?.erro = "Falha ao se comunicar"
         }
 

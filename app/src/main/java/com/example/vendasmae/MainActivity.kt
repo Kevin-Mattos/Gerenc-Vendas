@@ -18,7 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class MainActivity : AppCompatActivity() {
 
     companion object {
-        val baseURL = "http://192.168.0.104:3000" //192.168.0.114 104
+        val baseURL = "http://192.168.0.114:3000" //192.168.0.114 104
     }
 
     val retrofit by lazy{
@@ -169,11 +169,14 @@ class MainActivity : AppCompatActivity() {
     val prodTag = "produtoTag"
     val tipoTag = "tipoTag"
     val maletaTag = "maletaTag"
-    fun startProdutoFrag(id: Long) {
+    fun startProdutoFrag(idTipo: Long? = null, idMaleta: Long? = null) {
         title = "Produtos"
         currentFrag = ProdutoFragment()
         currentFrag.arguments = Bundle()
-        currentFrag.arguments?.putLong(ProdutoFragment.idTipoProduto, id)
+        if(idTipo != null)
+            currentFrag.arguments?.putLong(ProdutoFragment.idTipoProduto, idTipo)
+        else if(idMaleta != null)
+            currentFrag.arguments?.putLong(ProdutoFragment.idMaletaProduto, idMaleta)
         transacaoFragment {
             replace(R.id.frag_container, currentFrag, prodTag)
             this.addToBackStack(null)

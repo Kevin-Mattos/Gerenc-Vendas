@@ -9,5 +9,5 @@ class ItensVendedora(
 val vendedora: Vendedora?,
 
     @Relation(parentColumn = "id",
-    entityColumn = "id_vendedora") val itens: List<Item?>
+    entityColumn = "id_vendedora") val itens: List<Produto?>
 )

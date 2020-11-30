@@ -3,7 +3,6 @@ package com.example.vendasmae.view.fragment
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.os.Bundle
-import android.os.Parcelable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +14,7 @@ import com.example.vendasmae.MainActivity
 import com.example.vendasmae.R
 import com.example.vendasmae.baseClass.BaseFragment
 import com.example.vendasmae.databinding.FragmentProdutoBinding
-import com.example.vendasmae.entities.itens.Item
+import com.example.vendasmae.entities.itens.Produto
 import com.example.vendasmae.entities.maleta.Maleta
 import com.example.vendasmae.entities.tipos.Tipo
 import com.example.vendasmae.entities.vendedoras.Vendedora
@@ -30,9 +29,11 @@ import com.example.vendasmae.view.viewmodel.ProdutoFragmentViewModel
 class ProdutoFragment : BaseFragment(), ProdutoAdapter.ProdutoActions, AdapterView.OnItemSelectedListener {
     // TODO: Rename and change types of parameters
     private var idTipo: Long? = null
+    private var idMaleta: Long? = null
 
     companion object{
-        const val idTipoProduto = "id"
+        const val idTipoProduto = "idtiop"
+        const val idMaletaProduto = "idMaleta"
         private const val ARG_PARAM2 = "param2"
     }
 
@@ -58,7 +59,10 @@ class ProdutoFragment : BaseFragment(), ProdutoAdapter.ProdutoActions, AdapterVi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            idTipo = it.getLong(idTipoProduto)
+            val tip  = it.getLong(idTipoProduto, -1)
+            val mal = it.getLong(idMaletaProduto, -1)
+            idTipo = if(tip == -1.toLong()) null else tip
+            idMaleta = if(mal == -1.toLong()) null else mal
         }
         mMainActivity = activity as MainActivity
     }
@@ -79,10 +83,25 @@ class ProdutoFragment : BaseFragment(), ProdutoAdapter.ProdutoActions, AdapterVi
         setupAdapter()
 
 
-        mViewModel.getItemVendedora(idTipo!!).observe(this, androidx.lifecycle.Observer {
-            onPause()
-            adapter.atualiza(it)
-        })
+        idTipo?.let{
+            mViewModel.getItemVendedora(idTipo!!).observe(this, androidx.lifecycle.Observer {
+
+                adapter.atualiza(it)
+            })
+        }
+
+        idMaleta?.let{
+            mViewModel.getItemMaleta(idMaleta!!).observe(this, androidx.lifecycle.Observer {
+                it?.let{
+                    adapter.atualiza(it)
+                }
+
+            })
+        }
+
+
+
+
 
         mViewModel.getTipos().observe(this, Observer {
             it?.let{
@@ -116,7 +135,7 @@ class ProdutoFragment : BaseFragment(), ProdutoAdapter.ProdutoActions, AdapterVi
 
     }
 
-    private fun showDialog(item: Item?, tipos: List<Tipo>, vendedoras: List<Vendedora>, maletas: List<Maleta>) {
+    private fun showDialog(produto: Produto?, tipos: List<Tipo>, vendedoras: List<Vendedora>, maletas: List<Maleta>) {
 
 
 
@@ -157,7 +176,7 @@ class ProdutoFragment : BaseFragment(), ProdutoAdapter.ProdutoActions, AdapterVi
 
         val dialog = builder.create()
         dialog.show()
-        item?.let { item ->
+        produto?.let { item ->
             dialog.findViewById<EditText>(R.id.dialog_prod_nome).setText(item.nome)
              dialog.findViewById<EditText>(R.id.dialog_prod_modelo).setText(item.modelo)
              dialog.findViewById<EditText>(R.id.dialog_prod_valor).setText(item.valor.toString())
@@ -165,7 +184,7 @@ class ProdutoFragment : BaseFragment(), ProdutoAdapter.ProdutoActions, AdapterVi
             mViewModel.selectedVendedora = vendedoras.firstOrNull { it.id == item.id_vendedora }
             mViewModel.selectedtipo = tipos.firstOrNull { it.id == item.id_tipo }
             mViewModel.selectedMaleta = maletas.firstOrNull { it.id == item.id_maleta }
-            print("")
+
         }
 
 
@@ -177,17 +196,17 @@ class ProdutoFragment : BaseFragment(), ProdutoAdapter.ProdutoActions, AdapterVi
             val valor = dialog.findViewById<EditText>(R.id.dialog_prod_valor).text.toString()
             //val nome = dialog.findViewById<EditText>(R.id.dialog_prod_nome).text.toString()
             //val nome = dialog.findViewById<EditText>(R.id.dialog_prod_nome).text.toString()
-            if(item != null){
-                item.nome = nome
-                item.modelo = modelo
-                item.valor = valor.toFloatOrNull()?:0f
-                item.id_vendedora = mViewModel.selectedVendedora!!.id
-                item.id_tipo = mViewModel.selectedtipo!!.id
-                item.setIdMaleta(mViewModel.selectedMaleta!!.id)
-                mViewModel.update(item)
+            if(produto != null){
+                produto.nome = nome
+                produto.modelo = modelo
+                produto.valor = valor.toFloatOrNull()?:0f
+                produto.id_vendedora = mViewModel.selectedVendedora!!.id
+                produto.id_tipo = mViewModel.selectedtipo!!.id
+                produto.setIdMaleta(mViewModel.selectedMaleta!!.id)
+                mViewModel.update(produto)
             }
             else {
-                val itemToInsert = Item(1, if(nome.isNotBlank()) nome else "Sem Nome", valor.toFloatOrNull()?:46.6f,
+                val itemToInsert = Produto(1, if(nome.isNotBlank()) nome else "Sem Nome", valor.toFloatOrNull()?:46.6f,
                     if(modelo.isNotBlank()) modelo else null, 0,mViewModel.selectedtipo?.id?:0,
                     if(mViewModel.selectedVendedora!!.id == -1.toLong()) null else mViewModel.selectedVendedora!!.id)
                 itemToInsert.setIdMaleta(mViewModel.selectedMaleta!!.id)
@@ -224,13 +243,13 @@ class ProdutoFragment : BaseFragment(), ProdutoAdapter.ProdutoActions, AdapterVi
 
     }
 
-    override fun onItemClick(item: Item) {
+    override fun onItemClick(produto: Produto) {
         Log.d(TAG, "produto clicado")
-        showDialog(item, mViewModel.tipos, mViewModel.vendedoras, mViewModel.maletas)
+        showDialog(produto, mViewModel.tipos, mViewModel.vendedoras, mViewModel.maletas)
     }
 
-    override fun updateItem(item: Item) {
-        mViewModel.update(item)
+    override fun updateItem(produto: Produto) {
+        mViewModel.update(produto)
     }
 
     override fun onNothingSelected(p0: AdapterView<*>?) {

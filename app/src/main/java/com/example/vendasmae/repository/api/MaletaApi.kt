@@ -1,9 +1,8 @@
 package com.example.vendasmae.repository.api
 
-import com.example.vendasmae.baseClass.BaseRequestCallBack
+import com.example.vendasmae.baseClass.BaseRequestCallback
 import com.example.vendasmae.baseClass.Resource
 import com.example.vendasmae.entities.maleta.Maleta
-import com.example.vendasmae.entities.tipos.Tipo
 import com.example.vendasmae.repository.services.MaletaService
 import retrofit2.Retrofit
 
@@ -13,7 +12,7 @@ class MaletaApi (retrofit: Retrofit) {
 
     fun getAll(quandoSucesso: (Resource<List<Maleta>?>) -> Unit, quandoFalha: (Resource<List<Maleta>?>) -> Unit){
         val call = tipoService.buscarMaleta()
-        val callback = BaseRequestCallBack(
+        val callback = BaseRequestCallback(
             quandoSucesso,
             quandoFalha
         )
@@ -24,7 +23,7 @@ class MaletaApi (retrofit: Retrofit) {
 
     fun insere(item: Maleta, quandoSucesso: (Resource<Maleta?>) -> Unit, quandoFalha: (Resource<Maleta?>) -> Unit){
         val call = tipoService.insereMaleta(item)
-        val callback = BaseRequestCallBack(
+        val callback = BaseRequestCallback(
             quandoSucesso,
             quandoFalha
         )

@@ -4,9 +4,8 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import com.example.vendasmae.MainActivity
 import com.example.vendasmae.entities.MainDataBase
-import com.example.vendasmae.entities.itens.Item
+import com.example.vendasmae.entities.itens.Produto
 import com.example.vendasmae.entities.itens.ItensVendedora
-import com.example.vendasmae.entities.tipos.Tipo
 import com.example.vendasmae.entities.vendas.Venda
 import com.example.vendasmae.entities.vendedoras.Vendedora
 import com.example.vendasmae.repository.ItemRepository
@@ -22,9 +21,9 @@ class VendaFragmentViewModel(application: Application): AndroidViewModel(applica
 
     var selectedVendedora: Vendedora? = null
 
-    var selectedItem: Item? = null
+    var selectedProduto: Produto? = null
 
-    lateinit var itens: List<Item>
+    lateinit var itens: List<Produto>
 
     lateinit var vendedoras: List<Vendedora>
 
@@ -67,7 +66,7 @@ class VendaFragmentViewModel(application: Application): AndroidViewModel(applica
     }
 
     fun getSelectedItemPos(): Int {
-        return itens?.indexOfFirst { it?.id == selectedItem?.id }?:0
+        return itens?.indexOfFirst { it?.id == selectedProduto?.id }?:0
     }
 
     fun getSelectedVendedoraPos(): Int {

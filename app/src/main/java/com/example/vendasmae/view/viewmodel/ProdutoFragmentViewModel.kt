@@ -2,11 +2,9 @@ package com.example.vendasmae.view.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import com.example.vendasmae.MainActivity
 import com.example.vendasmae.entities.MainDataBase
-import com.example.vendasmae.entities.itens.Item
+import com.example.vendasmae.entities.itens.Produto
 import com.example.vendasmae.entities.maleta.Maleta
 import com.example.vendasmae.entities.tipos.Tipo
 import com.example.vendasmae.entities.vendedoras.Vendedora
@@ -69,8 +67,10 @@ class ProdutoFragmentViewModel(application: Application): AndroidViewModel(appli
 
     fun getItemVendedora(id: Long) = produtoRepo.getItemVendedora(id)
 
-    fun insere(item: Item) {
-        produtoRepo.insere(item)
+    fun getItemMaleta(id: Long) = produtoRepo.getItemMaleta(id)
+
+    fun insere(produto: Produto) {
+        produtoRepo.insere(produto)
     }
 
     fun getTipos() = tipoRepo.getAll()
@@ -85,8 +85,8 @@ class ProdutoFragmentViewModel(application: Application): AndroidViewModel(appli
     fun getSelectedTipoPos() =
         tipos.indexOf(selectedtipo)
 
-    fun update(item: Item) {
-        produtoRepo.update(item)
+    fun update(produto: Produto) {
+        produtoRepo.update(produto)
     }
 
     fun getSelectedMaletaPos() = maletas.indexOf(selectedMaleta)

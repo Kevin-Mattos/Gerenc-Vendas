@@ -10,7 +10,7 @@ import com.example.vendasmae.entities.vendedoras.Vendedora
 import org.jetbrains.annotations.NotNull
 
 @Entity
-class Item(
+class Produto(
     @PrimaryKey val id: Long,
     @NotNull var nome: String,
     var valor: Float,

@@ -7,10 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.vendasmae.R
-import com.example.vendasmae.entities.itens.Item
 import com.example.vendasmae.entities.maleta.MaletaQuantidadeValor
 import kotlinx.android.synthetic.main.maleta_view.view.*
-import kotlinx.android.synthetic.main.tipo_view.view.*
 
 class MaletaAdapter (private val context: Context, val actions: MaletaActions, private val dataSet: MutableList<MaletaQuantidadeValor> = mutableListOf()) :
     RecyclerView.Adapter<MaletaAdapter.ViewHolder>() {

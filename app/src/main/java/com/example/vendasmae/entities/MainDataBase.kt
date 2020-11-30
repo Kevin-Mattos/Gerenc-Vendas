@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.vendasmae.entities.itens.Item
+import com.example.vendasmae.entities.itens.Produto
 import com.example.vendasmae.entities.itens.ItemDao
 import com.example.vendasmae.entities.maleta.Maleta
 import com.example.vendasmae.entities.maleta.MaletaDao
@@ -15,7 +15,7 @@ import com.example.vendasmae.entities.vendas.VendaDao
 import com.example.vendasmae.entities.vendedoras.Vendedora
 import com.example.vendasmae.entities.vendedoras.VendedoraDao
 
-@Database(entities = [Vendedora::class, Item::class, Venda::class, Tipo::class, Maleta::class], version = 1, exportSchema = false)
+@Database(entities = [Vendedora::class, Produto::class, Venda::class, Tipo::class, Maleta::class], version = 1, exportSchema = false)
 abstract class MainDataBase: RoomDatabase() {
     abstract fun itemDao(): ItemDao
     abstract fun vendaDao(): VendaDao
@@ -36,6 +36,13 @@ abstract class MainDataBase: RoomDatabase() {
                     MainDataBase::class.java,
                     nomeDoBanco
                 ).build()
+                val query =
+                    "create trigger IF NOT EXISTS atualizaVenda after insert on venda " +
+                            "begin " +
+                            "UPDATE item SET vendido = 1 WHERE new.id_item = item.id; " +
+                            "end"
+                val triggerOnInsertVenda = db.openHelper
+                triggerOnInsertVenda.writableDatabase.execSQL(query)
             }
 
             return db

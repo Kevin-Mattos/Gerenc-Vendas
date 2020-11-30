@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.vendasmae.R
-import com.example.vendasmae.entities.itens.Item
+import com.example.vendasmae.entities.itens.Produto
 import com.example.vendasmae.entities.itens.ItemVendedora
 import kotlinx.android.synthetic.main.produto_view.view.*
 
@@ -17,8 +17,8 @@ class ProdutoAdapter (private val context: Context, val actions: ProdutoActions,
 
 
     interface ProdutoActions{
-        fun onItemClick(item: Item)
-        fun updateItem(item: Item)
+        fun onItemClick(produto: Produto)
+        fun updateItem(produto: Produto)
     }
 
     override fun onCreateViewHolder(
@@ -48,7 +48,6 @@ class ProdutoAdapter (private val context: Context, val actions: ProdutoActions,
     }
 
 
-
     inner class ViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
 
@@ -57,17 +56,17 @@ class ProdutoAdapter (private val context: Context, val actions: ProdutoActions,
         init {
             itemView.setOnClickListener {
                 if (::tipo.isInitialized) {
-                    actions.onItemClick(tipo.item)
-                    Log.d(TAG, "${tipo.item.nome} clicado")
+                    actions.onItemClick(tipo.produto)
+                    Log.d(TAG, "${tipo.produto.nome} clicado")
                 }
             }
         }
 
         fun vincula(itemVendedora: ItemVendedora) {
             this.tipo = itemVendedora
-            itemView.produto_nome.text = itemVendedora.item.nome
+            itemView.produto_nome.text = itemVendedora.produto.nome
             itemView.produto_vendedora.text = itemVendedora.vendedora?.nome ?: "Ninguém"
-            itemView.produto_valor.text = "${itemVendedora.item.valor}"
+            itemView.produto_valor.text = "${itemVendedora.produto.valor}"
 //            if(itemVendedora.item.foiVendido())
 //                itemView.produto_nome.setTextColor(itemView.resources.getColor(R.color.colorPrimaryDark, null))
 //            else

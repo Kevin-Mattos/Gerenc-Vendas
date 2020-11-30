@@ -1,6 +1,6 @@
 package com.example.vendasmae.repository.banco
 
-import com.example.vendasmae.entities.itens.Item
+import com.example.vendasmae.entities.itens.Produto
 import com.example.vendasmae.entities.itens.ItemDao
 import com.example.vendasmae.baseClass.BaseAsyncTask
 
@@ -9,8 +9,8 @@ class ItemBanco(private val itemDao: ItemDao) {
 
     fun getAll() = itemDao.getAll()
 
-    fun insert(item: Item){
-        val executa = { itemDao.insertLista(item)}
+    fun insert(produto: Produto){
+        val executa = { itemDao.insertLista(produto)}
         BaseAsyncTask(executa).execute()
     }
 
@@ -19,12 +19,13 @@ class ItemBanco(private val itemDao: ItemDao) {
         BaseAsyncTask(executa).execute()
     }
 
-    fun insertMultlple(itens: List<Item>) {
+    fun insertMultlple(itens: List<Produto>) {
         val executa = { itemDao.insertMultiple(itens)}
         BaseAsyncTask(executa).execute()
     }
 
     fun getItemVendedora(id: Long) =  itemDao.getProdutoEComQuemEsta(id)
+    fun getItemMaleta(id: Long) = itemDao.getItemMaleta(id)
 
     fun getItemVendedora() =  itemDao.getProdutoEComQuemEsta()
 

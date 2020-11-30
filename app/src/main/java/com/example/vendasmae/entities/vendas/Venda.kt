@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.ForeignKey.CASCADE
 import androidx.room.PrimaryKey
-import com.example.vendasmae.entities.itens.Item
+import com.example.vendasmae.entities.itens.Produto
 import com.example.vendasmae.entities.vendedoras.Vendedora
 import org.jetbrains.annotations.NotNull
 
@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull
 class Venda (@PrimaryKey var id: Long, @NotNull val valor: Float,
              @NotNull val desconto: Float,
              var data: String,
-             @NotNull @ForeignKey(entity = Item::class,
+             @NotNull @ForeignKey(entity = Produto::class,
                     parentColumns = ["id"],
                     childColumns = ["id_item"],
                     onDelete = CASCADE) val id_item: Long,

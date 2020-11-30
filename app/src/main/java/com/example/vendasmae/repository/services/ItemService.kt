@@ -1,6 +1,6 @@
 package com.example.vendasmae.repository.services
 
-import com.example.vendasmae.entities.itens.Item
+import com.example.vendasmae.entities.itens.Produto
 import com.example.vendasmae.baseClass.Resource
 import retrofit2.Call
 import retrofit2.http.*
@@ -9,12 +9,12 @@ private const val route = "item"
 interface ItemService {
 
     @GET(route)
-    fun Busca(): Call<Resource<List<Item>?>>
+    fun Busca(): Call<Resource<List<Produto>?>>
 
     @POST(route)
-    fun insere(@Body item: Item): Call<Resource<Item?>>
+    fun insere(@Body produto: Produto): Call<Resource<Produto?>>
 
     @PUT("$route/{id}")
-    fun atualiza(@Body item: Item,@Path("id") id: Int): Call<Resource<Item?>>
+    fun atualiza(@Body produto: Produto, @Path("id") id: Int): Call<Resource<Produto?>>
 
 }

@@ -1,6 +1,6 @@
 package com.example.vendasmae.repository
 
-import com.example.vendasmae.entities.itens.Item
+import com.example.vendasmae.entities.itens.Produto
 import com.example.vendasmae.entities.itens.ItemDao
 import com.example.vendasmae.baseClass.Resource
 import com.example.vendasmae.repository.api.ItemApi
@@ -19,22 +19,22 @@ class ItemRepository(itemDao: ItemDao, retrofit: Retrofit) {
 
     fun buscarItem() {
 
-        val quandoSucesso: (Resource<List<Item>?>) -> Unit = {
+        val quandoSucesso: (Resource<List<Produto>?>) -> Unit = {
 
                 itemBanco.insertMultlple(it.dado!!)
         }
-        val quandoFalha: (Resource<List<Item>?>) -> Unit = {
+        val quandoFalha: (Resource<List<Produto>?>) -> Unit = {
 //            liveData.value?.erro = "Falha ao se comunicar"
         }
 
         itemApi.getAll(quandoSucesso, quandoFalha)
     }
 
-    fun insere(vendedora: Item){
-        val quandoSucesso: (Resource<Item?>) -> Unit = {
+    fun insere(vendedora: Produto){
+        val quandoSucesso: (Resource<Produto?>) -> Unit = {
             itemBanco.insert(it.dado!!)
         }
-        val quandoFalha: (Resource<Item?>) -> Unit = {
+        val quandoFalha: (Resource<Produto?>) -> Unit = {
 //            liveData.value?.erro = "Falha ao se comunicar"
         }
 
@@ -49,18 +49,20 @@ class ItemRepository(itemDao: ItemDao, retrofit: Retrofit) {
     fun getItemVendedora(id: Long) = itemBanco.getItemVendedora(id)
 
 
-    fun update(item: Item) {
-        val quandoSucesso: (Resource<Item?>) -> Unit = {
+    fun update(produto: Produto) {
+        val quandoSucesso: (Resource<Produto?>) -> Unit = {
             itemBanco.insert(it.dado!!)
         }
-        val quandoFalha: (Resource<Item?>) -> Unit = {
+        val quandoFalha: (Resource<Produto?>) -> Unit = {
 //            liveData.value?.erro = "Falha ao se comunicar"
         }
 
-        itemApi.atualiza(item, quandoSucesso, quandoFalha)
+        itemApi.atualiza(produto, quandoSucesso, quandoFalha)
     }
 
     fun getProdutoEComQuemEsta() = itemBanco.getItemVendedora()
+
+    fun getItemMaleta(id: Long) = itemBanco.getItemMaleta(id)
 
 
 }

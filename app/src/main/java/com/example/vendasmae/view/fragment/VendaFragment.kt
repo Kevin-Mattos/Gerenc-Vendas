@@ -13,7 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.vendasmae.R
 import com.example.vendasmae.baseClass.BaseFragment
 import com.example.vendasmae.databinding.FragmentVendaBinding
-import com.example.vendasmae.entities.itens.Item
+import com.example.vendasmae.entities.itens.Produto
 import com.example.vendasmae.entities.vendas.Venda
 import com.example.vendasmae.entities.vendas.VendaVendedoraItem
 import com.example.vendasmae.entities.vendedoras.Vendedora
@@ -29,7 +29,7 @@ class VendaFragment : BaseFragment(), AdapterView.OnItemSelectedListener, VendaA
 
 
     private lateinit var vendedoraAdapter: ArrayAdapter<Vendedora>
-    private lateinit var prodAdapter: ArrayAdapter<Item>
+    private lateinit var prodAdapter: ArrayAdapter<Produto>
     val TAG = "VendaFragment"
 
     private val adapter by lazy{
@@ -129,18 +129,18 @@ class VendaFragment : BaseFragment(), AdapterView.OnItemSelectedListener, VendaA
         }
 
         builder.setOnDismissListener {
-            mViewModel.selectedItem = null
+            mViewModel.selectedProduto = null
             mViewModel.selectedVendedora = null
         }
 
-        prodAdapter = ArrayAdapter<Item>(this.context!!, R.layout.support_simple_spinner_dropdown_item)
+        prodAdapter = ArrayAdapter<Produto>(this.context!!, R.layout.support_simple_spinner_dropdown_item)
         prodAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
         //val itens = mViewModel.itensVendedora!!.flatMap { it.itens }
         //prodAdapter.addAll(itens)
 
         vendedoraAdapter = ArrayAdapter<Vendedora>(this.context!!, R.layout.support_simple_spinner_dropdown_item)
         vendedoraAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
-        val vend = mViewModel.itensVendedora!!.map { it.vendedora }
+        val vend = mViewModel.itensVendedora!!.map{it.vendedora}//!!.filter { it.itens.any { item -> item?.vendido == 0 } }.map { it.vendedora }
         vendedoraAdapter.addAll(vend)
 
         val dialog = builder.create()
@@ -154,9 +154,9 @@ class VendaFragment : BaseFragment(), AdapterView.OnItemSelectedListener, VendaA
         theButton.setOnClickListener {
             val valor = dialog.findViewById<EditText>(R.id.dialog_venda_valor).text.toString()
             val desconto = dialog.findViewById<EditText>(R.id.dialog_venda_desconto).text.toString()
-            val venda = Venda(1,valor.toFloatOrNull()?:mViewModel.selectedItem?.valor?:0f,
-                desconto.toFloatOrNull()?:mViewModel.selectedItem?.valor?:0f,
-                "",mViewModel.selectedItem?.id?:0, mViewModel.selectedVendedora?.id)
+            val venda = Venda(1,valor.toFloatOrNull()?:mViewModel.selectedProduto?.valor?:0f,
+                desconto.toFloatOrNull()?:mViewModel.selectedProduto?.valor?:0f,
+                "",mViewModel.selectedProduto?.id?:0, mViewModel.selectedVendedora?.id)
 
 
             mViewModel.insere(venda)
@@ -171,7 +171,7 @@ class VendaFragment : BaseFragment(), AdapterView.OnItemSelectedListener, VendaA
         vendSpinner.adapter = vendedoraAdapter
         vendSpinner.onItemSelectedListener = this
 
-        mViewModel.selectedItem?.let {
+        mViewModel.selectedProduto?.let {
             prodSpinner.setSelection(mViewModel.getSelectedItemPos())
         }
 
@@ -196,11 +196,11 @@ class VendaFragment : BaseFragment(), AdapterView.OnItemSelectedListener, VendaA
                 val t = mViewModel.itensVendedora!!.flatMap { it.itens!! }.filter { (it!!.id_vendedora == mViewModel.selectedVendedora!!.id || it!!.id_vendedora == null) && it.vendido == 0}//mViewModel.itens.filter { (mViewModel.selectedVendedora as Vendedora).id == it.id_vendedora }
                 prodAdapter.addAll(t)
                 if(t.isNotEmpty())
-                    mViewModel.selectedItem = t[0]
+                    mViewModel.selectedProduto = t[0]
             }
-            is Item ->{
-                mViewModel.selectedItem = p0.selectedItem as Item
-                (p0.adapter as ArrayAdapter<Item>)
+            is Produto ->{
+                mViewModel.selectedProduto = p0.selectedItem as Produto
+                (p0.adapter as ArrayAdapter<Produto>)
             }
         }
 
