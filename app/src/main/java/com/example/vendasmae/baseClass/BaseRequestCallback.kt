@@ -8,24 +8,25 @@ import retrofit2.Response
 
 class BaseRequestCallback<T>(val quandoSucesso: (Resource<T?>) -> Unit, val quandoFalha: (Resource<T?>) -> Unit) {
 
-    fun execute(): Callback<Resource<T?>> {
-        val callback = object : Callback<Resource<T?>> {
-            override fun onFailure(call: Call<Resource<T?>>, t: Throwable) {
-                Log.d("repo", "failed to get shit", t)
+    fun execute(): Callback<T?> {
+        val callback = object : Callback<T?> {
+            override fun onFailure(call: Call<T?>, t: Throwable) {
+                Log.d("request", "failed to get shit", t)
 
                 quandoFalha(Resource(null, false, MyError(null, "No Internet")))
             }
 
             override fun onResponse(
-                call: Call<Resource<T?>>,
-                response: Response<Resource<T?>>
+                call: Call<T?>,
+                response: Response<T?>
             ) {
                 Log.d("repo", "${response.isSuccessful}")
-                if (response.isSuccessful)
+                if (response.isSuccessful) {
                     response.body()?.let {
-                        if(it.dado != null)
-                            quandoSucesso(it)
+                        if (it != null)
+                            quandoSucesso(Resource(it, true))
                     }
+                }
             }
         }
         return callback

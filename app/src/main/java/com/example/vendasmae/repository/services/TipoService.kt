@@ -10,8 +10,8 @@ import retrofit2.http.POST
 private const val route = "tipo"
 interface TipoService {
     @GET(route)
-    fun buscarTipo(): Call<Resource<List<Tipo>?>>
+    fun buscarTipo(): Call<List<Tipo>?>
 
     @POST(route)
-    fun insereTipo(@Body tipo: Tipo): Call<Resource<Tipo?>>
+    fun insereTipo(@Body tipo: Tipo): Call<Tipo?>
 }

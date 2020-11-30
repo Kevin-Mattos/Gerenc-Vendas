@@ -4,16 +4,16 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 
 @Dao
-interface ItemDao {
+interface ProdutoDao {
 
     @Query("SELECT * FROM Produto")//WHERE item.id in (SELECT item.id FROM ITEM where item.id  not in (Select Venda.id_item from Venda))")
     fun getAll(): LiveData<List<Produto>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertLista(lista: Produto)
+    fun insertLista(item: Produto)
 
     @Delete
-    fun deleteLista(lista: Produto)
+    fun deleteLista(item: Produto)
 
     @Query("SELECT * FROM Produto WHERE id == :id")
     fun getListaById(id: Long): LiveData<Produto?>
@@ -30,14 +30,14 @@ interface ItemDao {
 
     @Transaction
     @Query("SELECT * FROM Produto WHERE Produto.id_tipo == :id and Produto.vendido = :vendido")
-    fun getProdutoEComQuemEsta(id: Long, vendido: Int = 0): LiveData<List<ItemVendedora>>
+    fun getProdutoEComQuemEsta(id: Long, vendido: Int = 0): LiveData<List<ProdutoVendedora>>
 
     @Transaction
     @Query("SELECT * FROM Produto WHERE Produto.id_maleta == :id and Produto.vendido = :vendido")
-    fun getItemMaleta(id:Long, vendido: Int = 0): LiveData<List<ItemVendedora>>
+    fun getItemMaleta(id:Long, vendido: Int = 0): LiveData<List<ProdutoVendedora>>
 
     @Transaction
-    @Query("SELECT *  FROM Produto left JOIN vendedora on item.id_vendedora = vendedora.id WHERE ITEM.vendido = 0 group by vendedora.id")
-    fun getProdutoEComQuemEsta(): LiveData<List<ItensVendedora>?>
+    @Query("SELECT *  FROM Produto left JOIN vendedora on Produto.id_vendedora = vendedora.id WHERE Produto.vendido = 0 group by vendedora.id")
+    fun getProdutoEComQuemEsta(): LiveData<List<ProdutosVendedora>?>
 
 }

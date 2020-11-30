@@ -12,8 +12,8 @@ private const val route = "maleta"
 interface MaletaService {
 
     @GET(route)
-    fun buscarMaleta(): Call<Resource<List<Maleta>?>>
+    fun buscarMaleta(): Call<List<Maleta>?>
 
     @POST(route)
-    fun insereMaleta(@Body tipo: Maleta): Call<Resource<Maleta?>>
+    fun insereMaleta(@Body tipo: Maleta): Call<Maleta?>
 }

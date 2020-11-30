@@ -26,7 +26,7 @@ class TipoRepository (itemDao: TipoDao, retrofit: Retrofit) {
             tipoBanco.insertMultlple(it.dado!!)
         }
         val quandoFalha: (Resource<List<Tipo>?>) -> Unit = {
-            Log.d("item", "falha na chamda")
+            Log.d("tipo", "falha na chamda")
 //            liveData.value?.erro = "Falha ao se comunicar"
         }
 
@@ -39,6 +39,7 @@ class TipoRepository (itemDao: TipoDao, retrofit: Retrofit) {
         }
         val quandoFalha: (Resource<Tipo?>) -> Unit = {
 //            liveData.value = "Falha ao se comunicar"
+            Log.d("tipo", "EAEAE")
         }
 
         itemApi.insere(tipo, quandoSucesso, quandoFalha)

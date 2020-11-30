@@ -1,17 +1,17 @@
 package com.example.vendasmae.repository
 
 import com.example.vendasmae.entities.itens.Produto
-import com.example.vendasmae.entities.itens.ItemDao
+import com.example.vendasmae.entities.itens.ProdutoDao
 import com.example.vendasmae.baseClass.Resource
 import com.example.vendasmae.repository.api.ItemApi
 import com.example.vendasmae.repository.banco.ItemBanco
 import retrofit2.Retrofit
 
-class ItemRepository(itemDao: ItemDao, retrofit: Retrofit) {
+class ItemRepository(produtoDao: ProdutoDao, retrofit: Retrofit) {
 
     val itemApi =
         ItemApi(retrofit)
-    val itemBanco = ItemBanco(itemDao)
+    val itemBanco = ItemBanco(produtoDao)
 
     private val liveData = itemBanco.getAll()
 

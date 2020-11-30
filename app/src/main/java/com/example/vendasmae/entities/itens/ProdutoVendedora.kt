@@ -4,7 +4,7 @@ import androidx.room.Embedded
 import androidx.room.Relation
 import com.example.vendasmae.entities.vendedoras.Vendedora
 
-class ItemVendedora(
+class ProdutoVendedora(
     @Embedded
     val produto: Produto,
     @Relation(parentColumn = "id_vendedora",

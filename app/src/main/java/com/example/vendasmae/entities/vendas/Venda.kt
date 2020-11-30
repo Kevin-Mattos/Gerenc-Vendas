@@ -10,13 +10,14 @@ import org.jetbrains.annotations.NotNull
 
 
 @Entity
-class Venda (@PrimaryKey var id: Long, @NotNull val valor: Float,
+class Venda (@PrimaryKey var id: Long,
+             @NotNull val valor: Float,
              @NotNull val desconto: Float,
              var data: String,
              @NotNull @ForeignKey(entity = Produto::class,
                     parentColumns = ["id"],
-                    childColumns = ["id_item"],
-                    onDelete = CASCADE) val id_item: Long,
+                    childColumns = ["id_produto"],
+                    onDelete = CASCADE) val id_produto: Long,
              @NotNull @ForeignKey(entity = Vendedora::class,
                     parentColumns = ["id"],
                     childColumns = ["id_vendedora"]) val id_vendedora: Long?)

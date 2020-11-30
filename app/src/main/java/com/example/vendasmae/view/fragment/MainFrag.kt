@@ -55,7 +55,7 @@ class MainFrag : BaseFragment() {
         VendedorasRepository(vendedoraDao, retrofit)
     }
     val itemRepo by lazy{
-        val itemDao = MainDataBase.getInstance(activity!!.applicationContext).itemDao()
+        val itemDao = MainDataBase.getInstance(activity!!.applicationContext).produtoDao()
         ItemRepository(itemDao, retrofit)
     }
     val vendaRepo by lazy{

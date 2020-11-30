@@ -5,7 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import com.example.vendasmae.MainActivity
 import com.example.vendasmae.entities.MainDataBase
 import com.example.vendasmae.entities.itens.Produto
-import com.example.vendasmae.entities.itens.ItensVendedora
+import com.example.vendasmae.entities.itens.ProdutosVendedora
 import com.example.vendasmae.entities.vendas.Venda
 import com.example.vendasmae.entities.vendedoras.Vendedora
 import com.example.vendasmae.repository.ItemRepository
@@ -17,7 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class VendaFragmentViewModel(application: Application): AndroidViewModel(application) {
 
-    var itensVendedora: List<ItensVendedora>? = null
+    var produtosVendedora: List<ProdutosVendedora>? = null
 
     var selectedVendedora: Vendedora? = null
 
@@ -45,7 +45,7 @@ class VendaFragmentViewModel(application: Application): AndroidViewModel(applica
     }
 
     private val itemRepo by lazy {
-        val itemDao = MainDataBase.getInstance(application).itemDao()
+        val itemDao = MainDataBase.getInstance(application).produtoDao()
         ItemRepository(itemDao, retrofit)
     }
 

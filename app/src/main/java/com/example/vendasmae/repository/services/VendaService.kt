@@ -8,11 +8,11 @@ import retrofit2.http.*
 private const val route = "venda"
 interface VendaService {
     @GET(route)
-    fun buscarVenda(): Call<Resource<List<Venda>?>>
+    fun buscarVenda(): Call<List<Venda>?>
 
     @POST(route)
-    fun insereVenda(@Body venda: Venda): Call<Resource<Venda?>>
+    fun insereVenda(@Body venda: Venda): Call<Venda?>
 
     @PUT("$route/{id}")
-    fun atualizaVenda(@Body venda: Venda, @Path("id") id: Long): Call<Resource<Venda?>>
+    fun atualizaVenda(@Body venda: Venda, @Path("id") id: Long): Call<Venda?>
 }

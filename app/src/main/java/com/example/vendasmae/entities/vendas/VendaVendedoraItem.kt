@@ -9,6 +9,6 @@ data class VendaVendedoraItem (
     @Embedded val venda: Venda,
     @Relation(parentColumn = "id_vendedora",
         entityColumn = "id") val vendedora: Vendedora?,
-    @Relation(parentColumn = "id_item",
+    @Relation(parentColumn = "id_produto",
         entityColumn = "id") val produto: Produto
 )

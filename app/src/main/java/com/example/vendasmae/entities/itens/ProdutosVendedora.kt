@@ -4,7 +4,7 @@ import androidx.room.Embedded
 import androidx.room.Relation
 import com.example.vendasmae.entities.vendedoras.Vendedora
 
-class ItensVendedora(
+class ProdutosVendedora(
 @Embedded
 val vendedora: Vendedora?,
 

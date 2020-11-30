@@ -86,7 +86,7 @@ class VendaFragment : BaseFragment(), AdapterView.OnItemSelectedListener, VendaA
 
         mViewModel.getItemVendedor().observe(this, Observer{
             it?.let{ itensVendedora ->
-                mViewModel.itensVendedora = itensVendedora
+                mViewModel.produtosVendedora = itensVendedora
             }
         })
 //        mViewModel.getAllItens().observe(this, Observer{
@@ -140,7 +140,7 @@ class VendaFragment : BaseFragment(), AdapterView.OnItemSelectedListener, VendaA
 
         vendedoraAdapter = ArrayAdapter<Vendedora>(this.context!!, R.layout.support_simple_spinner_dropdown_item)
         vendedoraAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
-        val vend = mViewModel.itensVendedora!!.map{it.vendedora}//!!.filter { it.itens.any { item -> item?.vendido == 0 } }.map { it.vendedora }
+        val vend = mViewModel.produtosVendedora!!.map{it.vendedora}//!!.filter { it.itens.any { item -> item?.vendido == 0 } }.map { it.vendedora }
         vendedoraAdapter.addAll(vend)
 
         val dialog = builder.create()
@@ -193,7 +193,7 @@ class VendaFragment : BaseFragment(), AdapterView.OnItemSelectedListener, VendaA
             is Vendedora ->{
                 mViewModel.selectedVendedora = p0.selectedItem as Vendedora
                 prodAdapter.clear()
-                val t = mViewModel.itensVendedora!!.flatMap { it.itens!! }.filter { (it!!.id_vendedora == mViewModel.selectedVendedora!!.id || it!!.id_vendedora == null) && it.vendido == 0}//mViewModel.itens.filter { (mViewModel.selectedVendedora as Vendedora).id == it.id_vendedora }
+                val t = mViewModel.produtosVendedora!!.flatMap { it.itens!! }.filter { (it!!.id_vendedora == mViewModel.selectedVendedora!!.id || it!!.id_vendedora == null) && it.vendido == 0}//mViewModel.itens.filter { (mViewModel.selectedVendedora as Vendedora).id == it.id_vendedora }
                 prodAdapter.addAll(t)
                 if(t.isNotEmpty())
                     mViewModel.selectedProduto = t[0]

@@ -19,6 +19,9 @@ class VendaBanco (val vendaDao: VendaDao) {
     }
 
     fun insertMultlple(vendas: List<Venda>) {
+        if(vendas.isEmpty())
+            return
+
         val executa = { vendaDao.insertMultiple(vendas)}
         BaseAsyncTask(executa).execute()
     }

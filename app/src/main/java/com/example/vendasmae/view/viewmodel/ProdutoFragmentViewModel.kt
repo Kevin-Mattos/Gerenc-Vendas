@@ -40,7 +40,7 @@ class ProdutoFragmentViewModel(application: Application): AndroidViewModel(appli
 
 
     private val produtoRepo by lazy {
-        val itemDao = MainDataBase.getInstance(application).itemDao()
+        val itemDao = MainDataBase.getInstance(application).produtoDao()
         ItemRepository(itemDao, retrofit)
     }
 

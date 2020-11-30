@@ -13,10 +13,10 @@ interface VendedorasService{
 
 
     @GET("vendedora")
-    fun buscarVendedoras(): Call<Resource<List<Vendedora>?>>
+    fun buscarVendedoras(): Call<List<Vendedora>?>
 
     @POST("vendedora")
-    fun insereVendedora(@Body vendedora: Vendedora): Call<Resource<Vendedora?>>
+    fun insereVendedora(@Body vendedora: Vendedora): Call<Vendedora?>
 
 
 }

@@ -8,10 +8,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.vendasmae.R
 import com.example.vendasmae.entities.itens.Produto
-import com.example.vendasmae.entities.itens.ItemVendedora
+import com.example.vendasmae.entities.itens.ProdutoVendedora
 import kotlinx.android.synthetic.main.produto_view.view.*
 
-class ProdutoAdapter (private val context: Context, val actions: ProdutoActions, private val dataSet: MutableList<ItemVendedora> = mutableListOf()) :
+class ProdutoAdapter (private val context: Context, val actions: ProdutoActions, private val dataSet: MutableList<ProdutoVendedora> = mutableListOf()) :
     RecyclerView.Adapter<ProdutoAdapter.ViewHolder>() {
     private val TAG = "ProdutoAdapter"
 
@@ -40,7 +40,7 @@ class ProdutoAdapter (private val context: Context, val actions: ProdutoActions,
         holder.vincula(noticia)
     }
 
-    fun atualiza(itens: List<ItemVendedora>) {
+    fun atualiza(itens: List<ProdutoVendedora>) {
         notifyItemRangeRemoved(0, this.dataSet.size)
         this.dataSet.clear()
         this.dataSet.addAll(itens)
@@ -51,7 +51,7 @@ class ProdutoAdapter (private val context: Context, val actions: ProdutoActions,
     inner class ViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
 
-        private lateinit var tipo: ItemVendedora
+        private lateinit var tipo: ProdutoVendedora
 
         init {
             itemView.setOnClickListener {
@@ -62,11 +62,11 @@ class ProdutoAdapter (private val context: Context, val actions: ProdutoActions,
             }
         }
 
-        fun vincula(itemVendedora: ItemVendedora) {
-            this.tipo = itemVendedora
-            itemView.produto_nome.text = itemVendedora.produto.nome
-            itemView.produto_vendedora.text = itemVendedora.vendedora?.nome ?: "Ninguém"
-            itemView.produto_valor.text = "${itemVendedora.produto.valor}"
+        fun vincula(produtoVendedora: ProdutoVendedora) {
+            this.tipo = produtoVendedora
+            itemView.produto_nome.text = produtoVendedora.produto.nome
+            itemView.produto_vendedora.text = produtoVendedora.vendedora?.nome ?: "Ninguém"
+            itemView.produto_valor.text = "${produtoVendedora.produto.valor}"
 //            if(itemVendedora.item.foiVendido())
 //                itemView.produto_nome.setTextColor(itemView.resources.getColor(R.color.colorPrimaryDark, null))
 //            else

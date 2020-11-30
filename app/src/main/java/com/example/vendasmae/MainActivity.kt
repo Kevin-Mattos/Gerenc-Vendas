@@ -18,7 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class MainActivity : AppCompatActivity() {
 
     companion object {
-        val baseURL = "http://192.168.0.114:3000" //192.168.0.114 104
+        val baseURL = "http://192.168.0.104:3000" //192.168.0.114 104
     }
 
     val retrofit by lazy{
@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
 
         //
         val vendedoraDao = MainDataBase.getInstance(applicationContext).vendedoraDao()
-        val itemDao = MainDataBase.getInstance(applicationContext).itemDao()
+        val itemDao = MainDataBase.getInstance(applicationContext).produtoDao()
         val vendaDao = MainDataBase.getInstance(applicationContext).vendaDao()
         val tipoDao = MainDataBase.getInstance(applicationContext).tipoDao()
         val maletaDao = MainDataBase.getInstance(applicationContext).maletaDao()
