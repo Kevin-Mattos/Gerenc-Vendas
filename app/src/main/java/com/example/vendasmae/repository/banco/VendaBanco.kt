@@ -1,7 +1,8 @@
 package com.example.vendasmae.repository.banco
 
-import com.example.vendasmae.banco.vendas.Venda
-import com.example.vendasmae.banco.vendas.VendaDao
+import com.example.vendasmae.entities.vendas.Venda
+import com.example.vendasmae.entities.vendas.VendaDao
+import com.example.vendasmae.baseClass.BaseAsyncTask
 
 class VendaBanco (val vendaDao: VendaDao) {
 
@@ -18,6 +19,9 @@ class VendaBanco (val vendaDao: VendaDao) {
     }
 
     fun insertMultlple(vendas: List<Venda>) {
+        if(vendas.isEmpty())
+            return
+
         val executa = { vendaDao.insertMultiple(vendas)}
         BaseAsyncTask(executa).execute()
     }

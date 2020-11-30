@@ -1,8 +1,8 @@
 package com.example.vendasmae.repository.banco
 
-import android.os.AsyncTask
-import com.example.vendasmae.banco.vendedoras.Vendedora
-import com.example.vendasmae.banco.vendedoras.VendedoraDao
+import com.example.vendasmae.entities.vendedoras.Vendedora
+import com.example.vendasmae.entities.vendedoras.VendedoraDao
+import com.example.vendasmae.baseClass.BaseAsyncTask
 
 class VendedoraBanco(val vendedoraDao: VendedoraDao) {
 
@@ -30,10 +30,3 @@ class VendedoraBanco(val vendedoraDao: VendedoraDao) {
 
 }
 
-
-
-class BaseAsyncTask<T>(private val executa: () -> T) :
-    AsyncTask<T, Void, T>() {
-    override fun doInBackground(vararg p0: T?) = executa()
-
-}

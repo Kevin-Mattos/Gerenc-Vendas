@@ -7,13 +7,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.vendasmae.R
-import com.example.vendasmae.banco.tipos.TipoQuantidadeValor
+import com.example.vendasmae.entities.tipos.TipoQuantidadeValor
 import kotlinx.android.synthetic.main.tipo_view.view.*
 
-class TipoAdapter(private val context: Context, private val dataSet: MutableList<TipoQuantidadeValor> = mutableListOf()) :
+class TipoAdapter(private val context: Context,val actions: TipoActions, private val dataSet: MutableList<TipoQuantidadeValor> = mutableListOf()) :
     RecyclerView.Adapter<TipoAdapter.ViewHolder>() {
     private val TAG = "baseAdapter"
 
+
+    interface TipoActions{
+        fun onTipoClick(id: Long)
+    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -51,7 +55,7 @@ class TipoAdapter(private val context: Context, private val dataSet: MutableList
         init {
             itemView.setOnClickListener {
                 if (::tipo.isInitialized) {
-//                    quandoItemClicado(noticia)
+                    actions.onTipoClick(tipo.tipo.id)
                     Log.d(TAG, "${tipo.tipo.nome} clicado")
                 }
             }
@@ -61,7 +65,7 @@ class TipoAdapter(private val context: Context, private val dataSet: MutableList
             this.tipo = tipo
             itemView.tipo_nome.text = tipo.tipo.nome
             itemView.tipo_quantidade.text = "${tipo.quantidadeEmEstoque}"
-            itemView.tipo_valor.text = "${tipo.somaDeValores}"
+            itemView.tipo_valor.text = "${tipo.somaDeValores?:0}"
 
         }
 

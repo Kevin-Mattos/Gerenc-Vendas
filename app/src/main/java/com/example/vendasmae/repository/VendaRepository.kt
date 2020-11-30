@@ -1,7 +1,7 @@
 package com.example.vendasmae.repository
 
-import com.example.vendasmae.banco.vendas.Venda
-import com.example.vendasmae.banco.vendas.VendaDao
+import com.example.vendasmae.entities.vendas.Venda
+import com.example.vendasmae.entities.vendas.VendaDao
 import com.example.vendasmae.baseClass.Resource
 import com.example.vendasmae.repository.api.VendaApi
 import com.example.vendasmae.repository.banco.VendaBanco
@@ -47,6 +47,17 @@ class VendaRepository(private val vendaDao: VendaDao, retrofit: Retrofit) {
 
     fun removeAll(){
         vendaBanco.removeAll()
+    }
+
+    fun atualiza(venda: Venda) {
+        val quandoSucesso: (Resource<Venda?>) -> Unit = {
+            vendaBanco.insert(it.dado!!)
+        }
+        val quandoFalha: (Resource<Venda?>) -> Unit = {
+//            liveData.value?.erro = "Falha ao se comunicar"
+        }
+
+        vendaApi.atualiza(venda, quandoSucesso, quandoFalha)
     }
 
 }

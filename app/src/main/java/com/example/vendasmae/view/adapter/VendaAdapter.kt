@@ -7,11 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.vendasmae.R
-import com.example.vendasmae.banco.vendas.VendaVendedoraItem
+import com.example.vendasmae.entities.vendas.VendaVendedoraItem
 import kotlinx.android.synthetic.main.venda_view.view.*
 
 
-class VendaAdapter(private val context: Context, private val dataSet: MutableList<VendaVendedoraItem> = mutableListOf()) :
+class VendaAdapter(private val context: Context,val action: VendaAction ,val dataSet: MutableList<VendaVendedoraItem> = mutableListOf()) :
     RecyclerView.Adapter<VendaAdapter.ViewHolder>() {
     private val TAG = "baseAdapter"
 
@@ -26,6 +26,10 @@ class VendaAdapter(private val context: Context, private val dataSet: MutableLis
                 parent, false
             )
         return ViewHolder(viewCriada)
+    }
+
+    interface VendaAction{
+        fun onClick(vendaVendedoraItem: VendaVendedoraItem)
     }
 
     override fun getItemCount() = dataSet.size
@@ -53,16 +57,17 @@ class VendaAdapter(private val context: Context, private val dataSet: MutableLis
             itemView.setOnClickListener {
                 if (::noticia.isInitialized) {
 //                    quandoItemClicado(noticia)
-                    Log.d(TAG, "${noticia.vendedora.nome} clicado")
+                    Log.d(TAG, "${noticia.vendedora?.nome?:"sem vendedora"} clicado")
+                    action.onClick(noticia)
                 }
             }
         }
 
         fun vincula(noticia: VendaVendedoraItem) {
             this.noticia = noticia
-            itemView.venda_vendedora.text = noticia.vendedora.nome
+            itemView.venda_vendedora.text = noticia.vendedora?.nome?:"Sem vendedora"
             itemView.venda_valor.text = "R$ ${noticia.venda.valor}"
-            itemView.venda_item_nome.text = noticia.item.nome
+            itemView.venda_item_nome.text = noticia.produto.nome
             itemView.venda_data.text = noticia.venda.data
         }
 

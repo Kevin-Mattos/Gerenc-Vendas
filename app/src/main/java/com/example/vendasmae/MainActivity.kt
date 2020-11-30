@@ -5,17 +5,12 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
-import com.example.vendasmae.banco.MainDataBase
+import com.example.vendasmae.baseClass.BaseFragment
+import com.example.vendasmae.entities.MainDataBase
 import com.example.vendasmae.databinding.ActivityMainBinding
-import com.example.vendasmae.repository.ItemRepository
-import com.example.vendasmae.repository.TipoRepository
-import com.example.vendasmae.repository.VendaRepository
-import com.example.vendasmae.repository.VendedorasRepository
-import com.example.vendasmae.view.fragment.MainFrag
+import com.example.vendasmae.repository.*
 import com.example.vendasmae.view.activity.extension.transacaoFragment
-import com.example.vendasmae.view.fragment.TipoFragment
-import com.example.vendasmae.view.fragment.VendaFragment
-import com.example.vendasmae.view.fragment.VendedoraFragment
+import com.example.vendasmae.view.fragment.*
 import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -23,9 +18,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 class MainActivity : AppCompatActivity() {
 
     companion object {
-        val baseURL = "http://192.168.0.104:3000"
-
+        val baseURL = "http://192.168.0.104:3000" //192.168.0.114 104
     }
+
     val retrofit by lazy{
 
         val gson = GsonBuilder()
@@ -43,6 +38,8 @@ class MainActivity : AppCompatActivity() {
         ActivityMainBinding.inflate(layoutInflater)
     }
 
+    lateinit var currentFrag: BaseFragment
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(mBinding.root)
@@ -51,91 +48,163 @@ class MainActivity : AppCompatActivity() {
 
         //
         val vendedoraDao = MainDataBase.getInstance(applicationContext).vendedoraDao()
-        val itemDao = MainDataBase.getInstance(applicationContext).itemDao()
+        val itemDao = MainDataBase.getInstance(applicationContext).produtoDao()
         val vendaDao = MainDataBase.getInstance(applicationContext).vendaDao()
         val tipoDao = MainDataBase.getInstance(applicationContext).tipoDao()
+        val maletaDao = MainDataBase.getInstance(applicationContext).maletaDao()
+
 
         val vendedorasRepo = VendedorasRepository(vendedoraDao, retrofit)
         val itemRepo = ItemRepository(itemDao, retrofit)
         val vendaRepo = VendaRepository(vendaDao, retrofit)
         val tipoRepo = TipoRepository(tipoDao, retrofit)
-        //
+        val maletaRepo = MaletaRepository(maletaDao, retrofit)
+
+        //TODO SINCRONIZAR EM VEZ DE REMOVER
         vendaRepo.removeAll()
         itemRepo.removeAll()
         vendedorasRepo.removeAll()
+        tipoRepo.removeAll()
+        maletaRepo.removeAll()
 
 
 
 
-        vendedorasRepo.getAll().observe(this, Observer {
+        vendedorasRepo.getVendedoraValorQuantidade().observe(this, Observer {
             it.forEach{vendedora ->
-                Log.d("vendedora", " $vendedora")
+                Log.d("VENDEDORA: ", " ${vendedora.vendedora}")
             }
         })
 
         vendaRepo.getAllVendas().observe(this, Observer {
             it.forEach{venda ->
-                Log.d("venda", " ${venda.data}")
+                Log.d("VENDAnj: ", " ${venda.data}")
             }
         })
 
         itemRepo.getAll().observe(this, Observer {
             it.forEach{item ->
-                Log.d("item", " ${item.nome}")
+                Log.d("ITEM: ", " ${item.nome}")
             }
         })
 
-        vendedorasRepo.buscarVendedoras()
-        itemRepo.buscarItem()
-        vendaRepo.buscarVendas()
-        tipoRepo.buscarTipos()
+        tipoRepo.getAll().observe(this, Observer {
+            it?.forEach{item ->
+                Log.d("TIPO: ", " ${item.nome}")
+            }
+        })
 
+        maletaRepo.getAll().observe(this, Observer {
+            it?.forEach{item ->
+                Log.d("TIPO: ", " ${item.nome}")
+            }
+        })
+
+
+//        vendedorasRepo.buscarVendedoras()
+//        itemRepo.buscarItem()
+//        vendaRepo.buscarVendas()
+//        tipoRepo.buscarTipos()
 
 
         setNav()
-
         startMainFrag()
+        mBinding.navigation.selectedItemId = R.id.nav_main
+
+
+    }
+
+    private fun setFAB() {
+        mBinding.addFloatingActionButton.show()
+        mBinding.addFloatingActionButton.setOnClickListener{
+            currentFrag.adiciona()
+        }
     }
 
     fun startMainFrag(){
-        val mainFrag = MainFrag()
+        currentFrag = MainFrag()
         title = "Principal"
         transacaoFragment {
-            replace(R.id.frag_container, mainFrag)
+            replace(R.id.frag_container, currentFrag)
         }
+        setFAB()
 
     }
     fun startVendasFrag(){
         title = "Vendas"
-        val frag = VendaFragment()
+        currentFrag = VendaFragment()
         transacaoFragment {
-            replace(R.id.frag_container, frag)
+            replace(R.id.frag_container, currentFrag)
         }
-
+        setFAB()
     }
     fun startVendedorasFrag(){
         title = "Vendedoras"
-        val mainFrag = VendedoraFragment()
+        currentFrag = VendedoraFragment()
         transacaoFragment {
-            replace(R.id.frag_container, mainFrag)
+            replace(R.id.frag_container, currentFrag)
         }
+        setFAB()
+    }
+    fun startTipoFrag(){
+        title = "Produtos"
+        currentFrag = TipoFragment()
+        transacaoFragment {
+            replace(R.id.frag_container, currentFrag, tipoTag)
+            //this.addToBackStack(tipoTag)
+        }
+        setFAB()
+    }
+
+    fun startMaletaFrag(){
+        title = "Maleta"
+        currentFrag = MaletaFragment()
+        transacaoFragment {
+            replace(R.id.frag_container, currentFrag, maletaTag)
+            //this.addToBackStack(tipoTag)
+        }
+        setFAB()
+    }
+
+    val prodTag = "produtoTag"
+    val tipoTag = "tipoTag"
+    val maletaTag = "maletaTag"
+    fun startProdutoFrag(idTipo: Long? = null, idMaleta: Long? = null) {
+        title = "Produtos"
+        currentFrag = ProdutoFragment()
+        currentFrag.arguments = Bundle()
+        if(idTipo != null)
+            currentFrag.arguments?.putLong(ProdutoFragment.idTipoProduto, idTipo)
+        else if(idMaleta != null)
+            currentFrag.arguments?.putLong(ProdutoFragment.idMaletaProduto, idMaleta)
+        transacaoFragment {
+            replace(R.id.frag_container, currentFrag, prodTag)
+            this.addToBackStack(null)
+        }
+        setFAB()
+        //hideFab()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val actualFrag = supportFragmentManager.findFragmentByTag(tipoTag) as BaseFragment?
+        supportFragmentManager.popBackStack()
+        if(actualFrag != null && actualFrag is TipoFragment)
+            currentFrag = actualFrag
 
     }
-    fun startProdutosFrag(){
-        title = "Produtos"
-        val frag = TipoFragment()
-        transacaoFragment {
-            replace(R.id.frag_container, frag)
-        }
+
+    private fun hideFab() {
+        mBinding.addFloatingActionButton.hide()
     }
 
     fun setNav(){
         mBinding.navigation.setOnNavigationItemSelectedListener { item ->
             when(item.itemId) {
                 R.id.nav_produtos -> {
-                    startProdutosFrag()
+                    startTipoFrag()
                     // Respond to navigation item 1 click
-                    Log.d("selected", "produtos")
+                    Log.d("selected", "tipo")
                     true
                 }
                 R.id.nav_venda -> {
@@ -152,7 +221,13 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_main -> {
                     startMainFrag()
 
-                    Log.d("selected", "produtos")
+                    Log.d("selected", "main")
+                    true
+                }
+                R.id.nav_maleltas -> {
+                    startMaletaFrag()
+
+                    Log.d("selected", "maleta")
                     true
                 }
                 else -> false
@@ -186,6 +261,7 @@ class MainActivity : AppCompatActivity() {
 
 
     }
+
 
 
 

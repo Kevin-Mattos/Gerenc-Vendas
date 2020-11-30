@@ -1,20 +1,17 @@
 package com.example.vendasmae.repository
 
-import com.example.vendasmae.banco.itens.Item
-import com.example.vendasmae.banco.itens.ItemDao
-import com.example.vendasmae.banco.vendedoras.Vendedora
+import com.example.vendasmae.entities.itens.Produto
+import com.example.vendasmae.entities.itens.ProdutoDao
 import com.example.vendasmae.baseClass.Resource
 import com.example.vendasmae.repository.api.ItemApi
-import com.example.vendasmae.repository.api.VendedoraApi
 import com.example.vendasmae.repository.banco.ItemBanco
-import com.example.vendasmae.repository.banco.VendedoraBanco
 import retrofit2.Retrofit
 
-class ItemRepository(itemDao: ItemDao, retrofit: Retrofit) {
+class ItemRepository(produtoDao: ProdutoDao, retrofit: Retrofit) {
 
     val itemApi =
         ItemApi(retrofit)
-    val itemBanco = ItemBanco(itemDao)
+    val itemBanco = ItemBanco(produtoDao)
 
     private val liveData = itemBanco.getAll()
 
@@ -22,22 +19,22 @@ class ItemRepository(itemDao: ItemDao, retrofit: Retrofit) {
 
     fun buscarItem() {
 
-        val quandoSucesso: (Resource<List<Item>?>) -> Unit = {
+        val quandoSucesso: (Resource<List<Produto>?>) -> Unit = {
 
                 itemBanco.insertMultlple(it.dado!!)
         }
-        val quandoFalha: (Resource<List<Item>?>) -> Unit = {
+        val quandoFalha: (Resource<List<Produto>?>) -> Unit = {
 //            liveData.value?.erro = "Falha ao se comunicar"
         }
 
         itemApi.getAll(quandoSucesso, quandoFalha)
     }
 
-    fun insere(vendedora: Item){
-        val quandoSucesso: (Resource<Item?>) -> Unit = {
+    fun insere(vendedora: Produto){
+        val quandoSucesso: (Resource<Produto?>) -> Unit = {
             itemBanco.insert(it.dado!!)
         }
-        val quandoFalha: (Resource<Item?>) -> Unit = {
+        val quandoFalha: (Resource<Produto?>) -> Unit = {
 //            liveData.value?.erro = "Falha ao se comunicar"
         }
 
@@ -49,7 +46,23 @@ class ItemRepository(itemDao: ItemDao, retrofit: Retrofit) {
         itemBanco.removeAll()
     }
 
+    fun getItemVendedora(id: Long) = itemBanco.getItemVendedora(id)
 
+
+    fun update(produto: Produto) {
+        val quandoSucesso: (Resource<Produto?>) -> Unit = {
+            itemBanco.insert(it.dado!!)
+        }
+        val quandoFalha: (Resource<Produto?>) -> Unit = {
+//            liveData.value?.erro = "Falha ao se comunicar"
+        }
+
+        itemApi.atualiza(produto, quandoSucesso, quandoFalha)
+    }
+
+    fun getProdutoEComQuemEsta() = itemBanco.getItemVendedora()
+
+    fun getItemMaleta(id: Long) = itemBanco.getItemMaleta(id)
 
 
 }

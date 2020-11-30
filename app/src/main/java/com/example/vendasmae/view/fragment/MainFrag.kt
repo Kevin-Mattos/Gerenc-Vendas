@@ -2,16 +2,14 @@ package com.example.vendasmae.view.fragment
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.vendasmae.MainActivity.Companion.baseURL
-import com.example.vendasmae.banco.MainDataBase
+import com.example.vendasmae.baseClass.BaseFragment
+import com.example.vendasmae.entities.MainDataBase
 import com.example.vendasmae.databinding.FragmentMainBinding
-import com.example.vendasmae.repository.ItemRepository
-import com.example.vendasmae.repository.VendaRepository
-import com.example.vendasmae.repository.VendedorasRepository
+import com.example.vendasmae.repository.*
 import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -21,7 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-class MainFrag : Fragment() {
+class MainFrag : BaseFragment() {
     private val TAG = "mainFrag"
 
     // TODO: Rename and change types of parameters
@@ -57,7 +55,7 @@ class MainFrag : Fragment() {
         VendedorasRepository(vendedoraDao, retrofit)
     }
     val itemRepo by lazy{
-        val itemDao = MainDataBase.getInstance(activity!!.applicationContext).itemDao()
+        val itemDao = MainDataBase.getInstance(activity!!.applicationContext).produtoDao()
         ItemRepository(itemDao, retrofit)
     }
     val vendaRepo by lazy{
@@ -65,6 +63,15 @@ class MainFrag : Fragment() {
         VendaRepository(vendaDao, retrofit)
     }
 
+    val tipoRepo by lazy{
+        val tipoDao = MainDataBase.getInstance(activity!!.applicationContext).tipoDao()
+        TipoRepository(tipoDao, retrofit)
+    }
+
+    val maletaRepo by lazy{
+        val maletaDao = MainDataBase.getInstance(activity!!.applicationContext).maletaDao()
+        MaletaRepository(maletaDao, retrofit)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -75,23 +82,30 @@ class MainFrag : Fragment() {
         return mBinding.root
     }
 
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mBinding.item.setOnClickListener {
+        mBinding.getItem.setOnClickListener {
             itemRepo.buscarItem()
         }
 
-        mBinding.vendas.setOnClickListener {
+        mBinding.getVendas.setOnClickListener {
             vendaRepo.buscarVendas()
         }
 
         Log.d(TAG, "setando clisks")
 
-        mBinding.vendedora.setOnClickListener {
+        mBinding.getVendedora.setOnClickListener {
             vendedorasRepo.buscarVendedoras()
 
         }
+        mBinding.getTipo.setOnClickListener {
+            tipoRepo.buscarTipos()
+
+        }
+
     }
 
     override fun onResume() {
@@ -99,8 +113,14 @@ class MainFrag : Fragment() {
         itemRepo.buscarItem()
         vendaRepo.buscarVendas()
         vendedorasRepo.buscarVendedoras()
+        tipoRepo.buscarTipos()
+        maletaRepo.buscarMaletas()
 
         Log.d(TAG, "onResume")
+    }
+
+    override fun adiciona() {
+        Log.d("add", "notImplemented")
     }
 
 

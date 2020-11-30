@@ -1,9 +1,10 @@
 package com.example.vendasmae.repository.banco
 
 import androidx.lifecycle.LiveData
-import com.example.vendasmae.banco.tipos.Tipo
-import com.example.vendasmae.banco.tipos.TipoDao
-import com.example.vendasmae.banco.tipos.TipoQuantidadeValor
+import com.example.vendasmae.entities.tipos.Tipo
+import com.example.vendasmae.entities.tipos.TipoDao
+import com.example.vendasmae.entities.tipos.TipoQuantidadeValor
+import com.example.vendasmae.baseClass.BaseAsyncTask
 
 class TipoBanco  (val tipoDao: TipoDao) {
 
@@ -24,7 +25,7 @@ class TipoBanco  (val tipoDao: TipoDao) {
         BaseAsyncTask(executa).execute()
     }
 
-    fun getTipoQuantidadeValor(): LiveData<List<TipoQuantidadeValor>> = tipoDao.getTipoQuantidadeValor()
+    fun getTipoQuantidadeValor() = tipoDao.getTipoQuantidadeValor()
 
 
 }

@@ -1,17 +1,18 @@
 package com.example.vendasmae.repository.services
 
-import com.example.vendasmae.banco.itens.Item
-import com.example.vendasmae.banco.vendas.Venda
+import com.example.vendasmae.entities.vendas.Venda
 import com.example.vendasmae.baseClass.Resource
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
+import retrofit2.http.*
+
 private const val route = "venda"
 interface VendaService {
     @GET(route)
-    fun buscarVenda(): Call<Resource<List<Venda>?>>
+    fun buscarVenda(): Call<List<Venda>?>
 
     @POST(route)
-    fun insereVenda(@Body venda: Venda): Call<Resource<Venda?>>
+    fun insereVenda(@Body venda: Venda): Call<Venda?>
+
+    @PUT("$route/{id}")
+    fun atualizaVenda(@Body venda: Venda, @Path("id") id: Long): Call<Venda?>
 }

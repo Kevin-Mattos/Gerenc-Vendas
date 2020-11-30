@@ -1,26 +1,16 @@
 package com.example.vendasmae.repository
 
-import android.util.Log
-import com.example.vendasmae.banco.vendedoras.Vendedora
-import com.example.vendasmae.banco.vendedoras.VendedoraDao
-import com.example.vendasmae.baseClass.MyError
+import com.example.vendasmae.entities.vendedoras.Vendedora
+import com.example.vendasmae.entities.vendedoras.VendedoraDao
 import com.example.vendasmae.baseClass.Resource
 import com.example.vendasmae.repository.api.VendedoraApi
 import com.example.vendasmae.repository.banco.VendedoraBanco
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import retrofit2.Retrofit
 
 class VendedorasRepository(vendedoraDao: VendedoraDao, retrofit: Retrofit) {
 
-    val vendedoraApi =
-        VendedoraApi(retrofit)
+    val vendedoraApi = VendedoraApi(retrofit)
     val vendedoraBanco = VendedoraBanco(vendedoraDao)
-
-    private val liveData = vendedoraBanco.getAll()
-
-    fun getAll() = liveData
 
     fun buscarVendedoras() {
 
@@ -52,10 +42,11 @@ class VendedorasRepository(vendedoraDao: VendedoraDao, retrofit: Retrofit) {
         vendedoraBanco.removeAll()
     }
 
+    private val liveData = vendedoraBanco.getVendedoraValorQuantidade()
 
 
+    fun getVendedoraValorQuantidade() = liveData
 
-    fun getVendedoraValorQuantidade() = vendedoraBanco.getVendedoraValorQuantidade()
-
+    fun getAll() = vendedoraBanco.getAll()
 }
 

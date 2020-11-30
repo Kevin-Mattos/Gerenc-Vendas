@@ -1,14 +1,10 @@
 package com.example.vendasmae.repository
 
 import android.util.Log
-import com.example.vendasmae.banco.itens.Item
-import com.example.vendasmae.banco.itens.ItemDao
-import com.example.vendasmae.banco.tipos.Tipo
-import com.example.vendasmae.banco.tipos.TipoDao
+import com.example.vendasmae.entities.tipos.Tipo
+import com.example.vendasmae.entities.tipos.TipoDao
 import com.example.vendasmae.baseClass.Resource
-import com.example.vendasmae.repository.api.ItemApi
 import com.example.vendasmae.repository.api.TipoApi
-import com.example.vendasmae.repository.banco.ItemBanco
 import com.example.vendasmae.repository.banco.TipoBanco
 import retrofit2.Retrofit
 
@@ -16,42 +12,42 @@ class TipoRepository (itemDao: TipoDao, retrofit: Retrofit) {
 
     val itemApi =
         TipoApi(retrofit)
-    val itemBanco = TipoBanco(itemDao)
+    val tipoBanco = TipoBanco(itemDao)
 
-    private val liveData = itemBanco.getAll()
+    private val liveData = tipoBanco.getAll()
 
     fun getAll() = liveData
 
-    fun getTipoQuantidadeValor() = itemBanco.getTipoQuantidadeValor()
+    fun getTipoQuantidadeValor() = tipoBanco.getTipoQuantidadeValor()
 
     fun buscarTipos() {
 
         val quandoSucesso: (Resource<List<Tipo>?>) -> Unit = {
-
-            itemBanco.insertMultlple(it.dado!!)
+            tipoBanco.insertMultlple(it.dado!!)
         }
         val quandoFalha: (Resource<List<Tipo>?>) -> Unit = {
-            Log.d("item", "falha na chamda")
+            Log.d("tipo", "falha na chamda")
 //            liveData.value?.erro = "Falha ao se comunicar"
         }
 
         itemApi.getAll(quandoSucesso, quandoFalha)
     }
 
-    fun insere(vendedora: Tipo){
+    fun insere(tipo: Tipo){
         val quandoSucesso: (Resource<Tipo?>) -> Unit = {
-            itemBanco.insert(it.dado!!)
+            tipoBanco.insert(it.dado!!)
         }
         val quandoFalha: (Resource<Tipo?>) -> Unit = {
-//            liveData.value?.erro = "Falha ao se comunicar"
+//            liveData.value = "Falha ao se comunicar"
+            Log.d("tipo", "EAEAE")
         }
 
-        itemApi.insere(vendedora, quandoSucesso, quandoFalha)
+        itemApi.insere(tipo, quandoSucesso, quandoFalha)
 
     }
 
     fun removeAll(){
-        itemBanco.removeAll()
+        tipoBanco.removeAll()
     }
 
 
