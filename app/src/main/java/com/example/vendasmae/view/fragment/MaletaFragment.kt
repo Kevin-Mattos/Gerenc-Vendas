@@ -97,7 +97,7 @@ class MaletaFragment : BaseFragment(), MaletaAdapter.MaletaActions {
 
 
     override fun onItemClick(item: MaletaQuantidadeValor) {
-        mMainActivity.startProdutoFrag(idMaleta = item.maleta.id)
+        mMainActivity.startProdutoFrag(idMaleta = item.maleta?.id)
     }
 
     override fun updateItem(item: MaletaQuantidadeValor) {

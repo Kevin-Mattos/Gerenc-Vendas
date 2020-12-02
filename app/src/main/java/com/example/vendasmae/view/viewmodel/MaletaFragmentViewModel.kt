@@ -7,22 +7,14 @@ import com.example.vendasmae.entities.MainDataBase
 import com.example.vendasmae.entities.maleta.Maleta
 import com.example.vendasmae.entities.tipos.Tipo
 import com.example.vendasmae.repository.MaletaRepository
+import com.example.vendasmae.util.RetrofitUtil
 import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class MaletaFragmentViewModel(application: Application): AndroidViewModel(application) {
 
-    private val retrofit by lazy{
-        val gson = GsonBuilder()
-            .setLenient()
-            .create()
-
-        Retrofit.Builder()
-            .baseUrl(MainActivity.baseURL)
-            .addConverterFactory(GsonConverterFactory.create(gson))
-            .build()
-    }
+    private val retrofit = RetrofitUtil.getRetrofit()
 
 
     private val maletaRepo by lazy {

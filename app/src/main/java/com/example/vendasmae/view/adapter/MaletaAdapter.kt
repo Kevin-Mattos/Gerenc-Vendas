@@ -51,22 +51,23 @@ class MaletaAdapter (private val context: Context, val actions: MaletaActions, p
     inner class ViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
 
-        private lateinit var tipo: MaletaQuantidadeValor
+        private lateinit var maletaQuantidadeValor: MaletaQuantidadeValor
 
         init {
             itemView.setOnClickListener {
-                if (::tipo.isInitialized) {
-                    actions.onItemClick(tipo)
-                    Log.d(TAG, "${tipo.maleta.nome} clicado")
+                if (::maletaQuantidadeValor.isInitialized) {
+                    actions.onItemClick(maletaQuantidadeValor)
+                    Log.d(TAG, "${maletaQuantidadeValor.maleta.nome} clicado")
                 }
             }
         }
 
         fun vincula(itemVendedora: MaletaQuantidadeValor) {
-            this.tipo = itemVendedora
-            itemView.maleta_nome.text = tipo.maleta.nome
-            itemView.maleta_quantidade.text = "${tipo.quantidadeEmEstoque}"
-            itemView.maleta_valor.text = "${tipo.somaDeValores?:0}"
+            this.maletaQuantidadeValor = itemVendedora
+            itemView.maleta_nome.text = maletaQuantidadeValor.maleta.nome
+            itemView.maleta_quantidade.text = "${maletaQuantidadeValor.quantidadeEmEstoque}"
+            itemView.maleta_valor.text = "${maletaQuantidadeValor.somaDeValores?:0}"
+            itemView.maleta_vendedora.text = maletaQuantidadeValor.vendedora?.nome?:"Sem Vendedora"
 
 
         }

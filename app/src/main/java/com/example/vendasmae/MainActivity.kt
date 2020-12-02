@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
 
 
         val vendedorasRepo = VendedorasRepository(vendedoraDao, retrofit)
-        val itemRepo = ItemRepository(itemDao, retrofit)
+        val itemRepo = ProdutoRepository(itemDao, retrofit)
         val vendaRepo = VendaRepository(vendaDao, retrofit)
         val tipoRepo = TipoRepository(tipoDao, retrofit)
         val maletaRepo = MaletaRepository(maletaDao, retrofit)

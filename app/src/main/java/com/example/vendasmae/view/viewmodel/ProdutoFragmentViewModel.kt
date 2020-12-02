@@ -8,26 +8,18 @@ import com.example.vendasmae.entities.itens.Produto
 import com.example.vendasmae.entities.maleta.Maleta
 import com.example.vendasmae.entities.tipos.Tipo
 import com.example.vendasmae.entities.vendedoras.Vendedora
-import com.example.vendasmae.repository.ItemRepository
+import com.example.vendasmae.repository.ProdutoRepository
 import com.example.vendasmae.repository.MaletaRepository
 import com.example.vendasmae.repository.TipoRepository
 import com.example.vendasmae.repository.VendedorasRepository
+import com.example.vendasmae.util.RetrofitUtil
 import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class ProdutoFragmentViewModel(application: Application): AndroidViewModel(application) {
 
-    private val retrofit by lazy{
-        val gson = GsonBuilder()
-            .setLenient()
-            .create()
-
-        Retrofit.Builder()
-            .baseUrl(MainActivity.baseURL)
-            .addConverterFactory(GsonConverterFactory.create(gson))
-            .build()
-    }
+    private val retrofit = RetrofitUtil.getRetrofit()
 
     lateinit var tipos: List<Tipo>
     lateinit var vendedoras: List<Vendedora>
@@ -41,7 +33,7 @@ class ProdutoFragmentViewModel(application: Application): AndroidViewModel(appli
 
     private val produtoRepo by lazy {
         val itemDao = MainDataBase.getInstance(application).produtoDao()
-        ItemRepository(itemDao, retrofit)
+        ProdutoRepository(itemDao, retrofit)
     }
 
     private val tipoRepo by lazy {
@@ -65,9 +57,9 @@ class ProdutoFragmentViewModel(application: Application): AndroidViewModel(appli
 
     fun get() = liveData
 
-    fun getItemVendedora(id: Long) = produtoRepo.getItemVendedora(id)
+    fun getItemVendedora(id: Long) = produtoRepo.getProdutoVendedora(id)
 
-    fun getItemMaleta(id: Long) = produtoRepo.getItemMaleta(id)
+    fun getItemMaleta(id: Long) = produtoRepo.getProdutoMaleta(id)
 
     fun insere(produto: Produto) {
         produtoRepo.insere(produto)

@@ -8,9 +8,10 @@ import com.example.vendasmae.entities.itens.Produto
 import com.example.vendasmae.entities.itens.ProdutosVendedora
 import com.example.vendasmae.entities.vendas.Venda
 import com.example.vendasmae.entities.vendedoras.Vendedora
-import com.example.vendasmae.repository.ItemRepository
+import com.example.vendasmae.repository.ProdutoRepository
 import com.example.vendasmae.repository.VendaRepository
 import com.example.vendasmae.repository.VendedorasRepository
+import com.example.vendasmae.util.RetrofitUtil
 import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -28,16 +29,7 @@ class VendaFragmentViewModel(application: Application): AndroidViewModel(applica
     lateinit var vendedoras: List<Vendedora>
 
 
-    private val retrofit by lazy{
-        val gson = GsonBuilder()
-            .setLenient()
-            .create()
-
-        Retrofit.Builder()
-            .baseUrl(MainActivity.baseURL)
-            .addConverterFactory(GsonConverterFactory.create(gson))
-            .build()
-    }
+    private val retrofit= RetrofitUtil.getRetrofit()
 
     private val vendaRepo by lazy {
         val itemDao = MainDataBase.getInstance(application).vendaDao()
@@ -46,7 +38,7 @@ class VendaFragmentViewModel(application: Application): AndroidViewModel(applica
 
     private val itemRepo by lazy {
         val itemDao = MainDataBase.getInstance(application).produtoDao()
-        ItemRepository(itemDao, retrofit)
+        ProdutoRepository(itemDao, retrofit)
     }
 
     private val vendedoraRepo by lazy {

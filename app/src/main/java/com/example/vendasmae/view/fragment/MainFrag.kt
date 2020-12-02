@@ -56,7 +56,7 @@ class MainFrag : BaseFragment() {
     }
     val itemRepo by lazy{
         val itemDao = MainDataBase.getInstance(activity!!.applicationContext).produtoDao()
-        ItemRepository(itemDao, retrofit)
+        ProdutoRepository(itemDao, retrofit)
     }
     val vendaRepo by lazy{
         val vendaDao = MainDataBase.getInstance(activity!!.applicationContext).vendaDao()
@@ -88,7 +88,7 @@ class MainFrag : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         mBinding.getItem.setOnClickListener {
-            itemRepo.buscarItem()
+            itemRepo.buscarProduto()
         }
 
         mBinding.getVendas.setOnClickListener {
@@ -110,7 +110,7 @@ class MainFrag : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        itemRepo.buscarItem()
+        itemRepo.buscarProduto()
         vendaRepo.buscarVendas()
         vendedorasRepo.buscarVendedoras()
         tipoRepo.buscarTipos()

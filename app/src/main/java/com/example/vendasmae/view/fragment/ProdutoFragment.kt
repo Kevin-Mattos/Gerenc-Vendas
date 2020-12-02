@@ -200,7 +200,7 @@ class ProdutoFragment : BaseFragment(), ProdutoAdapter.ProdutoActions, AdapterVi
                 produto.nome = nome
                 produto.modelo = modelo
                 produto.valor = valor.toFloatOrNull()?:0f
-                produto.id_vendedora = mViewModel.selectedVendedora!!.id
+                produto.id_vendedora = mViewModel.selectedMaleta?.id_vendedora?:1
                 produto.id_tipo = mViewModel.selectedtipo!!.id
                 produto.setIdMaleta(mViewModel.selectedMaleta!!.id)
                 mViewModel.update(produto)
@@ -208,7 +208,7 @@ class ProdutoFragment : BaseFragment(), ProdutoAdapter.ProdutoActions, AdapterVi
             else {
                 val itemToInsert = Produto(1, if(nome.isNotBlank()) nome else "Sem Nome", valor.toFloatOrNull()?:46.6f,
                     if(modelo.isNotBlank()) modelo else null, 0,mViewModel.selectedtipo?.id?:0,
-                    if(mViewModel.selectedVendedora!!.id == -1.toLong()) null else mViewModel.selectedVendedora!!.id)
+                    /*if(mViewModel.selectedVendedora!!.id == -1.toLong()*/mViewModel.selectedMaleta?.id_vendedora?:1) //null else mViewModel.selectedVendedora!!.id)
                 itemToInsert.setIdMaleta(mViewModel.selectedMaleta!!.id)
 
                 mViewModel.insere(itemToInsert)

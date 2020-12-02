@@ -5,7 +5,7 @@ import com.example.vendasmae.baseClass.BaseRequestCallback
 import com.example.vendasmae.baseClass.Resource
 import retrofit2.Retrofit
 
-class ItemApi(retrofit: Retrofit) {
+class ProdutoApi(retrofit: Retrofit) {
 
     val ItemService = retrofit.create(com.example.vendasmae.repository.services.ItemService::class.java)
 

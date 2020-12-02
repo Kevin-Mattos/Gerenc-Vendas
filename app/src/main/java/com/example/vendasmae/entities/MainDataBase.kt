@@ -36,13 +36,23 @@ abstract class MainDataBase: RoomDatabase() {
                     MainDataBase::class.java,
                     nomeDoBanco
                 ).build()
-                val query =
+                var query =
                     "create trigger IF NOT EXISTS atualizaVenda after insert on venda " +
                             "begin " +
                             "UPDATE Produto SET vendido = 1 WHERE new.id_produto = Produto.id; " +
                             "end"
                 val triggerOnInsertVenda = db.openHelper
                 triggerOnInsertVenda.writableDatabase.execSQL(query)
+
+                query =
+                    "create trigger IF NOT EXISTS transfereMaleta after update on Maleta" +
+                            " BEGIN " +
+                            "UPDATE item SET id_vendedora = new.id_vendedora WHERE id_maleta = new.id;" +
+                            " end;"
+                val triggerOnUpdateMaleta = db.openHelper
+                triggerOnUpdateMaleta.writableDatabase.execSQL(query)
+
+
             }
 
             return db

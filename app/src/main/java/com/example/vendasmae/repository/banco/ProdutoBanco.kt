@@ -4,7 +4,7 @@ import com.example.vendasmae.entities.itens.Produto
 import com.example.vendasmae.entities.itens.ProdutoDao
 import com.example.vendasmae.baseClass.BaseAsyncTask
 
-class ItemBanco(private val produtoDao: ProdutoDao) {
+class ProdutoBanco(private val produtoDao: ProdutoDao) {
 
 
     fun getAll() = produtoDao.getAll()
@@ -24,9 +24,9 @@ class ItemBanco(private val produtoDao: ProdutoDao) {
         BaseAsyncTask(executa).execute()
     }
 
-    fun getItemVendedora(id: Long) =  produtoDao.getProdutoEComQuemEsta(id)
-    fun getItemMaleta(id: Long) = produtoDao.getItemMaleta(id)
+    fun getProdutoVendedora(id: Long) =  produtoDao.getProdutoEComQuemEsta(id)
+    fun getProdutoMaleta(id: Long) = produtoDao.getItemMaleta(id)
 
-    fun getItemVendedora() =  produtoDao.getProdutoEComQuemEsta()
+    fun getProdutoVendedora() =  produtoDao.getProdutoEComQuemEsta()
 
 }

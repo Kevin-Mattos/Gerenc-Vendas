@@ -26,6 +26,8 @@ class BaseRequestCallback<T>(val quandoSucesso: (Resource<T?>) -> Unit, val quan
                         if (it != null)
                             quandoSucesso(Resource(it, true))
                     }
+                }else{
+                    quandoFalha(Resource(null, false, MyError(2, response.errorBody().toString())))
                 }
             }
         }
