@@ -28,4 +28,9 @@ class VendaBanco (val vendaDao: VendaDao) {
 
     fun getVendaEVendedora() = vendaDao.getVendaAndVendedora()
 
+    fun removeById(id: Long) {
+        val executa = { vendaDao.removeById(id)}
+        BaseAsyncTask(executa).execute()
+    }
+
 }

@@ -135,6 +135,7 @@ class TipoFragment : BaseFragment(), TipoAdapter.TipoActions {
 
             dialog.findViewById<EditText>(R.id.dialog_tipo_nome).setText(it.nome)
             dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setText("Remover")
+            dialog.setTitle("Atualizar Tipo")
             dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener {
                 mViewModel.remove(tipo)
                 dialog.dismiss()

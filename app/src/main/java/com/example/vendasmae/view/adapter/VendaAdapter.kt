@@ -30,6 +30,7 @@ class VendaAdapter(private val context: Context,val action: VendaAction ,val dat
 
     interface VendaAction{
         fun onClick(vendaVendedoraItem: VendaVendedoraItem)
+        fun onLongClick(vendaVendedoraItem: VendaVendedoraItem)
     }
 
     override fun getItemCount() = dataSet.size

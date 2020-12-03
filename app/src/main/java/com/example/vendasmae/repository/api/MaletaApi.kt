@@ -8,10 +8,10 @@ import retrofit2.Retrofit
 
 class MaletaApi (retrofit: Retrofit) {
 
-    val tipoService = retrofit.create(MaletaService::class.java)
+    val maletaService = retrofit.create(MaletaService::class.java)
 
     fun getAll(quandoSucesso: (Resource<List<Maleta>?>) -> Unit, quandoFalha: (Resource<List<Maleta>?>) -> Unit){
-        val call = tipoService.buscarMaleta()
+        val call = maletaService.buscarMaleta()
         val callback = BaseRequestCallback(
             quandoSucesso,
             quandoFalha
@@ -22,7 +22,7 @@ class MaletaApi (retrofit: Retrofit) {
 
 
     fun insere(maleta: Maleta, quandoSucesso: (Resource<Maleta?>) -> Unit, quandoFalha: (Resource<Maleta?>) -> Unit){
-        val call = tipoService.insereMaleta(maleta)
+        val call = maletaService.insereMaleta(maleta)
         val callback = BaseRequestCallback(
             quandoSucesso,
             quandoFalha
@@ -36,7 +36,21 @@ class MaletaApi (retrofit: Retrofit) {
         quandoSucesso: (Resource<Maleta?>) -> Unit,
         quandoFalha: (Resource<Maleta?>) -> Unit
     ) {
-        val call = tipoService.atualizaMaleta(maleta.id, maleta)
+        val call = maletaService.atualizaMaleta(maleta.id, maleta)
+        val callback = BaseRequestCallback(
+            quandoSucesso,
+            quandoFalha
+        )
+
+        call.enqueue(callback.execute())
+    }
+
+    fun remove(
+        id: Long,
+        quandoSucesso: (Resource<Long?>) -> Unit,
+        quandoFalha: (Resource<Long?>) -> Unit
+    ) {
+        val call = maletaService.removeMaleta(id)
         val callback = BaseRequestCallback(
             quandoSucesso,
             quandoFalha

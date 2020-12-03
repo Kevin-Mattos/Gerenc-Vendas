@@ -29,4 +29,7 @@ interface MaletaDao {
     @Query("SELECT Maleta.*, COUNT(Produto.id) as quantidadeEmEstoque, SUM(Produto.valor) as somaDeValores  FROM Maleta LEFT JOIN Produto ON Maleta.id = Produto.id_maleta AND Produto.vendido = 0 group by Maleta.id;")//"SELECT Maleta.*, COUNT(Produto.id) as quantidadeEmEstoque, SUM(Produto.valor) as somaDeValores  FROM Maleta LEFT JOIN Produto ON Maleta.id = Produto.id_maleta AND Produto.vendido = 0 group by Maleta.id;")
     fun getMaletaQuantidadeValor(): LiveData<List<MaletaQuantidadeValor>?>
 
+    @Query("DELETE FROM Maleta WHERE id = :id")
+    fun removeById(id: Long)
+
 }

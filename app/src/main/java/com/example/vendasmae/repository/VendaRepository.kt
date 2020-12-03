@@ -60,4 +60,15 @@ class VendaRepository(private val vendaDao: VendaDao, retrofit: Retrofit) {
         vendaApi.atualiza(venda, quandoSucesso, quandoFalha)
     }
 
+    fun remove(id: Long) {
+        val quandoSucesso: (Resource<Long?>) -> Unit = {
+            vendaBanco.removeById(it.dado!!)
+        }
+        val quandoFalha: (Resource<Long?>) -> Unit = {
+//            liveData.value?.erro = "Falha ao se comunicar"
+        }
+
+        vendaApi.remove(id, quandoSucesso, quandoFalha)
+    }
+
 }

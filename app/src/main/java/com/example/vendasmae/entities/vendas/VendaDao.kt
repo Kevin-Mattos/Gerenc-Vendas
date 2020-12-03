@@ -26,6 +26,8 @@ interface VendaDao {
     @Query("SELECT * FROM Venda")
     fun getVendaAndVendedora(): LiveData<List<VendaVendedoraItem>>
 
+    @Query("DELETE FROM Venda WHERE Venda.id = :id")
+    fun removeById(id: Long)
 
 
 }

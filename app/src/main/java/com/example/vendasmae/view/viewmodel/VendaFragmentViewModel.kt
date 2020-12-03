@@ -74,5 +74,13 @@ class VendaFragmentViewModel(application: Application): AndroidViewModel(applica
 
     fun getItemVendedor() = itemRepo.getProdutoEComQuemEsta()
 
+    fun updateVenda(venda: Venda) {
+        vendaRepo.atualiza(venda)
+    }
+
+    fun remove(venda: Venda) {
+        vendaRepo.remove(venda.id)
+    }
+
 
 }

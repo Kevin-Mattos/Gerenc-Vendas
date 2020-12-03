@@ -107,7 +107,7 @@ class VendaFragment : BaseFragment(), AdapterView.OnItemSelectedListener, VendaA
         showDialog()
     }
 
-    private fun showDialog() {
+    private fun showDialog(venda: Venda? = null) {
 
 
 
@@ -133,6 +133,8 @@ class VendaFragment : BaseFragment(), AdapterView.OnItemSelectedListener, VendaA
             mViewModel.selectedVendedora = null
         }
 
+
+
         prodAdapter = ArrayAdapter<Produto>(this.context!!, R.layout.support_simple_spinner_dropdown_item)
         prodAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
         //val itens = mViewModel.itensVendedora!!.flatMap { it.itens }
@@ -147,19 +149,37 @@ class VendaFragment : BaseFragment(), AdapterView.OnItemSelectedListener, VendaA
 
         dialog.show()
 
-
+        venda?.let {
+            dialog.findViewById<Spinner>(R.id.dialog_venda_vendedora_spinner).visibility = View.GONE
+            dialog.findViewById<Spinner>(R.id.dialog_venda_item_spinner).visibility = View.GONE
+            dialog.setTitle("Atualizar Venda")
+            dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setText("Remover")
+            dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener {
+                mViewModel.remove(venda)
+                dialog.dismiss()
+            }
+        }
 
 
         val theButton: Button = dialog.getButton(DialogInterface.BUTTON_POSITIVE)
         theButton.setOnClickListener {
             val valor = dialog.findViewById<EditText>(R.id.dialog_venda_valor).text.toString()
             val desconto = dialog.findViewById<EditText>(R.id.dialog_venda_desconto).text.toString()
-            val venda = Venda(1,valor.toFloatOrNull()?:mViewModel.selectedProduto?.valor?:0f,
-                desconto.toFloatOrNull()?:mViewModel.selectedProduto?.valor?:0f,
-                "",mViewModel.selectedProduto?.id?:0, mViewModel.selectedVendedora?.id)
 
+            if(venda == null) {
+                val newVenda = Venda(
+                    1, valor.toFloatOrNull() ?: mViewModel.selectedProduto?.valor ?: 0f,
+                    desconto.toFloatOrNull() ?: mViewModel.selectedProduto?.valor ?: 0f,
+                    "", mViewModel.selectedProduto?.id ?: 0, mViewModel.selectedVendedora?.id
+                )
 
-            mViewModel.insere(venda)
+                mViewModel.insere(newVenda)
+            }else{
+                venda.valor = valor.toFloatOrNull()?:venda.valor
+                venda.desconto = desconto.toFloatOrNull()?:venda.desconto
+
+                mViewModel.updateVenda(venda)
+            }
             dialog.dismiss()
         }
 
@@ -207,7 +227,11 @@ class VendaFragment : BaseFragment(), AdapterView.OnItemSelectedListener, VendaA
     }
 
     override fun onClick(vendaVendedoraItem: VendaVendedoraItem) {
-        //showDialog(vendaVendedoraItem, mViewModel.itens, mViewModel.vendedoras)
+        showDialog(vendaVendedoraItem.venda)
+    }
+
+    override fun onLongClick(vendaVendedoraItem: VendaVendedoraItem) {
+
     }
 
 }

@@ -25,5 +25,10 @@ class MaletaBanco (val maletaDao: MaletaDao) {
 
     fun getMaletaQuantidadeValor() = maletaDao.getMaletaQuantidadeValor()
 
+    fun removeById(id: Long) {
+        val executa = { maletaDao.removeById(id)}
+        BaseAsyncTask(executa).execute()
+    }
+
 
 }

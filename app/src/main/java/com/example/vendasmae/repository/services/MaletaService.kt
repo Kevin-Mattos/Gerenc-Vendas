@@ -17,4 +17,7 @@ interface MaletaService {
 
     @PUT("$route/{id}")
     fun atualizaMaleta(@Path("id") id: Long,@Body item: Maleta): Call<Maleta?>
+
+    @DELETE("$route/{id}")
+    fun removeMaleta(@Path("id") id: Long): Call<Long?>
 }

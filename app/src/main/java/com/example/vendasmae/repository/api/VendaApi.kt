@@ -41,4 +41,18 @@ class VendaApi (retrofit: Retrofit) {
         call.enqueue(callback.execute())
     }
 
+    fun remove(
+        id: Long,
+        quandoSucesso: (Resource<Long?>) -> Unit,
+        quandoFalha: (Resource<Long?>) -> Unit
+    ) {
+        val call = vendaService.removeVenda(id)
+        val callback = BaseRequestCallback(
+            quandoSucesso,
+            quandoFalha
+        )
+
+        call.enqueue(callback.execute())
+    }
+
 }

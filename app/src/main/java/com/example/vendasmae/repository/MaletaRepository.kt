@@ -61,6 +61,16 @@ class MaletaRepository(itemDao: MaletaDao, retrofit: Retrofit) {
 
     fun getMaletaQuantidadeValor() = maletaBanco.getMaletaQuantidadeValor()
 
+    fun removeById(id: Long) {
+        val quandoSucesso: (Resource<Long?>) -> Unit = {
+            maletaBanco.removeById(it.dado!!)
+        }
+        val quandoFalha: (Resource<Long?>) -> Unit = {
+//            liveData.value?.erro = "Falha ao se comunicar"
+        }
+
+        maletaApi.remove(id, quandoSucesso, quandoFalha)
+    }
 
 
 }

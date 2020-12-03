@@ -1,5 +1,6 @@
 package com.example.vendasmae.repository.services
 
+import androidx.room.Delete
 import com.example.vendasmae.entities.vendas.Venda
 import com.example.vendasmae.baseClass.Resource
 import retrofit2.Call
@@ -15,4 +16,7 @@ interface VendaService {
 
     @PUT("$route/{id}")
     fun atualizaVenda(@Body venda: Venda, @Path("id") id: Long): Call<Venda?>
+
+    @DELETE("$route/{id}")
+    fun removeVenda(@Path("id") id: Long): Call<Long?>
 }

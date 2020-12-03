@@ -54,5 +54,9 @@ class MaletaFragmentViewModel(application: Application): AndroidViewModel(applic
     }
     fun getVendedoras() = vendedoraRepo.getAll()
 
+    fun remove(maleta: Maleta) {
+        maletaRepo.removeById(maleta.id)
+    }
+
 
 }

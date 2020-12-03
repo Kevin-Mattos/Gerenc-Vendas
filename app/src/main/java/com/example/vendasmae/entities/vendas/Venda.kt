@@ -11,8 +11,8 @@ import org.jetbrains.annotations.NotNull
 
 @Entity
 class Venda (@PrimaryKey var id: Long,
-             @NotNull val valor: Float,
-             @NotNull val desconto: Float,
+             @NotNull var valor: Float,
+             @NotNull var desconto: Float,
              var data: String,
              @NotNull @ForeignKey(entity = Produto::class,
                     parentColumns = ["id"],
