@@ -23,4 +23,7 @@ interface TipoDao {
 
     @Query("SELECT Tipo.*, COUNT(Produto.id) as quantidadeEmEstoque, SUM(Produto.valor) as somaDeValores  FROM Tipo LEFT JOIN Produto ON Tipo.id = Produto.id_tipo and Produto.vendido = 0 group by Tipo.id;")
     fun getTipoQuantidadeValor(): LiveData<List<TipoQuantidadeValor>?>
+
+    @Query("DELETE FROM Tipo WHERE Tipo.id = :id")
+    fun removeById(id: Long)
 }

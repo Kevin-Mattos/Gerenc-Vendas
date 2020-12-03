@@ -97,6 +97,10 @@ class TipoFragment : BaseFragment(), TipoAdapter.TipoActions {
         mMainActivity.startProdutoFrag(idTipo = id)
     }
 
+    override fun updateTipo(tipo: Tipo) {
+        showDialog(tipo)
+    }
+
     override fun adiciona() {
         Log.d(TAG, "adicionando")
        // mViewModel.insere(Tipo(0, "TIPO ${mViewModel.getQuantidade()}"))
@@ -104,7 +108,7 @@ class TipoFragment : BaseFragment(), TipoAdapter.TipoActions {
     }
 
 
-    private fun showDialog() {
+    private fun showDialog(tipo: Tipo? = null) {
 
         val builder = AlertDialog.Builder(this.context)
         // Get the layout inflater
@@ -127,11 +131,25 @@ class TipoFragment : BaseFragment(), TipoAdapter.TipoActions {
         val dialog = builder.create()
         dialog.show()
 
+        tipo?.let {
+
+            dialog.findViewById<EditText>(R.id.dialog_tipo_nome).setText(it.nome)
+            dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setText("Remover")
+            dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener {
+                mViewModel.remove(tipo)
+                dialog.dismiss()
+            }
+        }
+
         val theButton: Button = dialog.getButton(DialogInterface.BUTTON_POSITIVE)
         theButton.setOnClickListener {
             val nome = dialog.findViewById<EditText>(R.id.dialog_tipo_nome).text.toString()
-
-            mViewModel.insere(Tipo(0, if(nome.isNotBlank()) nome else "Escreva um nome${mViewModel.getQuantidade()}"))
+            if(tipo == null)
+                mViewModel.insere(Tipo(0, if(nome.isNotBlank()) nome else "Escreva um nome${mViewModel.getQuantidade()}"))
+            else{
+                tipo.nome = nome
+                mViewModel.update(tipo)
+            }
             dialog.dismiss()
         }
 

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.vendasmae.R
+import com.example.vendasmae.entities.tipos.Tipo
 import com.example.vendasmae.entities.tipos.TipoQuantidadeValor
 import kotlinx.android.synthetic.main.tipo_view.view.*
 
@@ -17,6 +18,7 @@ class TipoAdapter(private val context: Context,val actions: TipoActions, private
 
     interface TipoActions{
         fun onTipoClick(id: Long)
+        fun updateTipo(tipo: Tipo)
     }
 
     override fun onCreateViewHolder(
@@ -58,6 +60,14 @@ class TipoAdapter(private val context: Context,val actions: TipoActions, private
                     actions.onTipoClick(tipo.tipo.id)
                     Log.d(TAG, "${tipo.tipo.nome} clicado")
                 }
+            }
+
+            itemView.setOnLongClickListener {
+                if (::tipo.isInitialized) {
+                    actions.updateTipo(tipo.tipo)
+                    Log.d(TAG, "${tipo.tipo.nome} long clicado")
+                }
+                true
             }
         }
 

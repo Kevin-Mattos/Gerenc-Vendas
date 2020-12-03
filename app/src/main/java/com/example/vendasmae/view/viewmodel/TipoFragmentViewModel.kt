@@ -31,5 +31,8 @@ class TipoFragmentViewModel(application: Application): AndroidViewModel(applicat
         tipoRepo.insere(tipo)
     }
 
+    fun update(tipo: Tipo) = tipoRepo.update(tipo)
+
+    fun remove(tipo: Tipo) = tipoRepo.remove(tipo)
 
 }

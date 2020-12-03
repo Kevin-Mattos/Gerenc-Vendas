@@ -1,9 +1,7 @@
 package com.example.vendasmae.repository.banco
 
-import androidx.lifecycle.LiveData
 import com.example.vendasmae.entities.tipos.Tipo
 import com.example.vendasmae.entities.tipos.TipoDao
-import com.example.vendasmae.entities.tipos.TipoQuantidadeValor
 import com.example.vendasmae.baseClass.BaseAsyncTask
 
 class TipoBanco  (val tipoDao: TipoDao) {
@@ -26,6 +24,13 @@ class TipoBanco  (val tipoDao: TipoDao) {
     }
 
     fun getTipoQuantidadeValor() = tipoDao.getTipoQuantidadeValor()
+
+    fun remove(id: Long) {
+        val executa = { tipoDao.removeById(id)}
+        BaseAsyncTask(executa).execute()
+    }
+
+
 
 
 }

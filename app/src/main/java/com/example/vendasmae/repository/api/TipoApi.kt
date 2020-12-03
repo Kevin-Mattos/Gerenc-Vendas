@@ -30,4 +30,34 @@ class TipoApi (retrofit: Retrofit) {
 
         call.enqueue(callback.execute())
     }
+
+    fun update(
+        tipo: Tipo,
+        quandoSucesso: (Resource<Tipo?>) -> Unit,
+        quandoFalha: (Resource<Tipo?>) -> Unit
+    ) {
+
+        val call = tipoService.atualizaTipo(tipo, tipo.id)
+        val callback = BaseRequestCallback(
+            quandoSucesso,
+            quandoFalha
+        )
+
+        call.enqueue(callback.execute())
+
+    }
+
+    fun remove(
+        tipo: Tipo,
+        quandoSucesso: (Resource<Long?>) -> Unit,
+        quandoFalha: (Resource<Long?>) -> Unit
+    ) {
+        val call = tipoService.removeTipo(tipo.id)
+        val callback = BaseRequestCallback(
+            quandoSucesso,
+            quandoFalha
+        )
+
+        call.enqueue(callback.execute())
+    }
 }

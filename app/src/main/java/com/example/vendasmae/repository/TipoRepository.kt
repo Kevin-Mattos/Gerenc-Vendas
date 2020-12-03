@@ -50,5 +50,31 @@ class TipoRepository (itemDao: TipoDao, retrofit: Retrofit) {
         tipoBanco.removeAll()
     }
 
+    fun update(tipo: Tipo) {
+        val quandoSucesso: (Resource<Tipo?>) -> Unit = {
+            tipoBanco.insert(it.dado!!)
+        }
+        val quandoFalha: (Resource<Tipo?>) -> Unit = {
+//            liveData.value = "Falha ao se comunicar"
+            Log.d("tipo", "EAEAE")
+        }
+
+        itemApi.update(tipo, quandoSucesso, quandoFalha)
+
+    }
+
+    fun remove(tipo: Tipo) {
+
+        val quandoSucesso: (Resource<Long?>) -> Unit = {
+            tipoBanco.remove(it.dado!!)
+        }
+        val quandoFalha: (Resource<Long?>) -> Unit = {
+//            liveData.value = "Falha ao se comunicar"
+            Log.d("tipo", "EAEAE")
+        }
+
+        itemApi.remove(tipo, quandoSucesso, quandoFalha)
+    }
+
 
 }

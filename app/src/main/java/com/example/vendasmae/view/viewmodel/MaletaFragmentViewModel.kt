@@ -39,6 +39,7 @@ class MaletaFragmentViewModel(application: Application): AndroidViewModel(applic
     }
 
     fun getMaletaQuantidadeValor() = maletaRepo.getMaletaQuantidadeValor()
+
     fun update(maleta: Maleta) {
         maletaRepo.update(maleta)
     }
