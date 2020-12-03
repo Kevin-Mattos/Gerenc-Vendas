@@ -60,6 +60,14 @@ class MaletaAdapter (private val context: Context, val actions: MaletaActions, p
                     Log.d(TAG, "${maletaQuantidadeValor.maleta.nome} clicado")
                 }
             }
+            itemView.setOnLongClickListener {
+                if (::maletaQuantidadeValor.isInitialized) {
+                    actions.updateItem(maletaQuantidadeValor)
+                    Log.d(TAG, "${maletaQuantidadeValor.maleta.nome} long clicado")
+                }
+                true
+            }
+
         }
 
         fun vincula(itemVendedora: MaletaQuantidadeValor) {

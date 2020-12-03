@@ -7,7 +7,7 @@ import com.example.vendasmae.entities.vendedoras.Vendedora
 
 @Entity
 class Maleta(@PrimaryKey val id: Long,
-             val nome: String,
+             var nome: String,
              @ForeignKey(entity = Vendedora::class,
                  parentColumns = ["id"],
                  childColumns = ["id_vendedora"],

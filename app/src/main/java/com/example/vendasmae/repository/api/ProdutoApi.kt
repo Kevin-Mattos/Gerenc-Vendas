@@ -3,14 +3,15 @@ package com.example.vendasmae.repository.api
 import com.example.vendasmae.entities.itens.Produto
 import com.example.vendasmae.baseClass.BaseRequestCallback
 import com.example.vendasmae.baseClass.Resource
+import com.example.vendasmae.repository.services.ProdutoService
 import retrofit2.Retrofit
 
 class ProdutoApi(retrofit: Retrofit) {
 
-    val ItemService = retrofit.create(com.example.vendasmae.repository.services.ItemService::class.java)
+    val produtoService = retrofit.create(ProdutoService::class.java)
 
     fun getAll(quandoSucesso: (Resource<List<Produto>?>) -> Unit, quandoFalha: (Resource<List<Produto>?>) -> Unit){
-        val call = ItemService.Busca()
+        val call = produtoService.Busca()
         val callback = BaseRequestCallback(
             quandoSucesso,
             quandoFalha
@@ -21,7 +22,7 @@ class ProdutoApi(retrofit: Retrofit) {
 
 
     fun insere(produto: Produto, quandoSucesso: (Resource<Produto?>) -> Unit, quandoFalha: (Resource<Produto?>) -> Unit){
-        val call = ItemService.insere(produto)
+        val call = produtoService.insere(produto)
         val callback = BaseRequestCallback(
             quandoSucesso,
             quandoFalha
@@ -32,7 +33,7 @@ class ProdutoApi(retrofit: Retrofit) {
 
     fun atualiza(produto: Produto, quandoSucesso: (Resource<Produto?>) -> Unit, quandoFalha: (Resource<Produto?>) -> Unit) {
 
-        val call = ItemService.atualiza(produto, produto.id.toInt())
+        val call = produtoService.atualiza(produto, produto.id.toInt())
         val callback = BaseRequestCallback(
             quandoSucesso,
             quandoFalha

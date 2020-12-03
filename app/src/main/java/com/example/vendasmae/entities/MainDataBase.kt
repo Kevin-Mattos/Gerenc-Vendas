@@ -25,7 +25,7 @@ abstract class MainDataBase: RoomDatabase() {
 
     companion object {
 
-        val nomeDoBanco = "item.db"
+        val nomeDoBanco = "gerenci.db"
 
         lateinit var db: MainDataBase
 

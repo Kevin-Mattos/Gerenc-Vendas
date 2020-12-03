@@ -30,10 +30,3 @@ interface MaletaDao {
     fun getMaletaQuantidadeValor(): LiveData<List<MaletaQuantidadeValor>?>
 
 }
-/*
-SELECT Maleta.*, Vendedora.*, COUNT(Produto.id) as quantidadeEmEstoque, SUM(Produto.valor) as somaDeValores  FROM Maleta
- LEFT JOIN Produto ON Maleta.id = Produto.id_maleta AND Produto.vendido = 0
- LEFT JOIN Vendedora on Maleta.id_vendedora = Vendedora.id
- group by Maleta.id;
-
- */

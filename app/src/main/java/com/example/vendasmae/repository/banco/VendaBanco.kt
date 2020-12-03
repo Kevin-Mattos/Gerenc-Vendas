@@ -8,8 +8,8 @@ class VendaBanco (val vendaDao: VendaDao) {
 
     fun getAll() = vendaDao.getAll()
 
-    fun insert(vendedora: Venda){
-        val executa = { vendaDao.insertVenda(vendedora)}
+    fun insert(venda: Venda){
+        val executa = { vendaDao.insertVenda(venda)}
         BaseAsyncTask(executa).execute()
     }
 

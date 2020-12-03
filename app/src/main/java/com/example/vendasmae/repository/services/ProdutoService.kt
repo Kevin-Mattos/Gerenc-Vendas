@@ -6,7 +6,7 @@ import retrofit2.Call
 import retrofit2.http.*
 
 private const val route = "produto"
-interface ItemService {
+interface ProdutoService {
 
     @GET(route)
     fun Busca(): Call<List<Produto>?>

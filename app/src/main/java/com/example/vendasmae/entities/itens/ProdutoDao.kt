@@ -10,16 +10,13 @@ interface ProdutoDao {
     fun getAll(): LiveData<List<Produto>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertLista(item: Produto)
+    fun insert(item: Produto)
 
     @Delete
-    fun deleteLista(item: Produto)
-
-    @Query("SELECT * FROM Produto WHERE id == :id")
-    fun getListaById(id: Long): LiveData<Produto?>
+    fun delete(item: Produto)
 
     @Query("DELETE FROM Produto WHERE id == :id")
-    fun deleteListaById(id: Long)
+    fun deleteProdutoById(id: Long)
 
 
     @Query("DELETE FROM Produto")

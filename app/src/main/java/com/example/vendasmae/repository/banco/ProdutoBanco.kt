@@ -10,7 +10,7 @@ class ProdutoBanco(private val produtoDao: ProdutoDao) {
     fun getAll() = produtoDao.getAll()
 
     fun insert(produto: Produto){
-        val executa = { produtoDao.insertLista(produto)}
+        val executa = { produtoDao.insert(produto)}
         BaseAsyncTask(executa).execute()
     }
 
@@ -19,8 +19,8 @@ class ProdutoBanco(private val produtoDao: ProdutoDao) {
         BaseAsyncTask(executa).execute()
     }
 
-    fun insertMultlple(itens: List<Produto>) {
-        val executa = { produtoDao.insertMultiple(itens)}
+    fun insertMultlple(produtos: List<Produto>) {
+        val executa = { produtoDao.insertMultiple(produtos)}
         BaseAsyncTask(executa).execute()
     }
 

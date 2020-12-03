@@ -21,8 +21,22 @@ class MaletaApi (retrofit: Retrofit) {
     }
 
 
-    fun insere(item: Maleta, quandoSucesso: (Resource<Maleta?>) -> Unit, quandoFalha: (Resource<Maleta?>) -> Unit){
-        val call = tipoService.insereMaleta(item)
+    fun insere(maleta: Maleta, quandoSucesso: (Resource<Maleta?>) -> Unit, quandoFalha: (Resource<Maleta?>) -> Unit){
+        val call = tipoService.insereMaleta(maleta)
+        val callback = BaseRequestCallback(
+            quandoSucesso,
+            quandoFalha
+        )
+
+        call.enqueue(callback.execute())
+    }
+
+    fun atualiza(
+        maleta: Maleta,
+        quandoSucesso: (Resource<Maleta?>) -> Unit,
+        quandoFalha: (Resource<Maleta?>) -> Unit
+    ) {
+        val call = tipoService.atualizaMaleta(maleta.id, maleta)
         val callback = BaseRequestCallback(
             quandoSucesso,
             quandoFalha

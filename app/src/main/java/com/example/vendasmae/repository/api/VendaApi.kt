@@ -21,8 +21,8 @@ class VendaApi (retrofit: Retrofit) {
     }
 
 
-    fun insere(item: Venda, quandoSucesso: (Resource<Venda?>) -> Unit, quandoFalha: (Resource<Venda?>) -> Unit){
-        val call = vendaService.insereVenda(item)
+    fun insere(venda: Venda, quandoSucesso: (Resource<Venda?>) -> Unit, quandoFalha: (Resource<Venda?>) -> Unit){
+        val call = vendaService.insereVenda(venda)
         val callback = BaseRequestCallback(
             quandoSucesso,
             quandoFalha

@@ -8,8 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
+import android.widget.*
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.vendasmae.MainActivity
@@ -19,10 +18,12 @@ import com.example.vendasmae.databinding.FragmentMaletaBinding
 import com.example.vendasmae.entities.maleta.Maleta
 import com.example.vendasmae.entities.maleta.MaletaQuantidadeValor
 import com.example.vendasmae.entities.tipos.Tipo
+import com.example.vendasmae.entities.vendedoras.Vendedora
 import com.example.vendasmae.view.adapter.MaletaAdapter
 import com.example.vendasmae.view.adapter.TipoAdapter
 import com.example.vendasmae.view.viewmodel.MaletaFragmentViewModel
 import com.example.vendasmae.view.viewmodel.TipoFragmentViewModel
+import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -34,7 +35,8 @@ private const val ARG_PARAM2 = "param2"
  * Use the [MaletaFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class MaletaFragment : BaseFragment(), MaletaAdapter.MaletaActions {
+class MaletaFragment : BaseFragment(), MaletaAdapter.MaletaActions,
+    AdapterView.OnItemSelectedListener {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -88,6 +90,12 @@ class MaletaFragment : BaseFragment(), MaletaAdapter.MaletaActions {
 
         })
 
+        mViewModel.getVendedoras().observe(this, Observer {
+            it?.let {
+                mViewModel.vendedoras = it
+            }
+        })
+
         return mBinding.root
     }
 
@@ -101,10 +109,10 @@ class MaletaFragment : BaseFragment(), MaletaAdapter.MaletaActions {
     }
 
     override fun updateItem(item: MaletaQuantidadeValor) {
-
+        showDialog(item.maleta)
     }
 
-    private fun showDialog() {
+    private fun showDialog(maleta: Maleta? = null) {
 
         val builder = AlertDialog.Builder(this.context)
         // Get the layout inflater
@@ -123,19 +131,63 @@ class MaletaFragment : BaseFragment(), MaletaAdapter.MaletaActions {
             dialog.dismiss()
         }
 
+        val vendedoraAdapter = ArrayAdapter<Vendedora>(this.context!!, R.layout.support_simple_spinner_dropdown_item)
+        vendedoraAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
+        vendedoraAdapter.add(Vendedora(-1, "Nenhuma"))
+        vendedoraAdapter.addAll(mViewModel.vendedoras)
+
+
+
+
 
         val dialog = builder.create()
         dialog.show()
 
+        val vendSpinner = dialog.findViewById<Spinner>(R.id.dialog_maleta_vendedora_spinner)//.adapter = ada
+        vendSpinner.adapter = vendedoraAdapter
+        vendSpinner.onItemSelectedListener = this
+
+        maleta?.let{
+            dialog.findViewById<EditText>(R.id.dialog_maleta_nome).setText(maleta.nome)
+            mViewModel.selectedVendedora = mViewModel.vendedoras.firstOrNull{ it.id == maleta.id_vendedora}
+            vendSpinner.setSelection(mViewModel.getSelectedVendedoraPosition())
+
+        }
+
         val theButton: Button = dialog.getButton(DialogInterface.BUTTON_POSITIVE)
         theButton.setOnClickListener {
             val nome = dialog.findViewById<EditText>(R.id.dialog_maleta_nome).text.toString()
-            if(!nome.isBlank())
-                mViewModel.insere(Maleta(0, nome))
+            if(!nome.isBlank()) {
+                if(maleta == null)
+                    mViewModel.insere(Maleta(0, nome, mViewModel.selectedVendedora?.id))
+                else {
+                    maleta.nome = nome
+                    maleta.id_vendedora =  mViewModel.selectedVendedora?.id
+                    mViewModel.update(maleta)
+                }
+            }
             dialog.dismiss()
         }
 
 
+    }
+
+    override fun onNothingSelected(p0: AdapterView<*>?) {
+
+    }
+
+    override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+        when(p0?.selectedItem){
+            is Vendedora ->{
+                val vend = p0.selectedItem as Vendedora
+                if(vend.id != -1.toLong())
+                    mViewModel.selectedVendedora = vend
+                else
+                    mViewModel.selectedVendedora = null
+
+            }
+
+        }
     }
 
 }

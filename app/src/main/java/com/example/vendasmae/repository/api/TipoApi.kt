@@ -21,8 +21,8 @@ class TipoApi (retrofit: Retrofit) {
     }
 
 
-    fun insere(item: Tipo, quandoSucesso: (Resource<Tipo?>) -> Unit, quandoFalha: (Resource<Tipo?>) -> Unit){
-        val call = tipoService.insereTipo(item)
+    fun insere(tipo: Tipo, quandoSucesso: (Resource<Tipo?>) -> Unit, quandoFalha: (Resource<Tipo?>) -> Unit){
+        val call = tipoService.insereTipo(tipo)
         val callback = BaseRequestCallback(
             quandoSucesso,
             quandoFalha

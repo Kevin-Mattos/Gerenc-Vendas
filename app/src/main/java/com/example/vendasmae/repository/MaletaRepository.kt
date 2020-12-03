@@ -50,11 +50,11 @@ class MaletaRepository(itemDao: MaletaDao, retrofit: Retrofit) {
         val quandoSucesso: (Resource<Maleta?>) -> Unit = {
             maletaBanco.insert(it.dado!!)
         }
-        val quandoFalha: (Resource<Produto?>) -> Unit = {
+        val quandoFalha: (Resource<Maleta?>) -> Unit = {
 //            liveData.value?.erro = "Falha ao se comunicar"
         }
 
-        //itemApi.atualiza(item, quandoSucesso, quandoFalha)
+        maletaApi.atualiza(item, quandoSucesso, quandoFalha)
     }
 
 

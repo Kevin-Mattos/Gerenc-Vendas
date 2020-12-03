@@ -4,26 +4,26 @@ import com.example.vendasmae.baseClass.BaseAsyncTask
 import com.example.vendasmae.entities.maleta.Maleta
 import com.example.vendasmae.entities.maleta.MaletaDao
 
-class MaletaBanco (val tipoDao: MaletaDao) {
+class MaletaBanco (val maletaDao: MaletaDao) {
 
-    fun getAll() = tipoDao.getAll()
+    fun getAll() = maletaDao.getAll()
 
-    fun insert(vendedora: Maleta){
-        val executa = { tipoDao.insertMaleta(vendedora)}
+    fun insert(maleta: Maleta){
+        val executa = { maletaDao.insertMaleta(maleta)}
         BaseAsyncTask(executa).execute()
     }
 
     fun removeAll() {
-        val executa = { tipoDao.removeAll()}
+        val executa = { maletaDao.removeAll()}
         BaseAsyncTask(executa).execute()
     }
 
-    fun insertMultlple(vendas: List<Maleta>) {
-        val executa = { tipoDao.insertMultiple(vendas)}
+    fun insertMultlple(maletas: List<Maleta>) {
+        val executa = { maletaDao.insertMultiple(maletas)}
         BaseAsyncTask(executa).execute()
     }
 
-    fun getMaletaQuantidadeValor() = tipoDao.getMaletaQuantidadeValor()
+    fun getMaletaQuantidadeValor() = maletaDao.getMaletaQuantidadeValor()
 
 
 }

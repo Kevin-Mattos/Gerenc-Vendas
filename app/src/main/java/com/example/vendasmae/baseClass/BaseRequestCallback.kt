@@ -1,6 +1,7 @@
 package com.example.vendasmae.baseClass
 
 import android.util.Log
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -13,7 +14,7 @@ class BaseRequestCallback<T>(val quandoSucesso: (Resource<T?>) -> Unit, val quan
             override fun onFailure(call: Call<T?>, t: Throwable) {
                 Log.d("request", "failed to get shit", t)
 
-                quandoFalha(Resource(null, false, MyError(null, "No Internet")))
+                quandoFalha(Resource(null, false, MyError(null, ResponseBody.create(null, "Sem comunicação"))))
             }
 
             override fun onResponse(
@@ -27,7 +28,7 @@ class BaseRequestCallback<T>(val quandoSucesso: (Resource<T?>) -> Unit, val quan
                             quandoSucesso(Resource(it, true))
                     }
                 }else{
-                    quandoFalha(Resource(null, false, MyError(2, response.errorBody().toString())))
+                    quandoFalha(Resource(null, false, MyError(response.code(), response.errorBody())))
                 }
             }
         }
