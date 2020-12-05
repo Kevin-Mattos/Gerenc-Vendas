@@ -73,9 +73,9 @@ class MaletaAdapter (private val context: Context, val actions: MaletaActions, p
         fun vincula(itemVendedora: MaletaQuantidadeValor) {
             this.maletaQuantidadeValor = itemVendedora
             itemView.maleta_nome.text = maletaQuantidadeValor.maleta.nome
-            itemView.maleta_quantidade.text = "${maletaQuantidadeValor.quantidadeEmEstoque}"
-            itemView.maleta_valor.text = "${maletaQuantidadeValor.somaDeValores?:0}"
-            itemView.maleta_vendedora.text = maletaQuantidadeValor.vendedora?.nome?:"Nenhuma"
+            itemView.maleta_quantidade.text = String.format(context.getText(R.string.maleta_quantidade_itens).toString(),maletaQuantidadeValor.quantidadeEmEstoque.toInt())
+            itemView.maleta_valor.text = String.format(context.getText(R.string.maleta_valor_contido).toString(), maletaQuantidadeValor.somaDeValores?:0f )
+            itemView.maleta_vendedora.text = String.format(context.getText(R.string.maleta_esta_com).toString(), maletaQuantidadeValor.vendedora?.nome?:"Nenhuma")
 
 
         }
