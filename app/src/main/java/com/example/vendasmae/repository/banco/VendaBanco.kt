@@ -3,6 +3,7 @@ package com.example.vendasmae.repository.banco
 import com.example.vendasmae.entities.vendas.Venda
 import com.example.vendasmae.entities.vendas.VendaDao
 import com.example.vendasmae.baseClass.BaseAsyncTask
+import com.example.vendasmae.entities.vendedoras.Vendedora
 
 class VendaBanco (val vendaDao: VendaDao) {
 
@@ -32,5 +33,13 @@ class VendaBanco (val vendaDao: VendaDao) {
         val executa = { vendaDao.removeById(id)}
         BaseAsyncTask(executa).execute()
     }
+
+    fun updateVenda(venda: Venda) {
+        val executa = { vendaDao.updateVenda(venda)}
+        BaseAsyncTask(executa).execute()
+    }
+
+
+
 
 }

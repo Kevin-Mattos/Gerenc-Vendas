@@ -31,5 +31,30 @@ class VendedoraApi(retrofit: Retrofit) {
         call.enqueue(callback.execute())
     }
 
+    fun remove(
+        id: Long,
+        quandoSucesso: (Resource<Long?>) -> Unit,
+        quandoFalha: (Resource<Long?>) -> Unit
+    ) {
+        val call = vendedorasService.removeVendedora(id)
+        val callback = BaseRequestCallback(
+            quandoSucesso,
+            quandoFalha
+        )
+
+        call.enqueue(callback.execute())
+    }
+
+
+    fun update(vendedora: Vendedora, quandoSucesso: (Resource<Vendedora?>) -> Unit, quandoFalha: (Resource<Vendedora?>) -> Unit){
+        val call = vendedorasService.updateVendedora(vendedora.id, vendedora)
+        val callback = BaseRequestCallback(
+            quandoSucesso,
+            quandoFalha
+        )
+
+        call.enqueue(callback.execute())
+    }
+
 
 }

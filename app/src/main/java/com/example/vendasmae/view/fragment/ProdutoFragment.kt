@@ -180,7 +180,7 @@ class ProdutoFragment : BaseFragment(), ProdutoAdapter.ProdutoActions, AdapterVi
             dialog.findViewById<EditText>(R.id.dialog_prod_nome).setText(item.nome)
              dialog.findViewById<EditText>(R.id.dialog_prod_modelo).setText(item.modelo)
              dialog.findViewById<EditText>(R.id.dialog_prod_valor).setText(item.valor.toString())
-            dialog.setTitle("Atualizar Produto")
+            dialog.findViewById<TextView>(R.id.dialog_produto_title).setText("Atualizar Produto")
             mViewModel.selectedVendedora = vendedoras.firstOrNull { it.id == item.id_vendedora }
             mViewModel.selectedtipo = tipos.firstOrNull { it.id == item.id_tipo }
             mViewModel.selectedMaleta = maletas.firstOrNull { it.id == item.id_maleta }

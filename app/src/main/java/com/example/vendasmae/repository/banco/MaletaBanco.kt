@@ -3,6 +3,7 @@ package com.example.vendasmae.repository.banco
 import com.example.vendasmae.baseClass.BaseAsyncTask
 import com.example.vendasmae.entities.maleta.Maleta
 import com.example.vendasmae.entities.maleta.MaletaDao
+import com.example.vendasmae.entities.vendedoras.Vendedora
 
 class MaletaBanco (val maletaDao: MaletaDao) {
 
@@ -30,5 +31,10 @@ class MaletaBanco (val maletaDao: MaletaDao) {
         BaseAsyncTask(executa).execute()
     }
 
+
+    fun updateMaleta(maleta: Maleta) {
+        val executa = { maletaDao.updateMaleta(maleta)}
+        BaseAsyncTask(executa).execute()
+    }
 
 }

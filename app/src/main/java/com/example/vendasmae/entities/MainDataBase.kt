@@ -36,27 +36,37 @@ abstract class MainDataBase: RoomDatabase() {
                     MainDataBase::class.java,
                     nomeDoBanco
                 ).build()
+
+//
+//
                 var query =
                     "create trigger IF NOT EXISTS atualizaVenda after insert on venda " +
                             "begin " +
-                            "UPDATE Produto SET vendido = 1 WHERE new.id_produto = Produto.id; " +
-                            "end"
+                            "UPDATE produto SET vendido = 1 WHERE new.id_produto = produto.id; " +
+                            "end;"
                 val triggerOnInsertVenda = db.openHelper
                 triggerOnInsertVenda.writableDatabase.execSQL(query)
+
+                query = "create trigger IF NOT EXISTS removeVenda after delete on venda " +
+                        "begin " +
+                        "UPDATE produto SET vendido = 0 WHERE old.id_produto = produto.id; " +
+                        "end;"
+                val triggerORemoveVenda = db.openHelper
+                triggerORemoveVenda.writableDatabase.execSQL(query)
 
                 query =
                     "create trigger IF NOT EXISTS transfereMaleta after update on Maleta" +
                             " BEGIN " +
-                            "UPDATE item SET id_vendedora = new.id_vendedora WHERE id_maleta = new.id;" +
+                            "UPDATE produto SET id_vendedora =  CASE WHEN new.id_vendedora IS null THEN  1 ELSE new.id_vendedora END WHERE id_maleta = new.id;" +
                             " end;"
                 val triggerOnUpdateMaleta = db.openHelper
                 triggerOnUpdateMaleta.writableDatabase.execSQL(query)
-
+//
                 query =
-                    "create trigger IF NOT EXISTS transfereItemOnDeleteMaleta after delete on Maleta" +
-                            " BEGIN " +
-                            "UPDATE produto SET id_maleta = null WHERE id_maleta = old.id;" +
-                            " end;"
+                "create trigger IF NOT EXISTS transfereItemOnDeleteMaleta BEFORE delete on Maleta" +
+                        " BEGIN " +
+                        "UPDATE produto SET id_vendedora = 1 WHERE id_maleta = old.id;" +
+                        " end;"
 
                 val triggerOnDeleteMaleta = db.openHelper
                 triggerOnDeleteMaleta.writableDatabase.execSQL(query)

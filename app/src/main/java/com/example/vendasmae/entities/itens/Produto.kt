@@ -24,13 +24,13 @@ class Produto(
     @ForeignKey(entity = Vendedora::class,
         parentColumns = ["id"],
         childColumns = ["id_vendedora"],
-        onDelete = ForeignKey.SET_NULL
+        onDelete = ForeignKey.SET_DEFAULT
     )
-    var id_vendedora: Long? = -1,
+    var id_vendedora: Long = 1,
     @ForeignKey(entity = Maleta::class,
         parentColumns = ["id"],
         childColumns = ["id_maleta"],
-        onDelete = ForeignKey.SET_NULL
+        onDelete = ForeignKey.SET_DEFAULT
     )var id_maleta: Long? = null
 ){
     override fun toString() = nome

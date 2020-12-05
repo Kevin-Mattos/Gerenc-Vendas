@@ -6,6 +6,6 @@ import org.jetbrains.annotations.NotNull
 
 
 @Entity
-data class Vendedora (@PrimaryKey val id: Long, @NotNull val nome:String){
+data class Vendedora (@PrimaryKey val id: Long, @NotNull var nome:String){
     override fun toString() = nome
 }

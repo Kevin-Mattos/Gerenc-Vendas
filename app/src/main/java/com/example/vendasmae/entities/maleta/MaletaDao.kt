@@ -13,6 +13,11 @@ interface MaletaDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertMaleta(lista: Maleta)
 
+
+    @Update
+    fun updateMaleta(maleta: Maleta)
+
+
     @Delete
     fun deleteMaleta(lista: Maleta)
 

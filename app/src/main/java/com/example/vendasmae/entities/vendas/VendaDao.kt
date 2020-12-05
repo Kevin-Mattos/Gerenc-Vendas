@@ -2,6 +2,7 @@ package com.example.vendasmae.entities.vendas
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.example.vendasmae.entities.maleta.Maleta
 
 @Dao
 interface VendaDao {
@@ -15,6 +16,9 @@ interface VendaDao {
     @Delete
     fun deleteVenda(venda: Venda)
 
+
+    @Update
+    fun updateVenda(venda: Venda)
 
     @Query("DELETE FROM Venda")
     fun removeAll()

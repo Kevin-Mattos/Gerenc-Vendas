@@ -31,6 +31,10 @@ class TipoBanco  (val tipoDao: TipoDao) {
     }
 
 
+    fun updateTipo(tipo: Tipo) {
+        val executa = { tipoDao.updateTipo(tipo)}
+        BaseAsyncTask(executa).execute()
+    }
 
 
 }

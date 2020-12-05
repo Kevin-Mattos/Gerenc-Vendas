@@ -3,6 +3,7 @@ package com.example.vendasmae.repository.banco
 import com.example.vendasmae.entities.itens.Produto
 import com.example.vendasmae.entities.itens.ProdutoDao
 import com.example.vendasmae.baseClass.BaseAsyncTask
+import com.example.vendasmae.entities.vendedoras.Vendedora
 
 class ProdutoBanco(private val produtoDao: ProdutoDao) {
 
@@ -28,5 +29,10 @@ class ProdutoBanco(private val produtoDao: ProdutoDao) {
     fun getProdutoMaleta(id: Long) = produtoDao.getItemMaleta(id)
 
     fun getProdutoVendedora() =  produtoDao.getProdutoEComQuemEsta()
+
+    fun updateProduto(produto: Produto) {
+        val executa = { produtoDao.updateProduto(produto)}
+        BaseAsyncTask(executa).execute()
+    }
 
 }

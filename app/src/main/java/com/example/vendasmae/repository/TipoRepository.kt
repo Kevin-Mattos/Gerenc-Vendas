@@ -52,7 +52,7 @@ class TipoRepository (itemDao: TipoDao, retrofit: Retrofit) {
 
     fun update(tipo: Tipo) {
         val quandoSucesso: (Resource<Tipo?>) -> Unit = {
-            tipoBanco.insert(it.dado!!)
+            tipoBanco.updateTipo(it.dado!!)
         }
         val quandoFalha: (Resource<Tipo?>) -> Unit = {
 //            liveData.value = "Falha ao se comunicar"

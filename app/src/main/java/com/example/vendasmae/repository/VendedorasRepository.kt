@@ -48,5 +48,29 @@ class VendedorasRepository(vendedoraDao: VendedoraDao, retrofit: Retrofit) {
     fun getVendedoraValorQuantidade() = liveData
 
     fun getAll() = vendedoraBanco.getAll()
+
+
+    fun remove(vendedora: Vendedora) {
+        val quandoSucesso: (Resource<Long?>) -> Unit = {
+            vendedoraBanco.remove(it.dado!!)
+        }
+        val quandoFalha: (Resource<Long?>) -> Unit = {
+//            liveData.value?.erro = "Falha ao se comunicar"
+        }
+
+        vendedoraApi.remove(vendedora.id , quandoSucesso, quandoFalha)
+
+    }
+
+    fun updateVendedora(vendedora: Vendedora) {
+        val quandoSucesso: (Resource<Vendedora?>) -> Unit = {
+            vendedoraBanco.updateVendedora(it.dado!!)
+        }
+        val quandoFalha: (Resource<Vendedora?>) -> Unit = {
+//            liveData.value?.erro = "Falha ao se comunicar"
+        }
+
+        vendedoraApi.update(vendedora , quandoSucesso, quandoFalha)
+    }
 }
 

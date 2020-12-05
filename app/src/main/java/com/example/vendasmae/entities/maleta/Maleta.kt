@@ -12,7 +12,7 @@ class Maleta(@PrimaryKey val id: Long,
                  parentColumns = ["id"],
                  childColumns = ["id_vendedora"],
                  onDelete = ForeignKey.SET_NULL
-             ) var id_vendedora: Long? = null
+             ) var id_vendedora: Long?  = null
 ) {
     override fun toString() = nome
 }

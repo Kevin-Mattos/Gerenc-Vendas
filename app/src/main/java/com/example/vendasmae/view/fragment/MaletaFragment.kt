@@ -149,7 +149,7 @@ class MaletaFragment : BaseFragment(), MaletaAdapter.MaletaActions,
 
         maleta?.let{
             dialog.findViewById<EditText>(R.id.dialog_maleta_nome).setText(maleta.nome)
-            dialog.setTitle("Atualizar Maleta")
+            dialog.findViewById<TextView>(R.id.dialog_maleta_title).setText("Atualizar Maleta")
             mViewModel.selectedVendedora = mViewModel.vendedoras.firstOrNull{ it.id == maleta.id_vendedora}
             vendSpinner.setSelection(mViewModel.getSelectedVendedoraPosition())
             dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setText("remover")
@@ -163,8 +163,9 @@ class MaletaFragment : BaseFragment(), MaletaAdapter.MaletaActions,
         theButton.setOnClickListener {
             val nome = dialog.findViewById<EditText>(R.id.dialog_maleta_nome).text.toString()
             if(!nome.isBlank()) {
-                if(maleta == null)
+                if(maleta == null) {
                     mViewModel.insere(Maleta(0, nome, mViewModel.selectedVendedora?.id))
+                }
                 else {
                     maleta.nome = nome
                     maleta.id_vendedora =  mViewModel.selectedVendedora?.id

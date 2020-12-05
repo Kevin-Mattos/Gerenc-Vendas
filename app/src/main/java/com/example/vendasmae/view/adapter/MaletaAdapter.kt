@@ -75,7 +75,7 @@ class MaletaAdapter (private val context: Context, val actions: MaletaActions, p
             itemView.maleta_nome.text = maletaQuantidadeValor.maleta.nome
             itemView.maleta_quantidade.text = "${maletaQuantidadeValor.quantidadeEmEstoque}"
             itemView.maleta_valor.text = "${maletaQuantidadeValor.somaDeValores?:0}"
-            itemView.maleta_vendedora.text = maletaQuantidadeValor.vendedora?.nome?:"Sem Vendedora"
+            itemView.maleta_vendedora.text = maletaQuantidadeValor.vendedora?.nome?:"Nenhuma"
 
 
         }

@@ -7,13 +7,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.vendasmae.R
+import com.example.vendasmae.entities.vendedoras.Vendedora
 import com.example.vendasmae.entities.vendedoras.VendedoraQuantidadeValor
 import kotlinx.android.synthetic.main.vendedora_view.view.*
 
-class VendedorasAdapter (private val context: Context, private val dataSet: MutableList<VendedoraQuantidadeValor> = mutableListOf()) :
+class VendedorasAdapter (private val context: Context, private val actions: VendedoraActions ,private val dataSet: MutableList<VendedoraQuantidadeValor> = mutableListOf()) :
     RecyclerView.Adapter<VendedorasAdapter.ViewHolder>() {
     private val TAG = "baseAdapter"
 
+    interface VendedoraActions {
+        fun longClickVendedora(vendedora: Vendedora)
+        fun clickVendedora(vendedora: Vendedora)
+    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -46,19 +51,26 @@ class VendedorasAdapter (private val context: Context, private val dataSet: Muta
     inner class ViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
 
-        private lateinit var noticia: VendedoraQuantidadeValor
+        private lateinit var vendedoraQuantidadeValor: VendedoraQuantidadeValor
 
         init {
             itemView.setOnClickListener {
-                if (::noticia.isInitialized) {
-//                    quandoItemClicado(noticia)
-                    Log.d(TAG, "${noticia.vendedora} clicado")
+                if (::vendedoraQuantidadeValor.isInitialized) {
+                    actions.clickVendedora(vendedoraQuantidadeValor.vendedora)
+                    Log.d(TAG, "${vendedoraQuantidadeValor.vendedora} clicado")
                 }
+            }
+            itemView.setOnLongClickListener {
+                if (::vendedoraQuantidadeValor.isInitialized) {
+                    actions.longClickVendedora(vendedoraQuantidadeValor.vendedora)
+                    Log.d(TAG, "${vendedoraQuantidadeValor.vendedora} clicado")
+                }
+                true
             }
         }
 
         fun vincula(vendedora: VendedoraQuantidadeValor) {
-            this.noticia = vendedora
+            this.vendedoraQuantidadeValor = vendedora
             itemView.vendedora_nome.text = vendedora.vendedora.nome
             itemView.vendedora_quantidade.text = "${vendedora.quantidadeVentido}"
             itemView.vendedora_valor.text = "${vendedora.valorVendido}"

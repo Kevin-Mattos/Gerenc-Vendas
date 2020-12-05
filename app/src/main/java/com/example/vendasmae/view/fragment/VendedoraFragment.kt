@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.vendasmae.R
@@ -29,7 +30,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [VendedoraFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class VendedoraFragment : BaseFragment() {
+class VendedoraFragment : BaseFragment(), VendedorasAdapter.VendedoraActions {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -38,7 +39,7 @@ class VendedoraFragment : BaseFragment() {
 
     private val adapter by lazy {
         context?.let {
-            VendedorasAdapter(context = it)
+            VendedorasAdapter(context = it, actions = this)
         } ?: throw IllegalArgumentException("contexto invalido")
 
     }
@@ -92,7 +93,7 @@ class VendedoraFragment : BaseFragment() {
     }
 
 
-    private fun showDialog() {
+    private fun showDialog(vendedora: Vendedora? = null) {
 
         val builder = AlertDialog.Builder(this.context)
         // Get the layout inflater
@@ -115,11 +116,25 @@ class VendedoraFragment : BaseFragment() {
         val dialog = builder.create()
         dialog.show()
 
+        vendedora?.let {
+            dialog.findViewById<TextView>(R.id.dialog_vendedora_title).setText("Atualizar Vendedora")
+            dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setText("Remover")
+            dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener {
+                mViewModel.removeVendedora(vendedora)
+                dialog.dismiss()
+            }
+        }
+
         val theButton: Button = dialog.getButton(DialogInterface.BUTTON_POSITIVE)
         theButton.setOnClickListener {
             val nome = dialog.findViewById<EditText>(R.id.dialog_vendedora_nome).text.toString()
 
-            mViewModel.insere(Vendedora(0, if(nome.isNotBlank()) nome else "Escreva um nome${mViewModel.getQTD()}"))
+            if(vendedora == null)
+                mViewModel.insere(Vendedora(0, if(nome.isNotBlank()) nome else "Escreva um nome${mViewModel.getQTD()}"))
+            else{
+                vendedora.nome = nome
+                mViewModel.updateVendedora(vendedora)
+            }
             dialog.dismiss()
         }
 
@@ -127,7 +142,13 @@ class VendedoraFragment : BaseFragment() {
 
     }
 
+    override fun longClickVendedora(vendedora: Vendedora) {
+        showDialog(vendedora)
+    }
 
+    override fun clickVendedora(vendedora: Vendedora) {
+
+    }
 
 
 }

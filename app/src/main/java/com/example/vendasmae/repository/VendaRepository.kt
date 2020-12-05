@@ -33,7 +33,7 @@ class VendaRepository(private val vendaDao: VendaDao, retrofit: Retrofit) {
         vendaApi.getAll(quandoSucesso, quandoFalha)
     }
 
-    fun insere(vendedora: Venda){
+    fun insere(venda: Venda){
         val quandoSucesso: (Resource<Venda?>) -> Unit = {
             vendaBanco.insert(it.dado!!)
         }
@@ -41,7 +41,7 @@ class VendaRepository(private val vendaDao: VendaDao, retrofit: Retrofit) {
 //            liveData.value?.erro = "Falha ao se comunicar"
         }
 
-        vendaApi.insere(vendedora, quandoSucesso, quandoFalha)
+        vendaApi.insere(venda, quandoSucesso, quandoFalha)
 
     }
 
@@ -51,7 +51,7 @@ class VendaRepository(private val vendaDao: VendaDao, retrofit: Retrofit) {
 
     fun atualiza(venda: Venda) {
         val quandoSucesso: (Resource<Venda?>) -> Unit = {
-            vendaBanco.insert(it.dado!!)
+            vendaBanco.updateVenda(it.dado!!)
         }
         val quandoFalha: (Resource<Venda?>) -> Unit = {
 //            liveData.value?.erro = "Falha ao se comunicar"

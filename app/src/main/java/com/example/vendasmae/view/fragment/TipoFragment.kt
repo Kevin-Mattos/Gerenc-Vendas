@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.vendasmae.MainActivity
@@ -135,7 +136,7 @@ class TipoFragment : BaseFragment(), TipoAdapter.TipoActions {
 
             dialog.findViewById<EditText>(R.id.dialog_tipo_nome).setText(it.nome)
             dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setText("Remover")
-            dialog.setTitle("Atualizar Tipo")
+            dialog.findViewById<TextView>(R.id.dialog_tipo_title).setText("Atualizar Tipo")
             dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener {
                 mViewModel.remove(tipo)
                 dialog.dismiss()

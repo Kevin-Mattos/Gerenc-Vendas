@@ -2,6 +2,7 @@ package com.example.vendasmae.entities.vendedoras
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.example.vendasmae.entities.maleta.Maleta
 
 @Dao
 interface VendedoraDao {
@@ -19,6 +20,9 @@ interface VendedoraDao {
     fun removeAll()
 
 
+    @Update
+    fun updateVendedora(vendedora: Vendedora)
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertMultiple(vendedoras: List<Vendedora>)
 
@@ -26,6 +30,9 @@ interface VendedoraDao {
     @Query("SELECT vendedora.*, COUNT(Venda.id) as quantidadeVentido, SUM(Venda.valor) as valorVendido  FROM Vendedora LEFT JOIN Venda ON vendedora.id = venda.id_vendedora group by Vendedora.id;")
     fun getVendedoraValorQuantidade(): LiveData<List<VendedoraQuantidadeValor>>
 
+
+    @Query("DELETE FROM Vendedora WHERE id = :id")
+    fun removeVendedora(id: Long)
 
 
 }

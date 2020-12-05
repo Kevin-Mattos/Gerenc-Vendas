@@ -152,7 +152,7 @@ class VendaFragment : BaseFragment(), AdapterView.OnItemSelectedListener, VendaA
         venda?.let {
             dialog.findViewById<Spinner>(R.id.dialog_venda_vendedora_spinner).visibility = View.GONE
             dialog.findViewById<Spinner>(R.id.dialog_venda_item_spinner).visibility = View.GONE
-            dialog.setTitle("Atualizar Venda")
+            dialog.findViewById<TextView>(R.id.dialog_venda_title).setText("Atualizar Venda")
             dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setText("Remover")
             dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener {
                 mViewModel.remove(venda)

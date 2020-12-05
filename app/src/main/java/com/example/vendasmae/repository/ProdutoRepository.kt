@@ -53,7 +53,7 @@ class ProdutoRepository(produtoDao: ProdutoDao, retrofit: Retrofit) {
 
     fun update(produto: Produto) {
         val quandoSucesso: (Resource<Produto?>) -> Unit = {
-            produtoBanco.insert(it.dado!!)
+            produtoBanco.updateProduto(it.dado!!)
         }
         val quandoFalha: (Resource<Produto?>) -> Unit = {
 //            liveData.value?.erro = "Falha ao se comunicar"

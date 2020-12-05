@@ -2,6 +2,7 @@ package com.example.vendasmae.entities.itens
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.example.vendasmae.entities.maleta.Maleta
 
 @Dao
 interface ProdutoDao {
@@ -18,6 +19,9 @@ interface ProdutoDao {
     @Query("DELETE FROM Produto WHERE id == :id")
     fun deleteProdutoById(id: Long)
 
+
+    @Update
+    fun updateProduto(produto: Produto)
 
     @Query("DELETE FROM Produto")
     fun removeAll()

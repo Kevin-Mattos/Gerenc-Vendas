@@ -58,11 +58,11 @@ class VendaFragmentViewModel(application: Application): AndroidViewModel(applica
     }
 
     fun getSelectedItemPos(): Int {
-        return itens?.indexOfFirst { it?.id == selectedProduto?.id }?:0
+        return itens?.indexOfFirst { it?.id == selectedProduto?.id }
     }
 
     fun getSelectedVendedoraPos(): Int {
-        return vendedoras?.indexOfFirst { it?.id == selectedVendedora?.id }?:0
+        return vendedoras?.indexOfFirst { it?.id == selectedVendedora?.id }
     }
 
     fun getAllVendedoras() = vendedoraRepo.getAll()

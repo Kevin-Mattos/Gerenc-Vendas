@@ -12,6 +12,9 @@ interface TipoDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertTipo(lista: Tipo)
 
+    @Update
+    fun updateTipo(tipo: Tipo)
+
     @Delete
     fun deleteTipo(lista: Tipo)
 

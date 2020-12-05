@@ -29,4 +29,13 @@ class VendedoraFragmentViewModel(application: Application): AndroidViewModel(app
     fun getQTD() = liveData.value?.size
 
     fun insere(vendedora: Vendedora) = vendedoraRepo.insere(vendedora)
+
+
+    fun removeVendedora(vendedora: Vendedora) {
+        vendedoraRepo.remove(vendedora)
+    }
+
+    fun updateVendedora(vendedora: Vendedora) {
+        vendedoraRepo.updateVendedora(vendedora)
+    }
 }
