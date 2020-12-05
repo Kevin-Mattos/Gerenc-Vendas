@@ -5,4 +5,6 @@
     <string name="maleta_valor_contido">Valor: R$ %.2f</string>
     <string name="maleta_quantidade_itens">Quantidade de itens: %d</string>
     <string name="maleta_esta_com">Está com: %s</string>
+    <string name="produto_esta_com">Está com: %s</string>
+    <string name="produto_valor_format">R$ %.2f</string>
 </resources>

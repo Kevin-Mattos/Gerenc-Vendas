@@ -65,14 +65,8 @@ class ProdutoAdapter (private val context: Context, val actions: ProdutoActions,
         fun vincula(produtoVendedora: ProdutoVendedora) {
             this.tipo = produtoVendedora
             itemView.produto_nome.text = produtoVendedora.produto.nome
-            itemView.produto_vendedora.text = produtoVendedora.vendedora?.nome ?: "Ninguém"
-            itemView.produto_valor.text = "${produtoVendedora.produto.valor}"
-//            if(itemVendedora.item.foiVendido())
-//                itemView.produto_nome.setTextColor(itemView.resources.getColor(R.color.colorPrimaryDark, null))
-//            else
-//                itemView.produto_nome.setTextColor(itemView.resources.getColor(R.color.colorAccent, null))
-
-
+            itemView.produto_vendedora.text = context.getString(R.string.produto_esta_com,produtoVendedora.vendedora?.nome ?: "Ninguém")
+            itemView.produto_valor.text = context.getString(R.string.produto_valor_format, produtoVendedora.produto.valor)
         }
 
     }
