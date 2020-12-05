@@ -53,6 +53,7 @@ class VendaFragment : BaseFragment(), AdapterView.OnItemSelectedListener, VendaA
         arguments?.let {
 
         }
+
     }
 
 

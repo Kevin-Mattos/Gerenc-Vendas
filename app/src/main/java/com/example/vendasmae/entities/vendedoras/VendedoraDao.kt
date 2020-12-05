@@ -30,9 +30,14 @@ interface VendedoraDao {
     @Query("SELECT vendedora.*, COUNT(Venda.id) as quantidadeVentido, SUM(Venda.valor) as valorVendido  FROM Vendedora LEFT JOIN Venda ON vendedora.id = venda.id_vendedora group by Vendedora.id;")
     fun getVendedoraValorQuantidade(): LiveData<List<VendedoraQuantidadeValor>>
 
+    @Query("SELECT vendedora.*, COUNT(Venda.id) as quantidadeVentido, SUM(Venda.valor) as valorVendido  FROM Vendedora LEFT JOIN Venda ON vendedora.id = venda.id_vendedora group by Vendedora.id ORDER BY quantidadeVentido DESC;")
+    fun getVendedoraValorQuantidadeOrderByVendas(): LiveData<List<VendedoraQuantidadeValor>>
 
     @Query("DELETE FROM Vendedora WHERE id = :id")
     fun removeVendedora(id: Long)
+
+    @Query("SELECT vendedora.*, COUNT(Venda.id) as quantidadeVentido, SUM(Venda.valor) as valorVendido  FROM Vendedora LEFT JOIN Venda ON vendedora.id = venda.id_vendedora group by Vendedora.id ORDER BY valorVendido DESC;")
+    fun getVendedoraValorQuantidadeOrderByValorVendido(): LiveData<List<VendedoraQuantidadeValor>>
 
 
 }

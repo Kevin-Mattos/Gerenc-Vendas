@@ -38,4 +38,7 @@ class VendedoraFragmentViewModel(application: Application): AndroidViewModel(app
     fun updateVendedora(vendedora: Vendedora) {
         vendedoraRepo.updateVendedora(vendedora)
     }
+
+    fun getVendedoraValorQuantidadeOrderByQuantidadeVendas() = vendedoraRepo.vendedoraBanco.vendedoraDao.getVendedoraValorQuantidadeOrderByVendas()
+    fun getVendedoraValorQuantidadeOrderByValorVendido() = vendedoraRepo.vendedoraBanco.vendedoraDao.getVendedoraValorQuantidadeOrderByValorVendido()
 }

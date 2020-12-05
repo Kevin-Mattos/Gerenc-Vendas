@@ -3,6 +3,7 @@ package com.example.vendasmae
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
 import android.view.View
 import androidx.lifecycle.Observer
 import com.example.vendasmae.baseClass.BaseFragment
@@ -44,10 +45,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(mBinding.root)
 
-        mBinding.navigation.visibility = View.VISIBLE
-
-        //
-        val vendedoraDao = MainDataBase.getInstance(applicationContext).vendedoraDao()
+       val vendedoraDao = MainDataBase.getInstance(applicationContext).vendedoraDao()
         val itemDao = MainDataBase.getInstance(applicationContext).produtoDao()
         val vendaDao = MainDataBase.getInstance(applicationContext).vendaDao()
         val tipoDao = MainDataBase.getInstance(applicationContext).tipoDao()
@@ -115,7 +113,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setFAB() {
-        mBinding.addFloatingActionButton.show()
+        if(currentFrag is MainFrag)
+            hideFab()
+        else
+            showFab()
+
         mBinding.addFloatingActionButton.setOnClickListener{
             currentFrag.adiciona()
         }
@@ -182,7 +184,6 @@ class MainActivity : AppCompatActivity() {
             this.addToBackStack(null)
         }
         setFAB()
-        //hideFab()
     }
 
     override fun onBackPressed() {
@@ -196,6 +197,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun hideFab() {
         mBinding.addFloatingActionButton.hide()
+    }
+
+    fun showFab(){
+        mBinding.addFloatingActionButton.show()
     }
 
     fun setNav(){

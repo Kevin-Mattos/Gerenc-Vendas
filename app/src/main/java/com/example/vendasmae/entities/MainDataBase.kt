@@ -61,7 +61,7 @@ abstract class MainDataBase: RoomDatabase() {
                             " end;"
                 val triggerOnUpdateMaleta = db.openHelper
                 triggerOnUpdateMaleta.writableDatabase.execSQL(query)
-//
+
                 query =
                 "create trigger IF NOT EXISTS transfereItemOnDeleteMaleta BEFORE delete on Maleta" +
                         " BEGIN " +

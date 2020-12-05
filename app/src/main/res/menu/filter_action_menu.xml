@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/actionMaiorQuantidadeVenda"
+        android:enabled="true"
+        android:title="Venda" />
+
+    <item
+        android:id="@+id/actionMaiorValor"
+        android:enabled="true"
+        android:title="Dinheiro" />
+
+
+</menu>
