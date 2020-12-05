@@ -75,7 +75,7 @@ class TipoAdapter(private val context: Context,val actions: TipoActions, private
             this.tipo = tipo
             itemView.tipo_nome.text = tipo.tipo.nome
             itemView.tipo_quantidade.text = "${tipo.quantidadeEmEstoque}"
-            itemView.tipo_valor.text = "${tipo.somaDeValores?:0}"
+            itemView.tipo_valor.text = context.getString(R.string.tipo_soma_valor,tipo.somaDeValores?:0f)
 
         }
 

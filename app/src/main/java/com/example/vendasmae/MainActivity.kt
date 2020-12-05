@@ -149,7 +149,7 @@ class MainActivity : AppCompatActivity() {
         setFAB()
     }
     fun startTipoFrag(){
-        title = "Produtos"
+        title = "Tipo"
         currentFrag = TipoFragment()
         transacaoFragment {
             replace(R.id.frag_container, currentFrag, tipoTag)
