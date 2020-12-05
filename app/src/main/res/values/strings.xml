@@ -2,7 +2,7 @@
     <string name="app_name">VendasMae</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="maleta_valor_contido">Valor: R$ %.2f</string>
+    <string name="maleta_valor_contido">R$ %.2f</string>
     <string name="maleta_quantidade_itens">Quantidade de itens: %d</string>
     <string name="maleta_esta_com">Está com: %s</string>
     <string name="produto_esta_com">Vendedora</string>

@@ -17,7 +17,8 @@ class Venda (@PrimaryKey var id: Long,
              @NotNull @ForeignKey(entity = Produto::class,
                     parentColumns = ["id"],
                     childColumns = ["id_produto"],
-                    onDelete = CASCADE) val id_produto: Long,
-             @NotNull @ForeignKey(entity = Vendedora::class,
+                    onDelete = CASCADE)
+             val id_produto: Long,
+             @ForeignKey(entity = Vendedora::class,
                     parentColumns = ["id"],
                     childColumns = ["id_vendedora"]) val id_vendedora: Long?)

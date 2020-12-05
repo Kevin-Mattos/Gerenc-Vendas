@@ -110,11 +110,11 @@ class MainFrag : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        itemRepo.buscarProduto()
-        vendaRepo.buscarVendas()
-        vendedorasRepo.buscarVendedoras()
-        tipoRepo.buscarTipos()
-        maletaRepo.buscarMaletas()
+//        itemRepo.buscarProduto()
+//        vendaRepo.buscarVendas()
+//        vendedorasRepo.buscarVendedoras()
+//        tipoRepo.buscarTipos()
+//        maletaRepo.buscarMaletas()
 
         Log.d(TAG, "onResume")
     }

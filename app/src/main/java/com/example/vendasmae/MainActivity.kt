@@ -99,10 +99,11 @@ class MainActivity : AppCompatActivity() {
         })
 
 
-//        vendedorasRepo.buscarVendedoras()
-//        itemRepo.buscarItem()
-//        vendaRepo.buscarVendas()
-//        tipoRepo.buscarTipos()
+        itemRepo.buscarProduto()
+        vendaRepo.buscarVendas()
+        vendedorasRepo.buscarVendedoras()
+        tipoRepo.buscarTipos()
+        maletaRepo.buscarMaletas()
 
 
         setNav()

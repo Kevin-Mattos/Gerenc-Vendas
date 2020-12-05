@@ -110,7 +110,8 @@
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:textSize="25sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textColor="@android:color/holo_blue_dark"/>
 
         </LinearLayout>
 
