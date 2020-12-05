@@ -8,4 +8,5 @@
     <string name="produto_esta_com">Vendedora</string>
     <string name="produto_valor_format">R$ %.2f</string>
     <string name="tipo_soma_valor">R$ %.2f</string>
+    <string name="vendedora_valor_format">R$ %.2f</string>
 </resources>

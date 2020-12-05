@@ -117,7 +117,7 @@
                     android:textSize="32sp"
                     android:textStyle="bold"
                     android:gravity="center"
-                    android:textColor="@android:color/holo_green_light"/>
+                    android:textColor="@android:color/holo_blue_dark"/>
 
             </LinearLayout>
         </LinearLayout>

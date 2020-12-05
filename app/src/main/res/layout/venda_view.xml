@@ -49,11 +49,12 @@
 
                 <TextView
                     android:id="@+id/venda_vendedora"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
                     android:ellipsize="end"
+                    android:layout_weight="1"
                     android:textSize="15sp"
+                    android:gravity="center"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -62,12 +63,14 @@
 
                 <TextView
                     android:id="@+id/venda_valor"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
                     android:ellipsize="end"
                     android:textSize="15sp"
                     android:textStyle="bold"
+                    android:textColor="@android:color/holo_green_light"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -75,9 +78,10 @@
 
                 <TextView
                     android:id="@+id/venda_data"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
                     android:ellipsize="end"
                     android:textSize="15sp"
                     android:textStyle="bold"

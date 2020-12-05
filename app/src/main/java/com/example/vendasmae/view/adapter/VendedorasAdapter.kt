@@ -73,7 +73,7 @@ class VendedorasAdapter (private val context: Context, private val actions: Vend
             this.vendedoraQuantidadeValor = vendedora
             itemView.vendedora_nome.text = vendedora.vendedora.nome
             itemView.vendedora_quantidade.text = "${vendedora.quantidadeVentido}"
-            itemView.vendedora_valor.text = "${vendedora.valorVendido}"
+            itemView.vendedora_valor.text = context.getString(R.string.vendedora_valor_format, vendedora.valorVendido)
         }
 
     }
