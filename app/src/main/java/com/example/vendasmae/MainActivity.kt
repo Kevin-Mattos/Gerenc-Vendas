@@ -1,10 +1,14 @@
 package com.example.vendasmae
 
+import android.app.SearchManager
+import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.View
+import android.widget.SearchView
 import androidx.lifecycle.Observer
 import com.example.vendasmae.baseClass.BaseFragment
 import com.example.vendasmae.entities.MainDataBase
@@ -15,6 +19,7 @@ import com.example.vendasmae.view.fragment.*
 import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.lang.Exception
 
 class MainActivity : AppCompatActivity() {
 
@@ -45,7 +50,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(mBinding.root)
 
-       val vendedoraDao = MainDataBase.getInstance(applicationContext).vendedoraDao()
+
+        val vendedoraDao = MainDataBase.getInstance(applicationContext).vendedoraDao()
         val itemDao = MainDataBase.getInstance(applicationContext).produtoDao()
         val vendaDao = MainDataBase.getInstance(applicationContext).vendaDao()
         val tipoDao = MainDataBase.getInstance(applicationContext).tipoDao()

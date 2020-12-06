@@ -7,6 +7,8 @@
     android:clickable="true"
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackground"
+    app:cardElevation="15dp"
+    app:cardCornerRadius="10dp"
     android:layout_margin="8dp"
     tools:ignore="UnusedAttribute"
     tools:showIn="@layout/fragment_vendedora">

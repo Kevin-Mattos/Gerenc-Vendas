@@ -1,9 +1,10 @@
 package com.example.vendasmae.repository.banco
 
+import androidx.lifecycle.LiveData
 import com.example.vendasmae.entities.vendas.Venda
 import com.example.vendasmae.entities.vendas.VendaDao
 import com.example.vendasmae.baseClass.BaseAsyncTask
-import com.example.vendasmae.entities.vendedoras.Vendedora
+import com.example.vendasmae.entities.vendas.VendaVendedoraItem
 
 class VendaBanco (val vendaDao: VendaDao) {
 
@@ -39,7 +40,11 @@ class VendaBanco (val vendaDao: VendaDao) {
         BaseAsyncTask(executa).execute()
     }
 
-
+    fun getFilteredDate(
+        date: String
+    ): LiveData<List<VendaVendedoraItem>> {
+            return vendaDao.getFilteredDate(date)
+    }
 
 
 }

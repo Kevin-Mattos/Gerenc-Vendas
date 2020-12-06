@@ -1,13 +1,15 @@
 package com.example.vendasmae.view.fragment
 
 import android.app.AlertDialog
+import android.app.SearchManager
+import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.*
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.vendasmae.R
@@ -19,6 +21,7 @@ import com.example.vendasmae.entities.vendas.VendaVendedoraItem
 import com.example.vendasmae.entities.vendedoras.Vendedora
 import com.example.vendasmae.view.adapter.VendaAdapter
 import com.example.vendasmae.view.viewmodel.VendaFragmentViewModel
+import java.lang.Exception
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -53,6 +56,28 @@ class VendaFragment : BaseFragment(), AdapterView.OnItemSelectedListener, VendaA
         arguments?.let {
 
         }
+        setHasOptionsMenu(true)
+
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.venda_action_menu, menu)
+//        try {
+//            val searchManager = activity!!.getSystemService(Context.SEARCH_SERVICE) as SearchManager
+//            (menu.findItem(R.id.search)?.actionView as SearchView).apply {
+//                setSearchableInfo(searchManager.getSearchableInfo( activity!!.componentName))
+//            }
+//        }catch (ignore: Exception){
+//
+//        }
+    }
+    fun handleIntent(intent: Intent) {
+        if (Intent.ACTION_SEARCH == intent.action) {
+            val query = intent.getStringExtra(SearchManager.QUERY)
+            Log.d(TAG, "$query")
+            //use the query to search your data somehow
+        }
 
     }
 
@@ -84,28 +109,28 @@ class VendaFragment : BaseFragment(), AdapterView.OnItemSelectedListener, VendaA
         })
 
 
+        mBinding.datePicker.setOnDateChangedListener { datePicker, year, wrongMong, day ->
+            var month = wrongMong + 1
+
+            val formattedDate = String.format("%4d-%02d-%02d", year, month, day)
+
+           mViewModel.filterByDate(formattedDate)
+
+
+        }
 
         mViewModel.getItemVendedor().observe(this, Observer{
             it?.let{ itensVendedora ->
                 mViewModel.produtosVendedora = itensVendedora
             }
         })
-//        mViewModel.getAllItens().observe(this, Observer{
-//            it?.let{ itensVendedora ->
-//               mViewModel.itensVendedora = itensVendedora
-//            }
-//        })
-
-
-
 
     }
 
     override fun adiciona() {
         Log.d(TAG, "Adicionando venda")
-        val qtd = mViewModel.getQuantidade()?: 2
-        //mViewModel.insere(Venda(0, qtd*23.6.toFloat() ,0f,"data", 3, 4))
         showDialog()
+
     }
 
     private fun showDialog(venda: Venda? = null) {
@@ -138,12 +163,11 @@ class VendaFragment : BaseFragment(), AdapterView.OnItemSelectedListener, VendaA
 
         prodAdapter = ArrayAdapter<Produto>(this.context!!, R.layout.support_simple_spinner_dropdown_item)
         prodAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
-        //val itens = mViewModel.itensVendedora!!.flatMap { it.itens }
-        //prodAdapter.addAll(itens)
+
 
         vendedoraAdapter = ArrayAdapter<Vendedora>(this.context!!, R.layout.support_simple_spinner_dropdown_item)
         vendedoraAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
-        val vend = mViewModel.produtosVendedora!!.map{it.vendedora}//!!.filter { it.itens.any { item -> item?.vendido == 0 } }.map { it.vendedora }
+        val vend = mViewModel.produtosVendedora!!.map{it.vendedora}
         vendedoraAdapter.addAll(vend)
 
         val dialog = builder.create()
@@ -214,14 +238,14 @@ class VendaFragment : BaseFragment(), AdapterView.OnItemSelectedListener, VendaA
             is Vendedora ->{
                 mViewModel.selectedVendedora = p0.selectedItem as Vendedora
                 prodAdapter.clear()
-                val t = mViewModel.produtosVendedora!!.flatMap { it.itens!! }.filter { (it!!.id_vendedora == mViewModel.selectedVendedora!!.id || it!!.id_vendedora == null) && it.vendido == 0}//mViewModel.itens.filter { (mViewModel.selectedVendedora as Vendedora).id == it.id_vendedora }
+                val t = mViewModel.produtosVendedora!!.flatMap { it.itens }.filter { (it!!.id_vendedora == mViewModel.selectedVendedora!!.id) && it.vendido == 0}
                 prodAdapter.addAll(t)
                 if(t.isNotEmpty())
                     mViewModel.selectedProduto = t[0]
             }
             is Produto ->{
                 mViewModel.selectedProduto = p0.selectedItem as Produto
-                (p0.adapter as ArrayAdapter<Produto>)
+
             }
         }
 
@@ -234,5 +258,7 @@ class VendaFragment : BaseFragment(), AdapterView.OnItemSelectedListener, VendaA
     override fun onLongClick(vendaVendedoraItem: VendaVendedoraItem) {
 
     }
+
+
 
 }

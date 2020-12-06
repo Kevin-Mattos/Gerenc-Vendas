@@ -1,8 +1,15 @@
 package com.example.vendasmae.repository
 
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
+import com.example.vendasmae.baseClass.BaseAsyncTask
 import com.example.vendasmae.entities.vendas.Venda
 import com.example.vendasmae.entities.vendas.VendaDao
 import com.example.vendasmae.baseClass.Resource
+import com.example.vendasmae.entities.vendas.VendaVendedoraItem
 import com.example.vendasmae.repository.api.VendaApi
 import com.example.vendasmae.repository.banco.VendaBanco
 import retrofit2.Retrofit
@@ -15,11 +22,29 @@ class VendaRepository(private val vendaDao: VendaDao, retrofit: Retrofit) {
 
     private val vendas = vendaBanco.getAll()
 
-    private val vendaEVendedeora = vendaBanco.getVendaEVendedora()
+
+    private val mediatorLiveData = MediatorLiveData<List<VendaVendedoraItem>>()
+
+    private val dataFilter = MutableLiveData<String>()
+    init {
+        dataFilter.value = ""
+    }
 
     fun getAllVendas() = vendas
 
-    fun getVendasEVendedoras() = vendaEVendedeora
+    fun getVendasEVendedoras(): MediatorLiveData<List<VendaVendedoraItem>> {
+        mediatorLiveData.addSource(vendaBanco.getVendaEVendedora()){
+            mediatorLiveData.value = it
+        }
+        mediatorLiveData.addSource(dataFilter){
+            mediatorLiveData.addSource(vendaBanco.getFilteredDate(it)){
+                mediatorLiveData.value = it
+            }
+        }
+
+
+        return mediatorLiveData
+    }
 
     fun buscarVendas() {
 
@@ -70,6 +95,10 @@ class VendaRepository(private val vendaDao: VendaDao, retrofit: Retrofit) {
         }
 
         vendaApi.remove(id, quandoSucesso, quandoFalha)
+    }
+
+    fun getFilteredDate(date: String) {
+        dataFilter.value = date
     }
 
 }

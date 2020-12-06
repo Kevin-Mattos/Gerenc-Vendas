@@ -64,12 +64,29 @@ class VendaAdapter(private val context: Context,val action: VendaAction ,val dat
             }
         }
 
-        fun vincula(noticia: VendaVendedoraItem) {
-            this.noticia = noticia
-            itemView.venda_vendedora.text = noticia.vendedora?.nome?:"Sem vendedora"
-            itemView.venda_valor.text = "R$ ${noticia.venda.valor}"
-            itemView.venda_item_nome.text = noticia.produto.nome
-            itemView.venda_data.text = noticia.venda.data
+        fun vincula(vendaVendedoraItem: VendaVendedoraItem) {
+            this.noticia = vendaVendedoraItem
+            itemView.venda_vendedora.text = vendaVendedoraItem.vendedora?.nome?:"Sem vendedora"
+
+            val valorTotal = vendaVendedoraItem.venda.valor
+            val custo = vendaVendedoraItem.produto.valor
+            val mae = vendaVendedoraItem.venda.valor - vendaVendedoraItem.venda.valor*vendaVendedoraItem.venda.desconto/100
+            val vendedora = vendaVendedoraItem.venda.valor*vendaVendedoraItem.venda.desconto/100
+
+
+
+            itemView.venda_valor_total.text = context.getString(R.string.venda_valor_format, valorTotal)
+            itemView.venda_valor_mae.text = context.getString(R.string.venda_valor_format, mae)
+            itemView.venda_valor_vendedora.text = context.getString(R.string.venda_valor_format, vendedora)
+            itemView.venda_custo.text = context.getString(R.string.venda_valor_format, custo)
+
+            itemView.venda_valor_total_p.text = context.getString(R.string.venda_valor_total_p, 100f)
+            itemView.venda_lucro_valor_p.text = context.getString(R.string.venda_lucro_valor_p, 100f - vendaVendedoraItem.venda.desconto)
+            itemView.venda_vendedora_valor_p.text = context.getString(R.string.venda_vendedora_valor_p, vendaVendedoraItem.venda.desconto)
+            itemView.venda_custo_valor_p.text = context.getString(R.string.venda_custo_valor_p, custo / valorTotal * 100)
+
+            itemView.venda_item_nome.text = vendaVendedoraItem.produto.nome
+            itemView.venda_data.text = vendaVendedoraItem.venda.data
         }
 
     }

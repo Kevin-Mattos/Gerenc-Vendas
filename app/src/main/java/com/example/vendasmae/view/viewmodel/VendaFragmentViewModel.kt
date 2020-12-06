@@ -47,11 +47,11 @@ class VendaFragmentViewModel(application: Application): AndroidViewModel(applica
     }
 
 
-    val liveData = vendaRepo.getVendasEVendedoras()
+    fun getVendasEVendedoras() = vendaRepo.getVendasEVendedoras()
 
-    fun getVendasEVendedoras() = liveData
-
-    fun getQuantidade() = liveData.value?.size
+    fun filterByDate(date: String){
+        vendaRepo.getFilteredDate(date)
+    }
 
     fun insere(venda: Venda) {
         vendaRepo.insere(venda)
@@ -68,6 +68,7 @@ class VendaFragmentViewModel(application: Application): AndroidViewModel(applica
     fun getAllVendedoras() = vendedoraRepo.getAll()
 
     fun getAllItens() = itemRepo.getAll()
+
     fun atualiza(venda: Venda) {
         vendaRepo.atualiza(venda)
     }

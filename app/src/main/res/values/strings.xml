@@ -9,4 +9,10 @@
     <string name="produto_valor_format">R$ %.2f</string>
     <string name="tipo_soma_valor">R$ %.2f</string>
     <string name="vendedora_valor_format">R$ %.2f</string>
+    <string name="venda_valor_format">R$ %.2f</string>
+
+    <string name="venda_valor_total_p">Venda\n(%.2f%%)</string>
+    <string name="venda_lucro_valor_p">Retorno\n(%.2f%%)</string>
+    <string name="venda_vendedora_valor_p">Comissão\n(%.2f%%)</string>
+    <string name="venda_custo_valor_p">Custo\n(%.2f%%)</string>
 </resources>

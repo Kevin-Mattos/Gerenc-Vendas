@@ -33,5 +33,8 @@ interface VendaDao {
     @Query("DELETE FROM Venda WHERE Venda.id = :id")
     fun removeById(id: Long)
 
+    @Query("SELECT * FROM Venda WHERE data > :date")
+    fun getFilteredDate(date: String): LiveData<List<VendaVendedoraItem>>
+
 
 }
