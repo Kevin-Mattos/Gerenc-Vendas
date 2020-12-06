@@ -28,6 +28,7 @@ class VendaRepository(private val vendaDao: VendaDao, retrofit: Retrofit) {
         }
         val quandoFalha: (Resource<List<Venda>?>) -> Unit = {
 //            liveData.value?.erro = "Falha ao se comunicar"
+
         }
 
         vendaApi.getAll(quandoSucesso, quandoFalha)

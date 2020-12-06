@@ -6,6 +6,9 @@ apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 30
 
+    repositories {
+        maven { url 'https://jitpack.io' }
+    }
 
     dataBinding {
         enabled true
@@ -60,6 +63,10 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 
     implementation 'com.google.android.material:material:1.0.0'
+
+
+    //graph
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
 
 }

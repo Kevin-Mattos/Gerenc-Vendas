@@ -61,6 +61,7 @@ class TipoFragment : BaseFragment(), TipoAdapter.TipoActions {
 //        }
 
 
+
     }
 
     fun setupAdapter(){

@@ -65,6 +65,7 @@ class ProdutoFragment : BaseFragment(), ProdutoAdapter.ProdutoActions, AdapterVi
             idMaleta = if(mal == -1.toLong()) null else mal
         }
         mMainActivity = activity as MainActivity
+
     }
 
     private fun setupAdapter() {

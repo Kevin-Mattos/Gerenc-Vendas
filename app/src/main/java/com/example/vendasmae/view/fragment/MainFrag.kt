@@ -1,18 +1,28 @@
 package com.example.vendasmae.view.fragment
 
+import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.vendasmae.MainActivity.Companion.baseURL
+import androidx.core.view.get
+import androidx.lifecycle.Observer
+import com.example.vendasmae.R
 import com.example.vendasmae.baseClass.BaseFragment
-import com.example.vendasmae.entities.MainDataBase
 import com.example.vendasmae.databinding.FragmentMainBinding
+import com.example.vendasmae.entities.MainDataBase
 import com.example.vendasmae.repository.*
-import com.google.gson.GsonBuilder
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import com.example.vendasmae.util.RetrofitUtil
+import com.github.mikephil.charting.charts.BarChart
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.formatter.ValueFormatter
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
+import com.github.mikephil.charting.utils.ColorTemplate
+import kotlinx.android.synthetic.main.fragment_main.view.*
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -28,17 +38,7 @@ class MainFrag : BaseFragment() {
 
     lateinit var mBinding: FragmentMainBinding// by lazy { FragmentMainBinding.inflate(layoutInflater)}
 
-    val retrofit by lazy{
-
-        val gson = GsonBuilder()
-            .setLenient()
-            .create()
-
-        Retrofit.Builder()
-            .baseUrl(baseURL)
-            .addConverterFactory(GsonConverterFactory.create(gson))
-            .build()
-    }
+    val retrofit = RetrofitUtil.getRetrofit()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +46,8 @@ class MainFrag : BaseFragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+
+
 
 
     }
@@ -79,44 +81,51 @@ class MainFrag : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         mBinding = FragmentMainBinding.inflate(inflater, container, false)
+
+        vendedorasRepo.getVendedoraValorQuantidade().observe(this, Observer {
+            it?.let {
+
+                val sets: ArrayList<IBarDataSet> = ArrayList()
+
+                for(i in it.indices) {
+                    val entries = mutableListOf<BarEntry>()
+                    val entry = BarEntry(i.toFloat(), it[i].valorVendido)
+                    entries.add(0, entry)
+//                    entries.add(1, BarEntry(i.toFloat(), 400f))
+
+                    val dataSet = BarDataSet(entries, it[i].vendedora.nome)
+                    dataSet.setColor(ColorTemplate.COLORFUL_COLORS[i])
+                   // dataSet.setColor(100*i)
+                   // dataSet.valueTextColor = i*100
+                    sets.add(dataSet)
+                }
+
+                class formatter: ValueFormatter(){
+                    override fun getFormattedValue(value: Float): String {
+                        return "R$ $value"
+                    }
+                }
+
+                val format = formatter()
+
+                val lineData = BarData(sets)
+                lineData.setValueTypeface(Typeface.SERIF)
+                lineData.setValueTextSize(15f)
+                lineData.setValueFormatter(format)
+
+
+
+                Log.d(TAG, lineData.colors.contentToString())
+                val chart = activity!!.findViewById<BarChart>(R.id.chart)//mBinding.chart
+                chart.setData(lineData)
+                chart.setFitBars(true)
+
+                chart.invalidate()
+
+            }
+        })
+
         return mBinding.root
-    }
-
-
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        mBinding.getItem.setOnClickListener {
-            itemRepo.buscarProduto()
-        }
-
-        mBinding.getVendas.setOnClickListener {
-            vendaRepo.buscarVendas()
-        }
-
-        Log.d(TAG, "setando clisks")
-
-        mBinding.getVendedora.setOnClickListener {
-            vendedorasRepo.buscarVendedoras()
-
-        }
-        mBinding.getTipo.setOnClickListener {
-            tipoRepo.buscarTipos()
-
-        }
-
-    }
-
-    override fun onResume() {
-        super.onResume()
-//        itemRepo.buscarProduto()
-//        vendaRepo.buscarVendas()
-//        vendedorasRepo.buscarVendedoras()
-//        tipoRepo.buscarTipos()
-//        maletaRepo.buscarMaletas()
-
-        Log.d(TAG, "onResume")
     }
 
     override fun adiciona() {
